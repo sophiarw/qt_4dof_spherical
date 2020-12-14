@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{90363DDA-EFA8-4271-9EBC-C2EFA6D14D4B}</ProjectGuid>
+    <Keyword>QtVS_v303</Keyword>
+    <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
+    <ProjectName>qt_4dof</ProjectName>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
+    <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
+  </Target>
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt_defaults.props')">
+    <Import Project="$(QtMsBuild)\qt_defaults.props" />
+  </ImportGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'">
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'">
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>../../src;../../external/chai3d-3.2.0/external/Eigen;../../external/chai3d-3.2.0/external/glew/include;../../external\s826_3.3.9\api;..\..\external\chai3d-3.2.0\src\math;../../external\3DG API Developer\3DG API;../..\external\3DG API Developer\Binaries;../../external/chai3d-3.2.0/modules/ODE/src;../../external\chai3d-3.2.0\modules\ODE\external\ODE\include;../../external\LowPassFilter;..\..\external\cvxgen_MPC;include;../../external/chai3d-3.2.0/src;../../external/chai3d-3.2.0/extras/GLFW/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>..\..\external\CppAD\cppad_lib;../../external\ipopt\lib;../../external\3DG API Developer\3DG API;../../external/chai3d-3.2.0/lib/$(Configuration)/$(Platform);../../external\chai3d-3.2.0\extras\GLFW\lib\$(Configuration)/$(Platform);../../external\s826_3.3.9\api\x32;../../external\chai3d-3.2.0\modules\ODE\lib\$(Configuration)\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw.lib;OpenGL32.lib;glu32.lib;chai3d.lib;s826.lib;ATC3DG.lib;libipopt.lib;chai3d-ODE.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>../../src;../../external/chai3d-3.2.0/external/Eigen;../../external/chai3d-3.2.0/external/glew/include;../../external\s826_3.3.9\api;..\..\external\chai3d-3.2.0\src\math;../../external\3DG API Developer\3DG API;../..\external\3DG API Developer\Binaries;../../external/chai3d-3.2.0/modules/ODE/src;../../external\chai3d-3.2.0\modules\ODE\external\ODE\include;../../external\LowPassFilter;..\..\external\cvxgen_MPC;include;../../external/chai3d-3.2.0/src;../../external/chai3d-3.2.0/extras/GLFW/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>..\..\external\CppAD\cppad_lib;../../external\ipopt\lib;../../external\3DG API Developer\3DG API;../../external/chai3d-3.2.0/lib/$(Configuration)/$(Platform);../../external\chai3d-3.2.0\extras\GLFW\lib\$(Configuration)/$(Platform);../../external\s826_3.3.9\api\x32;../../external\chai3d-3.2.0\modules\ODE\lib\$(Configuration)\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw.lib;OpenGL32.lib;glu32.lib;chai3d.lib;s826.lib;ATC3DG.lib;libipopt.lib;chai3d-ODE.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'" Label="QtSettings">
+    <QtInstall>msvc2015</QtInstall>
+    <QtModules>core;gui;widgets</QtModules>
+    <QtBuildConfig>debug</QtBuildConfig>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'" Label="QtSettings">
+    <QtInstall>msvc2015</QtInstall>
+    <QtModules>core;gui;widgets</QtModules>
+    <QtBuildConfig>release</QtBuildConfig>
+  </PropertyGroup>
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.props')">
+    <Import Project="$(QtMsBuild)\qt.props" />
+  </ImportGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'" Label="Configuration">
+    <ClCompile>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'" Label="Configuration">
+    <ClCompile>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <Optimization>MaxSpeed</Optimization>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\external\LowPassFilter\LowPassFilter.cpp" />
+    <ClCompile Include="src\c4dofdevice.cpp" />
+    <ClCompile Include="src\c4DOFGripper.cpp" />
+    <ClCompile Include="src\c4dof_chai_device.cpp" />
+    <ClCompile Include="src\CDemo1.cpp" />
+    <ClCompile Include="src\CGenericDemo.cpp" />
+    <ClCompile Include="src\magtracker.cpp" />
+    <ClCompile Include="src\motorcontrol.cpp" />
+    <ClCompile Include="src\TrakSTAR.cpp" />
+    <QtRcc Include="qt_4dof.qrc" />
+    <QtUic Include="qt_4dof.ui" />
+    <QtMoc Include="qt_4dof.h" />
+    <ClCompile Include="Application.cpp" />
+    <ClCompile Include="qt_4dof.cpp" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\external\LowPassFilter\LowPassFilter.hpp" />
+    <ClInclude Include="Application.h" />
+    <ClInclude Include="include\ATC3DG.h" />
+    <ClInclude Include="include\c4dofdevice.h" />
+    <ClInclude Include="include\c4DOFGripper.h" />
+    <ClInclude Include="include\c4dof_chai_device.h" />
+    <ClInclude Include="include\CCollisionBasics.h" />
+    <ClInclude Include="include\CDemo1.h" />
+    <ClInclude Include="include\CGenericDemo.h" />
+    <ClInclude Include="include\magtracker.h" />
+    <ClInclude Include="include\motorcontrol.h" />
+    <ClInclude Include="include\TrakSTAR.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
+    <Import Project="$(QtMsBuild)\qt.targets" />
+  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
