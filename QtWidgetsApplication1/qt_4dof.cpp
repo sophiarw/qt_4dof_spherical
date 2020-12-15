@@ -55,6 +55,8 @@ qt_4dof::qt_4dof(QWidget *parent)
 
 	// show settings by default
 	ShowSettings(true);
+
+	Start();
 }
 
 
@@ -68,7 +70,6 @@ int qt_4dof::Start()
 		QMessageBox::warning(this, "CHAI3D", "No device found.", QMessageBox::Ok);
 		return (-1);
 	}
-
 	// synchronize setting widgets with simulation initial state
 	SyncUI();
 

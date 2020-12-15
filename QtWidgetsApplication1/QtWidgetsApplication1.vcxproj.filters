@@ -71,6 +71,9 @@
     <ClCompile Include="..\..\external\LowPassFilter\LowPassFilter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\vec3LPF.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -107,6 +110,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\external\LowPassFilter\LowPassFilter.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vec3LPF.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

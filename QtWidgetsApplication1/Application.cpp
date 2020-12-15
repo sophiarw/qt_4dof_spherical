@@ -79,6 +79,7 @@ ApplicationWidget::ApplicationWidget (QWidget *parent)
     // get access to the first available haptic device found
     handler->getDevice (m_hapticDevice0, 0);
 
+
     // create a tool (cursor) and insert into the world
     m_tool = new cToolCursor (m_world);
     m_world->addChild (m_tool);

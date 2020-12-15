@@ -113,6 +113,7 @@
     <ClCompile Include="src\magtracker.cpp" />
     <ClCompile Include="src\motorcontrol.cpp" />
     <ClCompile Include="src\TrakSTAR.cpp" />
+    <ClCompile Include="src\vec3LPF.cpp" />
     <QtRcc Include="qt_4dof.qrc" />
     <QtUic Include="qt_4dof.ui" />
     <QtMoc Include="qt_4dof.h" />
@@ -133,6 +134,7 @@
     <ClInclude Include="include\magtracker.h" />
     <ClInclude Include="include\motorcontrol.h" />
     <ClInclude Include="include\TrakSTAR.h" />
+    <ClInclude Include="include\vec3LPF.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
