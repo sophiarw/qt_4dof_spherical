@@ -36,20 +36,32 @@ ApplicationWidget::ApplicationWidget (QWidget *parent)
 	//--------------------------------------------------------------------------
 	getHapticDevice();
 
-    //--------------------------------------------------------------------------
-    // OBJECTS
-    //--------------------------------------------------------------------------
-	// default stiffness of scene objects
-	double maxStiffness = 6000.0;
-	double maxDamping = 4.0;
 
-	string resourceRoot = "C:\\Users\\sophi\\source\\repos\\QtWidgetsApplication1";//QCoreApplication::applicationDirPath().toStdString();
-	m_demo1 = new cDemo1(resourceRoot, numDevices, m_hapticDevice0, m_hapticDevice1, maxStiffness);    
-	if (NULL != m_demo1) {
-		m_demo = m_demo1;
-		m_demo->init();
-		m_demo->hapticsOn = true;
+	//check if there are devices and environment can be generated
+	demo_started = false;
+	if (numDevices <= 0) {
+		QMessageBox::information(this, "Application", "Cannot start application because no devices are connected.", QMessageBox::Ok);
+		stop(); //stop running the application 
 	}
+	else {
+		//--------------------------------------------------------------------------
+		// OBJECTS
+		//--------------------------------------------------------------------------
+		// default stiffness of scene objects
+		double maxStiffness = 6000.0;
+		double maxDamping = 4.0;
+
+		string resourceRoot = "C:\\Users\\sophi\\source\\repos\\QtWidgetsApplication1";//QCoreApplication::applicationDirPath().toStdString();
+		m_demo1 = new cDemo1(resourceRoot, numDevices, m_hapticDevice0, m_hapticDevice1, maxStiffness);
+		if (NULL != m_demo1) {
+			m_demo = m_demo1;
+			m_demo->init();
+			m_demo->hapticsOn = true;
+			demo_started = true;
+		}
+	}
+
+
 
 };
 
@@ -58,6 +70,8 @@ ApplicationWidget::ApplicationWidget (QWidget *parent)
 ApplicationWidget::~ApplicationWidget ()
 {
     delete m_world;
+	delete m_demo1;
+	delete handler;
 }
 
 //------------------------------------------------------------------------------
@@ -140,9 +154,6 @@ bool ApplicationWidget::getHapticDevice() {
 
 	// create a haptic device handler
 	cHapticDeviceHandler* handler = new cHapticDeviceHandler();
-
-	// get access to the first available haptic device found
-	handler->getDevice(m_hapticDevice0, 0);
 
 	numDevices = handler->getNumDevices();
 
@@ -238,12 +249,16 @@ void ApplicationWidget::paintGL ()
     // render world
     //m_camera->renderView(m_width, m_height);
 
-	m_demo->updateGraphics(m_width, m_height);
+	if (demo_started) {
+		m_demo->updateGraphics(m_width, m_height);
 
-    // wait until all GL commands are completed
-    glFinish();
+		// wait until all GL commands are completed
+		glFinish();
 
-    m_graphicRate.signal(1);
+		m_graphicRate.signal(1);
+	}
+
+   
 
     m_worldLock.release();
 }
@@ -282,9 +297,14 @@ int ApplicationWidget::stop ()
     m_runLock.acquire();
     m_runLock.release();
 
-    m_tool->stop ();
+	if (demo_started) {
+		m_demo->m_tool0->stop();
+		//m_demo->m_tool1->stop();
+	}
+    
 
     killTimer (m_timerID);
+	disconnectFromS826();
 
     return 0;
 }
@@ -293,8 +313,8 @@ int ApplicationWidget::stop ()
 
 void ApplicationWidget::wheelEvent (QWheelEvent *event)
 {
-    double radius = m_camera->getSphericalRadius() + (double)(event->delta())*5e-4;
-    m_camera->setSphericalRadius(radius);
+    double radius = m_demo->m_camera->getSphericalRadius() + (double)(event->delta())*5e-4;
+	m_demo->m_camera->setSphericalRadius(radius);
 
     // tell GUI widgets to reflect the new simulation parameters
     m_parent->SyncUI ();
@@ -325,15 +345,15 @@ void ApplicationWidget::mouseMoveEvent(QMouseEvent *event)
         m_mouseY = y;
 
         // compute new camera angles
-        double azimuthDeg = m_camera->getSphericalAzimuthDeg() + (0.5 * dy);
-        double polarDeg = m_camera->getSphericalPolarDeg() + (-0.5 * dx);
+        double azimuthDeg = m_demo->m_camera->getSphericalAzimuthDeg() + (0.5 * dy);
+        double polarDeg = m_demo->m_camera->getSphericalPolarDeg() + (-0.5 * dx);
 
         // assign new angles
-        m_camera->setSphericalAzimuthDeg(azimuthDeg);
-        m_camera->setSphericalPolarDeg(polarDeg);
+		m_demo->m_camera->setSphericalAzimuthDeg(azimuthDeg);
+		m_demo->m_camera->setSphericalPolarDeg(polarDeg);
 
         // line up tool with camera
-        m_tool->setLocalRot(m_camera->getLocalRot());
+        m_demo->m_tool0->setLocalRot(m_demo->m_camera->getLocalRot());
     }
 }
 

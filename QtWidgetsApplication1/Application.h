@@ -132,11 +132,14 @@ public:
     // CHAI3D world
     chai3d::cGenericHapticDevicePtr m_hapticDevice0;
 	chai3d::cGenericHapticDevicePtr m_hapticDevice1;
+
+	//don't need these things once it works
     chai3d::cWorld* m_world;
     chai3d::cCamera* m_camera;
     chai3d::cDirectionalLight* m_light;
     chai3d::cToolCursor* m_tool;
     chai3d::cMultiMesh* m_object;
+	//won't need
 	cHapticDeviceHandler* handler;  // a haptic device handler
 
 	//---------------------------------------------------------------------------
@@ -145,6 +148,7 @@ public:
 
 	//! currently active camera
 	cGenericDemo* m_demo;
+	bool demo_started;
 
 	//! Demos
 	cDemo1* m_demo1;    // Block Manipulation

@@ -101,6 +101,15 @@ cGenericDemo::cGenericDemo(const string a_resourceRoot,
     m_camera = new cCamera(m_world);
     m_world->addChild(m_camera);
 
+	// define a basis in spherical coordinates for the camera
+	m_camera->setSphericalReferences(cVector3d(0, 0, 0),    // origin
+		cVector3d(0, 0, 1),    // zenith direction
+		cVector3d(1, 0, 0));   // azimuth direction
+
+	m_camera->setSphericalDeg(4.0,    // spherical coordinate radius
+		0,      // spherical coordinate azimuth angle
+		0);     // spherical coordinate polar angle
+
     // position and oriente the camera
     m_camera->set( cVector3d (0.3, 0.0, 0.3),    // camera position (eye)
                    cVector3d (0.0, 0.0, 0.0),    // lookat position (target)

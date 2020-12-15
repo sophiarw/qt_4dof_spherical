@@ -74,6 +74,9 @@
     <ClCompile Include="src\vec3LPF.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\external\chai3d-3.2.0\src\devices\CHapticDeviceHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -113,6 +116,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\vec3LPF.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\chai3d-3.2.0\src\devices\CGenericHapticDevice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

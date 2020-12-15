@@ -94,7 +94,7 @@ qt_4dof::~qt_4dof()
 
 void  qt_4dof::SyncUI()
 {
-	ui.sliderZoom->setValue((int)(10.0*Application->m_camera->getSphericalRadius()));
+	ui.sliderZoom->setValue((int)(10.0*Application->m_demo->m_camera->getSphericalRadius()));
 }
 
 //------------------------------------------------------------------------------
@@ -163,7 +163,7 @@ void  qt_4dof::on_sliderZoom_valueChanged(int val)
 {
 	ui.labelZoom->setText(QString("%1").arg(val, 3));
 
-	Application->m_camera->setSphericalRadius((double)val / 10.0);
+	Application->m_demo->m_camera->setSphericalRadius((double)val / 10.0);
 }
 
 //------------------------------------------------------------------------------
