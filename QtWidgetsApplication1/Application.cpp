@@ -30,12 +30,6 @@ ApplicationWidget::ApplicationWidget (QWidget *parent)
     m_hapticRate.reset();
 
 
-    //--------------------------------------------------------------------------
-    // WORLD - CAMERA - LIGHTING
-    //--------------------------------------------------------------------------
-    // create a new world.
-	makeWorld();
-
 
 	//--------------------------------------------------------------------------
 	// HAPTIC DEVICES / TOOLS
@@ -45,14 +39,18 @@ ApplicationWidget::ApplicationWidget (QWidget *parent)
     //--------------------------------------------------------------------------
     // OBJECTS
     //--------------------------------------------------------------------------
-	createObjects();
+	// default stiffness of scene objects
+	double maxStiffness = 6000.0;
+	double maxDamping = 4.0;
 
+	string resourceRoot = "C:\\Users\\sophi\\source\\repos\\QtWidgetsApplication1";//QCoreApplication::applicationDirPath().toStdString();
+	m_demo1 = new cDemo1(resourceRoot, numDevices, m_hapticDevice0, m_hapticDevice1, maxStiffness);    
+	if (NULL != m_demo1) {
+		m_demo = m_demo1;
+		m_demo->init();
+		m_demo->hapticsOn = true;
+	}
 
-    //--------------------------------------------------------------------------
-    // WIDGETS
-    //--------------------------------------------------------------------------
-	createWidget();
-    
 };
 
 //------------------------------------------------------------------------------
@@ -74,17 +72,7 @@ void* ApplicationWidget::hapticThread ()
 
     while (m_running) 
     {
-        // compute global reference frames for each object
-        m_world->computeGlobalPositions(true);
-
-        // update position and orientation of tool
-        m_tool->updateFromDevice();
-
-        // compute interaction forces
-        m_tool->computeInteractionForces();
-
-        // send forces to haptic device
-        m_tool->applyToDevice();
+		m_demo->updateHaptics();
 
         // update frequency counter
         m_hapticRate.signal(1);
@@ -156,22 +144,27 @@ bool ApplicationWidget::getHapticDevice() {
 	// get access to the first available haptic device found
 	handler->getDevice(m_hapticDevice0, 0);
 
+	numDevices = handler->getNumDevices();
 
-	// create a tool (cursor) and insert into the world
-	m_tool = new cToolCursor(m_world);
-	m_world->addChild(m_tool);
+	// default stiffness of scene objects
+	double maxStiffness = 6000.0;
+	double maxDamping = 4.0;
 
-	// connect the haptic device to the virtual tool
-	m_tool->setHapticDevice(m_hapticDevice0);
+	// get access to the haptic devices found
+	if (numDevices > 0)
+	{
+		handler->getDevice(m_hapticDevice0, 0);
+		//maxStiffness = cMin(maxStiffness, 0.5 * m_hapticDevice0->getSpecifications().m_maxLinearStiffness);
+	}
 
-	
-	m_tool->setRadius(toolRadius);
 
-	// map the physical workspace of the haptic device to a larger virtual workspace.
-	m_tool->setWorkspaceRadius(1.0);
+	else if (numDevices > 1)
+	{
+		handler->getDevice(m_hapticDevice1, 1);
+		//maxStiffness = cMin(maxStiffness, 0.5 * m_hapticDevice1->getSpecifications().m_maxLinearStiffness);
+	}
 
-	// start the haptic tool
-	m_tool->start();
+	m_hapticDevice1 = m_hapticDevice0; // only one device for me, figure out what's going on later
 
 	return handler->getNumDevices();
 
@@ -243,7 +236,9 @@ void ApplicationWidget::paintGL ()
     m_worldLock.acquire();
 
     // render world
-    m_camera->renderView(m_width, m_height);
+    //m_camera->renderView(m_width, m_height);
+
+	m_demo->updateGraphics(m_width, m_height);
 
     // wait until all GL commands are completed
     glFinish();
