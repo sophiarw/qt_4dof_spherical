@@ -73,6 +73,9 @@ public:
     double getHapticRate() { return  (m_hapticRate.getFrequency()); }
 
 	bool getHapticDevice();
+	void makeWorld();
+	void createObjects();
+	void createWidget();
 
 
     //--------------------------------------------------------------------------
@@ -90,6 +93,14 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event);
 	void timerEvent(QTimerEvent *event) { update(); }
 
+
+	//--------------------------------------------------------------------------
+	// PRIVATE MEMBERS:
+	//--------------------------------------------------------------------------
+
+private: 
+	// define the radius of the tool (sphere)
+	double toolRadius = 0.1;
 
     //--------------------------------------------------------------------------
     // PUBLIC MEMBERS:
