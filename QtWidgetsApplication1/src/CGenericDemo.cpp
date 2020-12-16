@@ -48,7 +48,7 @@ using namespace std;
 #include "CODE.h"
 #include <time.h>
 //---------------------------------------------------------------------------
-
+#include <QDebug>
 //------------------------------------------------------------------------------
 // DECLARED MACROS
 //------------------------------------------------------------------------------
@@ -101,14 +101,14 @@ cGenericDemo::cGenericDemo(const string a_resourceRoot,
     m_camera = new cCamera(m_world);
     m_world->addChild(m_camera);
 
-	// define a basis in spherical coordinates for the camera
-	m_camera->setSphericalReferences(cVector3d(0, 0, 0),    // origin
-		cVector3d(0, 0, 1),    // zenith direction
-		cVector3d(1, 0, 0));   // azimuth direction
+	//// define a basis in spherical coordinates for the camera
+	//m_camera->setSphericalReferences(cVector3d(0, 0, 0),    // origin
+	//	cVector3d(0, 0, 1),    // zenith direction
+	//	cVector3d(1, 0, 0));   // azimuth direction
 
-	m_camera->setSphericalDeg(4.0,    // spherical coordinate radius
-		0,      // spherical coordinate azimuth angle
-		0);     // spherical coordinate polar angle
+	//m_camera->setSphericalDeg(4.0,    // spherical coordinate radius
+	//	0,      // spherical coordinate azimuth angle
+	//	0);     // spherical coordinate polar angle
 
     // position and oriente the camera
     m_camera->set( cVector3d (0.3, 0.0, 0.3),    // camera position (eye)
@@ -185,7 +185,7 @@ cGenericDemo::cGenericDemo(const string a_resourceRoot,
     }
     if (!fileload)
     {
-        printf("Error - 3D Model failed to load correctly.\n");
+        qDebug() << "Error - 3D Model failed to load correctly.\n";
     }
 
     m_base->scale(0.001);
@@ -221,23 +221,23 @@ cGenericDemo::cGenericDemo(const string a_resourceRoot,
 
 
 	if (cLoadFileOBJ(finger, "../../external/Resources/FingerModel.obj")) {
-		cout << "Finger file loaded. " << endl;
+		qDebug() << "Finger file loaded. " << endl;
 	}
 	else if(cLoadFileOBJ(finger, "../../../external/Resources/FingerModel.obj")) {
-		cout << "Finger file loaded. " << endl;
+		qDebug() << "Finger file loaded. " << endl;
 	}
 	else {
-		cout << "Failed to load finger model." << endl;
+		qDebug() << "Failed to load finger model." << endl;
 	}
 
 	if (cLoadFileOBJ(thumb, "../../external/Resources/FingerModelThumb.obj")) {
-		cout << "Thumb file loaded. " << endl;
+		qDebug() << "Thumb file loaded. " << endl;
 	}
 	else if (cLoadFileOBJ(finger, "../../../external/Resources/FingerModelThumb.obj")) {
-		cout << "Finger file loaded. " << endl;
+		qDebug() << "Finger file loaded. " << endl;
 	}
 	else {
-		cout << "Failed to load thumb model." << endl;
+		qDebug() << "Failed to load thumb model." << endl;
 	}
 
 
