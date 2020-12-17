@@ -202,7 +202,7 @@ public:
 
 
 
-
+	chai3d::cDirectionalLight* m_light;
 
 
 };

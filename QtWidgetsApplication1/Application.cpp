@@ -91,13 +91,15 @@ void* ApplicationWidget::hapticThread ()
     }
 
     // disable forces
-	if (m_demo->m_tool0 != NULL)
-	{
-		m_demo->m_tool0->stop();
-	}
-	if (m_demo->m_tool1 != NULL)
-	{
-		m_demo->m_tool1->stop();
+	if (demo_started) {
+		if (m_demo->m_tool0 != NULL)
+		{
+			m_demo->m_tool0->stop();
+		}
+		if (m_demo->m_tool1 != NULL)
+		{
+			m_demo->m_tool1->stop();
+		}
 	}
 
 
