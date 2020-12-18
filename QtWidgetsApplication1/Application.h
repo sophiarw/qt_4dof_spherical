@@ -127,11 +127,13 @@ public:
     bool m_mouseMoveCamera;
 
     // CHAI3D world
-    chai3d::cGenericHapticDevicePtr m_hapticDevice0;
-	chai3d::cGenericHapticDevicePtr m_hapticDevice1;
+    //chai3d::cGenericHapticDevicePtr m_hapticDevice0;
+	//chai3d::cGenericHapticDevicePtr m_hapticDevice1;
 
-	//don't need these things once it works
-	//won't need
+	shared_ptr<cGenericHapticDevice> m_hapticDevice0;
+	shared_ptr<cGenericHapticDevice> m_hapticDevice1;
+
+
 	cHapticDeviceHandler* handler;  // a haptic device handler
 
 	//---------------------------------------------------------------------------

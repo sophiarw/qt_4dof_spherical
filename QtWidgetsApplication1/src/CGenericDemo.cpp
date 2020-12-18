@@ -71,6 +71,18 @@ cGenericDemo::cGenericDemo(const string a_resourceRoot,
 	setStiffness(maxStiffness);
 
 
+	// clamp the force output gain to the max device stiffness
+	linGain = cMin(linGain, maxStiffness / linStiffness);
+
+	// display is not mirrored
+	m_mirroredDisplay = false;
+
+	// torque gain
+	m_torqueGain = 2.0;
+
+	// initialize tool radius
+	m_toolRadius = 0.008;
+
 	//file name for debugging
 	srand(time(NULL));
 	filename = "example" + std::to_string(rand()) + ".csv";
@@ -289,6 +301,7 @@ cGenericDemo::cGenericDemo(const string a_resourceRoot,
 
     if (m_numTools > 0)
     {
+
         m_tool0 = new cToolCursor(m_world);
         m_world->addChild(m_tool0);
 		m_tool0->setHapticDevice(a_hapticDevice0);
@@ -424,7 +437,6 @@ void cGenericDemo::updateGraphics(int a_width, int a_height)
 //===========================================================================
 void cGenericDemo::updateHaptics() 
 { 
-
 	/////////////////////////////////////////////////////////////////////
 	// HAPTIC FORCE COMPUTATION
 	/////////////////////////////////////////////////////////////////////
