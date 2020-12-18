@@ -1,6 +1,7 @@
 #include "motorcontrol.h"
 #include <fstream>
 #include "CODE.h"
+#include <QDebug>;
 // --------------- TO DO ------------- SET ALL THESE VALUES -------------
 #define PCI_BOARD 15           // only 1 826 board (number follows dip-switch code from manual section 2.2)
 #define MODE_ENC  0x00000070  // for quadrature-encoded device using x4 clock multiplier

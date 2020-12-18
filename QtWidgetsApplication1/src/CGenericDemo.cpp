@@ -112,7 +112,7 @@ cGenericDemo::cGenericDemo(const string a_resourceRoot,
 
 	m_camera->setSphericalDeg(4.0,    // spherical coordinate radius
 		45,      // spherical coordinate azimuth angle
-		180);     // spherical coordinate polar angle
+		0);     // spherical coordinate polar angle
 
 
 				// set the near and far clipping planes of the camera
@@ -564,7 +564,6 @@ void cGenericDemo::updateHaptics()
                 if (ODEobject != NULL)
                 {
 
-					qDebug() << "collision detected" << endl;
 					//ODEobject->addExternalForceAtPoint(-0.3* interactionPoint->getLastComputedForce(),
 						//collisionEvent->m_globalPos);
 					
