@@ -99,7 +99,7 @@ protected:
 
 private: 
 	// define the radius of the tool (sphere)
-	double toolRadius = 0.1;
+	double toolRadius = 0.008;
 
     //--------------------------------------------------------------------------
     // PUBLIC MEMBERS:

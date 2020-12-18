@@ -51,7 +51,7 @@ qt_4dof::qt_4dof(QWidget *parent)
 	ui.statusBar->addPermanentWidget(&HapticRate);
 
 	// set default widget configuration
-	ui.sliderZoom->setValue((int)(100.0*0.6));
+	ui.sliderZoom->setValue((int)(100.0*0.05));
 
 	// show settings by default
 	ShowSettings(true);

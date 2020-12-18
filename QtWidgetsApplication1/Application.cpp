@@ -236,6 +236,7 @@ void ApplicationWidget::wheelEvent (QWheelEvent *event)
     double radius = m_demo->m_camera->getSphericalRadius() + (double)(event->delta())*5e-4;
 	m_demo->m_camera->setSphericalRadius(radius);
 
+
     // tell GUI widgets to reflect the new simulation parameters
     m_parent->SyncUI ();
 }
