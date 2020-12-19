@@ -224,3 +224,12 @@ void c4DOFGripper::getc4DOFGripperPos(Eigen::Ref<Eigen::Vector4d> a_Pos) {
 	a_Pos[3] = device.m_posDes[3] - device.centerPoint[3];
 
 }
+
+void c4DOFGripper::getNeutralPos(Eigen::Ref<Eigen::Vector4d> a_neutralPos) {
+	Eigen::Vector4d neutralPos;
+	neutralPos = device.neutralPos;
+	a_neutralPos.x() = neutralPos.x();
+	a_neutralPos.y() = neutralPos.y();
+	a_neutralPos.z() = neutralPos.z();
+	a_neutralPos.w() = neutralPos.w();
+}

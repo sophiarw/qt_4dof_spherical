@@ -85,6 +85,21 @@ namespace chai3d {
 		//! This method returns the joint angles of the haptic device.
 		virtual bool getJointAnglesRad(double a_jointAnglesRad[C_MAX_DOF]);
 
+		//! This method is for Sophia's 4dof device and allows the user to read the Neutral Position of the device
+		virtual bool getNeutralPos(double &x, double &y, double &z, double &theta);
+
+		//! This method is for Sophia's 4dof device and allows the user to set the X Neutral Position
+		virtual bool setNeutralPosX(const double &x);
+
+		//! This method is for Sophia's 4dof device and allows the user to set the Y Neutral Position
+		virtual bool setNeutralPosY(const double &y);
+
+		//! This method is for Sophia's 4dof device and allows the user to set the Z Neutral Position
+		virtual bool setNeutralPosZ(const double &z);
+
+		//! This method is for Sophia's 4dof device and allows the user to set the Theta Neutral Position
+		virtual bool setNeutralPosTheta(const double &theta);
+
 
 		//--------------------------------------------------------------------------
 		// PUBLIC STATIC METHODS:
@@ -122,6 +137,9 @@ namespace chai3d {
 		/*instead of connecting the deivce to the chai device, c4dofChaiDevice passes
 		forces and torques back to the haptics thread, and the haptics thread sets
 		the c4dof forces and torques to the c4dof object*/
+
+		bool newNeutralPos;
+		Eigen::Vector4d neutralPos;
 
 
 

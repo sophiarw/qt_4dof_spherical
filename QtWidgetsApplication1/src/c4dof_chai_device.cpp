@@ -416,6 +416,66 @@ bool c4dofChaiDevice::getJointAnglesRad(double a_jointAnglesRad[C_MAX_DOF]) {
 
 
 
+bool c4dofChaiDevice::getNeutralPos(double &x, double &y, double &z, double &theta) {
+	Eigen::Vector4d fingerNeutralPos(0, 0, 0, 0);
+	D.getNeutralPos(fingerNeutralPos);
+
+	x = fingerNeutralPos.x();
+	y = fingerNeutralPos.y();
+	z = fingerNeutralPos.z();
+	theta = fingerNeutralPos.w();
+
+
+	neutralPos[0] = fingerNeutralPos[0];
+	neutralPos[1] = fingerNeutralPos[1];
+	neutralPos[2] = fingerNeutralPos[2];
+	neutralPos[3] = fingerNeutralPos[3];
+
+
+	return C_SUCCESS;
+	
+}
+
+bool c4dofChaiDevice::setNeutralPosX(const double &x) {
+	double x_val = x;
+	double xRange = 7.0; // simulated max is 7.8  [mm]
+	
+	if (x_val < -xRange) x_val = -xRange;
+	if (x_val < xRange) x_val = xRange;
+	newNeutralPos = true;
+	neutralPos[0] = x_val;
+}
+
+bool c4dofChaiDevice::setNeutralPosY(const double &y) {
+	double y_val = y;
+	double yRange = 9.0; // simulated max is 10  [mm]
+	
+	if (y_val < -yRange) y_val = -yRange;
+	if (y_val < yRange) y_val = yRange;
+	newNeutralPos = true;
+	neutralPos[1] = y_val;
+}
+
+bool c4dofChaiDevice::setNeutralPosZ(const double &z) {
+	double z_val = y;
+	double zRange = 4.5; //simulated is 5 [mm]
+
+	if (z_val < -zRange) z_val = -zRange;
+	if (z_val < zRange) z_val = zRange;
+	newNeutralPos = true;
+	neutralPos[2] = z;
+}
+
+bool c4dofChaiDevice::setNeutralPosTheta(const double &theta) {
+	double theta_val = theta;
+	double thetaRange = PI / 6;
+
+	if (theta_val < -thetaRange) theta_val = -thetaRange;
+	if (theta_val < thetaRange) theta_val = thetaRange;
+	newNeutralPos = true;
+	neutralPos[3] = theta;
+}
+
 
 }
 

@@ -53,6 +53,19 @@ qt_4dof::qt_4dof(QWidget *parent)
 	// set default widget configuration
 	ui.sliderZoom->setValue((int)(100.0*0.05));
 
+	//set widget values for x, y, z, theta positions
+	double x, y, z, theta;
+	Application->getNeutralPos(x, y, z, theta);
+	ui.xSlider->setValue(x);
+	ui.ySlider->setValue(y);
+	ui.zSlider->setValue(z);
+	ui.thetaSlider->setValue(theta);
+	ui.xPos->setText(QString("%1").arg(x, 3));
+	ui.yPos->setText(QString("%1").arg(y, 3));
+	ui.zPos->setText(QString("%1").arg(z, 3));
+	ui.thetaPos->setText(QString("%1").arg(theta, 3));
+
+
 	// show settings by default
 	ShowSettings(true);
 
@@ -164,6 +177,23 @@ void  qt_4dof::on_sliderZoom_valueChanged(int val)
 	ui.labelZoom->setText(QString("%1").arg(val, 3));
 
 	Application->m_demo->m_camera->setSphericalRadius((double)val / 10.0);
+}
+
+void  qt_4dof::on_xSlider_valueChanged(int val)
+{
+	double x_max = 4.5;
+	double x_min = -4.5;
+
+	//put value in appropriate range
+	double val_converted = val / 100 * (x_max - x_min) + x_min;
+
+	//command new x neutral position
+	Application->setNeutralPosX(val_converted);
+
+	//get new position
+	double x, y, z, theta;
+	Application->getNeutralPos(x, y, z, theta);
+	ui.xPos->setText(QString("%1").arg((int)x, 3));
 }
 
 //------------------------------------------------------------------------------

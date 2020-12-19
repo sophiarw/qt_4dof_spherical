@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>708</width>
+    <height>670</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -124,6 +124,211 @@
           </size>
          </property>
         </spacer>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="xBox">
+         <property name="title">
+          <string>X Neutral Position</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <widget class="QPushButton" name="xMinusButton">
+              <property name="text">
+               <string>x-</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSlider" name="xSlider">
+              <property name="minimum">
+               <number>0</number>
+              </property>
+              <property name="maximum">
+               <number>100</number>
+              </property>
+              <property name="value">
+               <number>50</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="xPlusButton">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>x+</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="xPos">
+              <property name="text">
+               <string>000.0</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+         <zorder></zorder>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="yBox">
+         <property name="title">
+          <string>Y Neutral Position</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <item>
+             <widget class="QPushButton" name="yMinusButton">
+              <property name="text">
+               <string>y-</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSlider" name="ySlider">
+              <property name="minimum">
+               <number>0</number>
+              </property>
+              <property name="maximum">
+               <number>100</number>
+              </property>
+              <property name="value">
+               <number>50</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="yPlusButton">
+              <property name="text">
+               <string>y+</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="yPos">
+              <property name="text">
+               <string>000.0</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="zBox">
+         <property name="title">
+          <string>Z Neutral Position</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <item>
+             <widget class="QPushButton" name="zMinusButton">
+              <property name="text">
+               <string>z-</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSlider" name="zSlider">
+              <property name="minimum">
+               <number>-35</number>
+              </property>
+              <property name="maximum">
+               <number>-20</number>
+              </property>
+              <property name="value">
+               <number>-20</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="zPlusButton">
+              <property name="text">
+               <string>z+</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="zPos">
+              <property name="text">
+               <string>000.0</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="thetaBox">
+         <property name="title">
+          <string>Theta Neutral Position</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <item>
+             <widget class="QPushButton" name="thetaMinusButton">
+              <property name="text">
+               <string>theta -</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSlider" name="thetaSlider">
+              <property name="minimum">
+               <number>0</number>
+              </property>
+              <property name="maximum">
+               <number>100</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="thetaPlusButton">
+              <property name="text">
+               <string>theta +</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="thetaPos">
+              <property name="text">
+               <string>000.0</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+         <zorder></zorder>
+        </widget>
        </item>
       </layout>
      </widget>

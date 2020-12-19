@@ -119,8 +119,6 @@ public:
 	chai3d::cVector3d link4_5;
 	chai3d::cVector3d link4_6;
 
-
-
 	
 
 protected:

@@ -149,6 +149,16 @@ public:
 
 	int numDevices;
 
+	//---------------------------------------------------------------------------
+	// BUTTONS AND WIDGETS
+	//---------------------------------------------------------------------------
+	void getNeutralPos(double &x, double &y, double &z, double &theta);
+	void setNeutralPosX(const double &x);
+	void setNeutralPosY(const double &y);
+	void setNeutralPosZ(const double &z);
+	void setNeutralPosTheta(const double &theta);
+
+
 
 };
 

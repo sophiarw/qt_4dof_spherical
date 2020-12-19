@@ -293,3 +293,29 @@ void _hapticThread (void *arg)
 }
 
 //------------------------------------------------------------------------------
+
+void ApplicationWidget::getNeutralPos(double &x, double &y, double &z, double &theta) {
+	double x_neutralPos, y_neutralPos, z_neutralPos, theta_neutralPos;
+	m_hapticDevice0->getNeutralPos(x_neutralPos, y_neutralPos, z_neutralPos, theta_neutralPos);
+	x = x_neutralPos;
+	y = y_neutralPos;
+	z = z_neutralPos;
+	theta = theta_neutralPos;
+
+}
+
+void ApplicationWidget::setNeutralPosX(const double &x) {
+	m_hapticDevice0->setNeutralPosX(x);
+}
+
+void ApplicationWidget::setNeutralPosY(const double &y) {
+	m_hapticDevice0->setNeutralPosY(y);
+}
+
+void ApplicationWidget::setNeutralPosZ(const double &z) {
+	m_hapticDevice0->setNeutralPosZ(z);
+}
+
+void ApplicationWidget::setNeutralPosTheta(const double &theta) {
+	m_hapticDevice0->setNeutralPosTheta(theta);
+}

@@ -71,6 +71,7 @@ public:
 	void getc4DOFGripperPos(Eigen::Ref<Eigen::Vector4d>  a_Pos);
 	void setForcesAndTorques(cVector3d a_force, cVector3d a_torque);
 	void motorLoop();
+	void getNeutralPos(Eigen::Ref<Eigen::Vector4d> a_neutralPos);
 	double gripperLength;
 
 	ofstream file;

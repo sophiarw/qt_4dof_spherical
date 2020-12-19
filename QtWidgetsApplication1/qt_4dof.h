@@ -88,6 +88,12 @@ private slots:
 	void UpdateStatus();
 
 
+	//functionality for moving x, y, z, theta positions
+	void on_xSlider_valueChanged(int val);
+	void on_ySlider_valueChanged(int val);
+	void on_zSlider_valueChanged(int val);
+	void on_thetaSlider_valueChanged(int val);
+
 //--------------------------------------------------------------------------
 // PUBLIC METHODS:
 //--------------------------------------------------------------------------
