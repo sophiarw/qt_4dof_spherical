@@ -369,6 +369,10 @@ bool c4dofChaiDevice::setForceAndTorqueAndGripperForce(const cVector3d& a_force,
 {
 	bool result = C_SUCCESS;
 
+	//set the new neutral position if there is one
+	if (newNeutralPos) {
+		D.setNeutralPos(neutralPos);
+	}
 	// calculate pad positions and gripper force
 	D.setForcesAndTorques(a_force, a_torque);
 	// Output to motors
@@ -444,6 +448,8 @@ bool c4dofChaiDevice::setNeutralPosX(const double &x) {
 	if (x_val < xRange) x_val = xRange;
 	newNeutralPos = true;
 	neutralPos[0] = x_val;
+
+	return C_SUCCESS;
 }
 
 bool c4dofChaiDevice::setNeutralPosY(const double &y) {
@@ -454,6 +460,8 @@ bool c4dofChaiDevice::setNeutralPosY(const double &y) {
 	if (y_val < yRange) y_val = yRange;
 	newNeutralPos = true;
 	neutralPos[1] = y_val;
+
+	return C_SUCCESS;
 }
 
 bool c4dofChaiDevice::setNeutralPosZ(const double &z) {
@@ -464,6 +472,8 @@ bool c4dofChaiDevice::setNeutralPosZ(const double &z) {
 	if (z_val < zRange) z_val = zRange;
 	newNeutralPos = true;
 	neutralPos[2] = z;
+
+	return C_SUCCESS;
 }
 
 bool c4dofChaiDevice::setNeutralPosTheta(const double &theta) {
@@ -474,6 +484,8 @@ bool c4dofChaiDevice::setNeutralPosTheta(const double &theta) {
 	if (theta_val < thetaRange) theta_val = thetaRange;
 	newNeutralPos = true;
 	neutralPos[3] = theta;
+
+	return C_SUCCESS;
 }
 
 

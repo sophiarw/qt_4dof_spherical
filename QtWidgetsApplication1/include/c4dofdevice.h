@@ -87,6 +87,7 @@ public:
 
 	void setPos(const Eigen::Ref<Eigen::Vector4d>desiredPos);
 	void setForce(const Eigen::Ref<Eigen::Vector4d> a_force);
+	void setNeutralPos(const Eigen::Ref<Eigen::Vector4d> a_neutralPos);
 
 	bool m_c4DOFDeviceAvailable;		// TRUE = device instance has been createed
 	bool m_c4DOFDeviceReady;			//TRUE =  connection to device successful

@@ -389,6 +389,11 @@ void c4DOFDevice::setForce(const Eigen::Ref<Eigen::Vector4d> a_force) {
 
 
 
-
+void c4DOFDevice::setNeutralPos(const Eigen::Ref<Eigen::Vector4d> a_neutralPos) {
+	neutralPos[0] = a_neutralPos[0];
+	neutralPos[1] = a_neutralPos[1];
+	neutralPos[2] = a_neutralPos[2];
+	neutralPos[3] = a_neutralPos[3];
+}
 
 

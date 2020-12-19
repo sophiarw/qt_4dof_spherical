@@ -179,13 +179,14 @@ void  qt_4dof::on_sliderZoom_valueChanged(int val)
 	Application->m_demo->m_camera->setSphericalRadius((double)val / 10.0);
 }
 
+//------------------------------------------------------------------------------
+
 void  qt_4dof::on_xSlider_valueChanged(int val)
 {
-	double x_max = 4.5;
-	double x_min = -4.5;
+	double xRange = 7.0;
 
 	//put value in appropriate range
-	double val_converted = val / 100 * (x_max - x_min) + x_min;
+	double val_converted = val / 100 * 2*xRange - xRange;
 
 	//command new x neutral position
 	Application->setNeutralPosX(val_converted);
@@ -195,6 +196,59 @@ void  qt_4dof::on_xSlider_valueChanged(int val)
 	Application->getNeutralPos(x, y, z, theta);
 	ui.xPos->setText(QString("%1").arg((int)x, 3));
 }
+
+//------------------------------------------------------------------------------
+
+void  qt_4dof::on_ySlider_valueChanged(int val)
+{
+	double yRange = 9.0;
+
+	//put value in appropriate range
+	double val_converted = val / 100 * 2 * yRange - yRange;
+
+	//command new x neutral position
+	Application->setNeutralPosY(val_converted);
+
+	//get new position
+	double x, y, z, theta;
+	Application->getNeutralPos(x, y, z, theta);
+	ui.yPos->setText(QString("%1").arg((int)y, 3));
+}
+
+//------------------------------------------------------------------------------
+
+void  qt_4dof::on_zSlider_valueChanged(int val)
+{
+	double zRange = 4.5;
+
+	//put value in appropriate range
+	double val_converted = val / 100 * 2 * zRange - zRange;
+
+	//command new x neutral position
+	Application->setNeutralPosZ(val_converted);
+
+	//get new position
+	double x, y, z, theta;
+	Application->getNeutralPos(x, y, z, theta);
+	ui.zPos->setText(QString("%1").arg((int)z, 3));
+}
+
+void  qt_4dof::on_thetaSlider_valueChanged(int val)
+{
+	double thetaRange = PI / 6;
+
+	//put value in appropriate range
+	double val_converted = val / 100 * 2 * thetaRange - thetaRange;
+
+	//command new x neutral position
+	Application->setNeutralPosTheta(val_converted);
+
+	//get new position
+	double x, y, z, theta;
+	Application->getNeutralPos(x, y, z, theta);
+	ui.thetaPos->setText(QString("%1").arg((int)theta, 3));
+}
+
 
 //------------------------------------------------------------------------------
 

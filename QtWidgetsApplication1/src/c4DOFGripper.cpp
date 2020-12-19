@@ -233,3 +233,7 @@ void c4DOFGripper::getNeutralPos(Eigen::Ref<Eigen::Vector4d> a_neutralPos) {
 	a_neutralPos.z() = neutralPos.z();
 	a_neutralPos.w() = neutralPos.w();
 }
+
+void c4DOFGripper::setNeutralPos(const Eigen::Ref<Eigen::Vector4d> a_neutralPos) {
+	device.setNeutralPos(a_neutralPos);
+}
