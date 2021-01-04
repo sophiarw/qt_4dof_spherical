@@ -131,7 +131,7 @@ void setCurrent(uint channel, double I)
 	// check commanded voltage against safe range
 	if (I > I_MAX) I = I_MAX;
 	if (I < -I_MAX) I = -I_MAX;
-	//cout << channel << ": " << I << endl;
+	//qDebug() << channel << ": " << I << endl;
 
 	//scale volatge based on amplifier resistances
 	double V = I * amplifierResistance[channel];
@@ -183,6 +183,10 @@ double getAngle(uint channel)
 
     // print counts for debugging
 	if (DEBUG) cout << "Ch  #" << channel << " = " << countsOff << " cnts" << endl;
+
+	if (channel == 2) {
+		qDebug() << "Ch #" << channel << " = " << countsOff << " cnts" << endl;
+	}
 
 
     // convert to radians, accounting for quadrature
