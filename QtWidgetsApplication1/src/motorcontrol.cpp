@@ -184,9 +184,7 @@ double getAngle(uint channel)
     // print counts for debugging
 	if (DEBUG) cout << "Ch  #" << channel << " = " << countsOff << " cnts" << endl;
 
-	if (channel == 2) {
-		qDebug() << "Ch #" << channel << " = " << countsOff << " cnts" << endl;
-	}
+	
 
 
     // convert to radians, accounting for quadrature
@@ -194,6 +192,11 @@ double getAngle(uint channel)
 	
     // print motor angle for debugging
 	if (DEBUG) cout << "Mtr #" << channel << " = " << angle*(180 / PI) << " deg" << endl;
+
+	//if (channel == 2) {
+	//	qDebug() << "Ch #" << channel << " = " << countsOff << " cnts" << endl;
+	//	qDebug() << "Mtr #" << channel << " = " << angle*(180 / PI) << " deg" << endl;
+	//}
 
     return angle;
 }

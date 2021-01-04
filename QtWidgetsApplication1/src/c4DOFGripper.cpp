@@ -33,7 +33,7 @@ c4DOFGripper::c4DOFGripper(int location) {
 
 	filename = "motor_inputs_outputs.csv";
 	file.open(filename);
-	file << "m_theErr[0], m_theErr[1], m_theErr[2], m_theErr[3], m_thdotErr[0], m_thdotErr[1], m_thdotErr[2], m_thdotErr[3], m_T[0], m_T[1], m_T[2], m_T[3]" << endl;
+	file << "m_theErr[0], m_theErr[1], m_theErr[2], m_theErr[3], m_thdotErr[0], m_thdotErr[1], m_thdotErr[2], m_thdotErr[3], m_T[0], m_T[1], m_T[2], m_T[3], m_thDes[0], m_thDes[1], m_thDes[2], m_thDes[3]" << endl;
 }
 
 c4DOFGripper::~c4DOFGripper() {
@@ -132,12 +132,12 @@ void c4DOFGripper::getState()
 	// get current joint positions/errors
 	for (int i = 0; i < NUM_MTR; i++) {
 		angle[i] = getAngle(i);
-		m_th[i] = angle[i];
+		m_th[i] = fmod(angle[i], 2*PI);
 	}
 
 
 	for (int i = 0; i < NUM_MTR; i++) {
-		m_thErr[i] = m_thDes[i] - m_th[i]; //angleDiff(m_thDes[i], m_th[i]);
+		m_thErr[i] = angleDiff(m_thDes[i], m_th[i]);//m_thDes[i] - m_th[i]; //angleDiff(m_thDes[i], m_th[i]);
 		
 	}
 
@@ -182,7 +182,7 @@ void c4DOFGripper::motorLoop(void)
 		file << m_T[0] << ", " << m_T[1] << ", " << m_T[2] << ", " << m_T[3] << endl;
 		//file << m_th[0] << ", " << m_th[0] << ", " << m_th[0] << ", " << m_th[0] << ", ";
 		//file << angle[0] << ", " << angle[1] << ", " << angle[2] << ", " << angle[3] << ", ";
-		//file << m_thDes[0] << ", " << m_thDes[1] << ", " << m_thDes[2] << ", " << m_thDes[3] << ", ";
+		file << m_thDes[0] << ", " << m_thDes[1] << ", " << m_thDes[2] << ", " << m_thDes[3] << ", ";
 		//file << m_thErrInt[0] << ", " << m_thErrInt[1] << ", " << m_thErrInt[2] << ", " << m_thErrInt[3] << ", ";
 		
 		for (int i = 0; i < NUM_MTR; i++) {
