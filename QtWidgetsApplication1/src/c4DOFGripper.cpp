@@ -33,7 +33,7 @@ c4DOFGripper::c4DOFGripper(int location) {
 
 	filename = "motor_inputs_outputs.csv";
 	file.open(filename);
-	file << "m_theErr[0], m_theErr[1], m_theErr[2], m_theErr[3], m_thdotErr[0], m_thdotErr[1], m_thdotErr[2], m_thdotErr[3], m_T[0], m_T[1], m_T[2], m_T[3], m_thDes[0], m_thDes[1], m_thDes[2], m_thDes[3]" << endl;
+	file << "m_theErr[0], m_theErr[1], m_theErr[2], m_theErr[3], m_thdotErr[0], m_thdotErr[1], m_thdotErr[2], m_thdotErr[3], m_T[0], m_T[1], m_T[2], m_T[3],  angle[0], angle[1], angle[2], angle[3], m_thDes[0], m_thDes[1], m_thDes[2], m_thDes[3]" << endl;
 }
 
 c4DOFGripper::~c4DOFGripper() {
@@ -94,10 +94,10 @@ void c4DOFGripper::setForcesAndTorques(cVector3d a_force, cVector3d a_torque) {
 	device.setPos(force);
 	
 	// calculate motor angle commands 
-	m_thDes[0] = device.m_thDes.x();
-	m_thDes[1] = device.m_thDes.y();
-	m_thDes[2] = device.m_thDes.z();
-	m_thDes[3] = device.m_thDes.w();
+	m_thDes[0] = device.m_thDes[0];
+	m_thDes[1] = device.m_thDes[1];
+	m_thDes[2] = device.m_thDes[2];
+	m_thDes[3] = device.m_thDes[3];
 
 
 	if (!hapticsOn) {
@@ -179,10 +179,10 @@ void c4DOFGripper::motorLoop(void)
 
 		file << m_thErr[0] << ", " << m_thErr[1] << ", " << m_thErr[2] << ", " << m_thErr[3] << ", ";
 		file << m_thdotErr[0] << ", " << m_thdotErr[1] << ", " << m_thdotErr[2] << ", " << m_thdotErr[3] << ", ";
-		file << m_T[0] << ", " << m_T[1] << ", " << m_T[2] << ", " << m_T[3] << endl;
+		file << m_T[0] << ", " << m_T[1] << ", " << m_T[2] << ", " << m_T[3] << ", ";
 		//file << m_th[0] << ", " << m_th[0] << ", " << m_th[0] << ", " << m_th[0] << ", ";
-		//file << angle[0] << ", " << angle[1] << ", " << angle[2] << ", " << angle[3] << ", ";
-		file << m_thDes[0] << ", " << m_thDes[1] << ", " << m_thDes[2] << ", " << m_thDes[3] << ", ";
+		file << fmod(angle[0], 2*PI) << ", " << fmod(angle[1], 2 * PI) << ", " << fmod(angle[2], 2 * PI) << ", " << fmod(angle[3], 2 * PI) << ", ";
+		file << m_thDes[0] << ", " << m_thDes[1] << ", " << m_thDes[2] << ", " << m_thDes[3] << ", " << endl;
 		//file << m_thErrInt[0] << ", " << m_thErrInt[1] << ", " << m_thErrInt[2] << ", " << m_thErrInt[3] << ", ";
 		
 		for (int i = 0; i < NUM_MTR; i++) {

@@ -51,14 +51,9 @@ bool initMotor(uint channel)
 	// use smaller range for pantograph motors (0-3) than gripper motor(4)
 	int fail;
 
-	if (channel == 4) {
-		 fail = S826_DacRangeWrite(PCI_BOARD, channel, VOLTRANGESMALL, MTR_RUN);  // change voltage range for gripper motor (4) if necessary
-		 fail += S826_DacDataWrite(PCI_BOARD, channel, MAXSETPNT / 2, MTR_RUN);
-	}
-	else {
-		fail = S826_DacRangeWrite(PCI_BOARD, channel, VOLTRANGESMALL, MTR_RUN);
-		fail += S826_DacDataWrite(PCI_BOARD, channel, MAXSETPNT / 2, MTR_RUN);
-	}
+	fail = S826_DacRangeWrite(PCI_BOARD, channel, VOLTRANGESMALL, MTR_RUN);
+	fail += S826_DacDataWrite(PCI_BOARD, channel, MAXSETPNT / 2, MTR_RUN);
+
 
     // check for errors
     if (fail < 0) {
@@ -78,7 +73,7 @@ bool initEncod(uint channel)
     // set counts for channel to center of range
         fail += setCounts(channel, (MAXCOUNT-1)/2);
 		zero[channel] = (MAXCOUNT - 1) / 2;
-
+		qDebug() << "zero " << channel << ": " << zero[channel];
 		// set up automatic snapshots upon index pulse
         fail += S826_CounterSnapshotConfigWrite(PCI_BOARD, channel, MODE_SNP, 0);
 
@@ -91,11 +86,7 @@ bool initEncod(uint channel)
 }
 
 bool checkEncod(uint channel)
-{
-	//if (channel == 1) {
-	//	channel = 5;     // counter 1 not working very well
-	//}
-    // probe snapshot buffer
+{    // probe snapshot buffer
     static uint snap_counts;
     static uint snap_reason;
     int fail = S826_CounterSnapshotRead(PCI_BOARD, channel, &snap_counts, NULL, &snap_reason, 0);
@@ -127,7 +118,7 @@ bool checkEncod(uint channel)
 
 void setCurrent(uint channel, double I)
 {
-	
+
 	// check commanded voltage against safe range
 	if (I > I_MAX) I = I_MAX;
 	if (I < -I_MAX) I = -I_MAX;
@@ -158,6 +149,7 @@ void setTorque(uint channel, double T)
 int setCounts(uint channel, uint counts)
 {
 
+
     // write counts to preload register then copy preload to counter core
     int fail  = S826_CounterPreloadWrite(PCI_BOARD, channel, 0, counts);
         fail += S826_CounterPreload(PCI_BOARD, channel, 1, 0);
@@ -167,6 +159,7 @@ int setCounts(uint channel, uint counts)
 
 uint getCounts(uint channel)
 {
+
 	// manually read encoder
 	static uint counts;
 	S826_CounterRead(PCI_BOARD, channel, &counts);
