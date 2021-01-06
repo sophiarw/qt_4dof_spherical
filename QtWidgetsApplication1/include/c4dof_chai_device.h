@@ -139,7 +139,7 @@ namespace chai3d {
 		the c4dof forces and torques to the c4dof object*/
 
 		bool newNeutralPos;
-		Eigen::Vector4d neutralPos;
+		vector<double> neutralPos;
 
 
 

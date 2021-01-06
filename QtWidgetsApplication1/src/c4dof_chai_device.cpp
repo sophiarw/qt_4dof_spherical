@@ -121,6 +121,10 @@ c4dofChaiDevice::c4dofChaiDevice(unsigned int a_deviceNumber):D(a_deviceNumber)
 
 	m_deviceAvailable = true;		// my code making device available
 
+	//assign neutralPos
+	neutralPos = { 0.0, 0.0, -20.0, 0.0 };
+	newNeutralPos = false;
+
 }
 
 
@@ -371,7 +375,8 @@ bool c4dofChaiDevice::setForceAndTorqueAndGripperForce(const cVector3d& a_force,
 
 	//set the new neutral position if there is one
 	if (newNeutralPos) {
-		D.setNeutralPos(neutralPos);
+		D.setNeutralPos(neutralPos[0], neutralPos[1], neutralPos[2], neutralPos[3]);
+		newNeutralPos = false;
 	}
 	// calculate pad positions and gripper force
 	D.setForcesAndTorques(a_force, a_torque);
@@ -442,10 +447,6 @@ bool c4dofChaiDevice::getNeutralPos(double &x, double &y, double &z, double &the
 
 bool c4dofChaiDevice::setNeutralPosX(const double &x) {
 	double x_val = x;
-	double xRange = 7.0; // simulated max is 7.8  [mm]
-	
-	if (x_val < -xRange) x_val = -xRange;
-	if (x_val < xRange) x_val = xRange;
 	newNeutralPos = true;
 	neutralPos[0] = x_val;
 
@@ -454,10 +455,6 @@ bool c4dofChaiDevice::setNeutralPosX(const double &x) {
 
 bool c4dofChaiDevice::setNeutralPosY(const double &y) {
 	double y_val = y;
-	double yRange = 9.0; // simulated max is 10  [mm]
-	
-	if (y_val < -yRange) y_val = -yRange;
-	if (y_val < yRange) y_val = yRange;
 	newNeutralPos = true;
 	neutralPos[1] = y_val;
 
@@ -465,25 +462,17 @@ bool c4dofChaiDevice::setNeutralPosY(const double &y) {
 }
 
 bool c4dofChaiDevice::setNeutralPosZ(const double &z) {
-	double z_val = y;
-	double zRange = 4.5; //simulated is 5 [mm]
-
-	if (z_val < -zRange) z_val = -zRange;
-	if (z_val < zRange) z_val = zRange;
+	double z_val = z;
 	newNeutralPos = true;
-	neutralPos[2] = z;
+	neutralPos[2] = z_val;
 
 	return C_SUCCESS;
 }
 
 bool c4dofChaiDevice::setNeutralPosTheta(const double &theta) {
 	double theta_val = theta;
-	double thetaRange = PI / 6;
-
-	if (theta_val < -thetaRange) theta_val = -thetaRange;
-	if (theta_val < thetaRange) theta_val = thetaRange;
 	newNeutralPos = true;
-	neutralPos[3] = theta;
+	neutralPos[3] = theta_val;
 
 	return C_SUCCESS;
 }

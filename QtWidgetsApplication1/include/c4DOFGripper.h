@@ -73,7 +73,7 @@ public:
 	void motorLoop();
 	void getNeutralPos(Eigen::Ref<Eigen::Vector4d> a_neutralPos);
 	double gripperLength;
-	void setNeutralPos(const Eigen::Ref<Eigen::Vector4d> a_neutralPos);
+	void setNeutralPos(const double x, const double y, const double z, double const theta);
 
 	ofstream file;
 	string filename;

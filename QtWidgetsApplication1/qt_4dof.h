@@ -71,6 +71,7 @@ private:
 
 private:
 	int AbortRequest;
+	double neutral_x, neutral_y, neutral_z, neutral_theta;
 
 
 	//--------------------------------------------------------------------------
@@ -93,6 +94,8 @@ private slots:
 	void on_ySlider_valueChanged(int val);
 	void on_zSlider_valueChanged(int val);
 	void on_thetaSlider_valueChanged(int val);
+
+	
 
 //--------------------------------------------------------------------------
 // PUBLIC METHODS:

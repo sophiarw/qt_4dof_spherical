@@ -1,7 +1,6 @@
 #include "c4DOFGripper.h"
 #include "Windows.h"
 
-
 c4DOFGripper::c4DOFGripper(int location) {
 	
 	// devices available for connection
@@ -234,6 +233,8 @@ void c4DOFGripper::getNeutralPos(Eigen::Ref<Eigen::Vector4d> a_neutralPos) {
 	a_neutralPos.w() = neutralPos.w();
 }
 
-void c4DOFGripper::setNeutralPos(const Eigen::Ref<Eigen::Vector4d> a_neutralPos) {
-	device.setNeutralPos(a_neutralPos);
+void c4DOFGripper::setNeutralPos(const double x, const double y, const double z, double const theta) {
+	device.setNeutralPos(x, y, z, theta);
+	file << "Desired Neutral Pos: ," << x << ", " << y << ", " << z << ", " << theta << endl;
+	file << "Actual Neutral Pos: ," << device.neutralPos[0] << ", " << device.neutralPos[1] << ", " << device.neutralPos[2]  << ", " << device.neutralPos[3] << endl;
 }

@@ -1,5 +1,6 @@
 #include "qt_4dof.h"
 #include "Application.h"
+
 //------------------------------------------------------------------------------
 using std::string;
 
@@ -54,16 +55,16 @@ qt_4dof::qt_4dof(QWidget *parent)
 	ui.sliderZoom->setValue((int)(100.0*0.05));
 
 	//set widget values for x, y, z, theta positions
-	double x, y, z, theta;
-	Application->getNeutralPos(x, y, z, theta);
-	ui.xSlider->setValue(x);
-	ui.ySlider->setValue(y);
-	ui.zSlider->setValue(z);
-	ui.thetaSlider->setValue(theta);
-	ui.xPos->setText(QString("%1").arg(x, 3));
-	ui.yPos->setText(QString("%1").arg(y, 3));
-	ui.zPos->setText(QString("%1").arg(z, 3));
-	ui.thetaPos->setText(QString("%1").arg(theta, 3));
+	
+	Application->getNeutralPos(neutral_x, neutral_y, neutral_z, neutral_theta);
+	ui.xSlider->setValue(50);
+	ui.ySlider->setValue(50);
+	ui.zSlider->setValue(100);
+	ui.thetaSlider->setValue(50);
+	ui.xPos->setText(QString("%1").arg(neutral_x, 3));
+	ui.yPos->setText(QString("%1").arg(neutral_y, 3));
+	ui.zPos->setText(QString("%1").arg(neutral_z, 3));
+	ui.thetaPos->setText(QString("%1").arg(neutral_theta, 3));
 
 
 	// show settings by default
@@ -183,54 +184,58 @@ void  qt_4dof::on_sliderZoom_valueChanged(int val)
 
 void  qt_4dof::on_xSlider_valueChanged(int val)
 {
-	double xRange = 7.0;
+	double xRange = 7.0; // simulated max is 7.8  [mm]
 
 	//put value in appropriate range
-	double val_converted = val / 100 * 2*xRange - xRange;
+	double x_val = val / 100.0 * 2.0*xRange - xRange;
+
+	if (x_val < -xRange) x_val = -xRange;
+	if (x_val > xRange) x_val = xRange;
 
 	//command new x neutral position
-	Application->setNeutralPosX(val_converted);
+	Application->setNeutralPosX(x_val);
 
-	//get new position
-	double x, y, z, theta;
-	Application->getNeutralPos(x, y, z, theta);
-	ui.xPos->setText(QString("%1").arg((int)x, 3));
+	ui.xPos->setText(QString::number(x_val, 'f', 2));
 }
 
 //------------------------------------------------------------------------------
 
 void  qt_4dof::on_ySlider_valueChanged(int val)
 {
-	double yRange = 9.0;
+	double yRange = 9.0; // simulated max is 10  [mm]
 
 	//put value in appropriate range
-	double val_converted = val / 100 * 2 * yRange - yRange;
+	double y_val = val / 100.0 * 2.0 * yRange - yRange;
+
+	if (y_val < -yRange) y_val = -yRange;
+	if (y_val > yRange) y_val = yRange;
 
 	//command new x neutral position
-	Application->setNeutralPosY(val_converted);
+	Application->setNeutralPosY(y_val);
 
-	//get new position
-	double x, y, z, theta;
-	Application->getNeutralPos(x, y, z, theta);
-	ui.yPos->setText(QString("%1").arg((int)y, 3));
+	//update value sent here
+	ui.yPos->setText(QString::number(y_val, 'f', 2));
 }
 
 //------------------------------------------------------------------------------
 
 void  qt_4dof::on_zSlider_valueChanged(int val)
 {
-	double zRange = 4.5;
+	double zRange_min = -35.0; 
+	double zRange_max = -20.0; 
+	double zRange = zRange_max - zRange_min;
 
 	//put value in appropriate range
-	double val_converted = val / 100 * 2 * zRange - zRange;
+	double z_val = val / 100.0 * zRange + zRange_min;
+
+	if (z_val < zRange_min) z_val = zRange_min;
+	if (z_val > zRange_max) z_val = zRange_max;
 
 	//command new x neutral position
-	Application->setNeutralPosZ(val_converted);
+	Application->setNeutralPosZ(z_val);
 
-	//get new position
-	double x, y, z, theta;
-	Application->getNeutralPos(x, y, z, theta);
-	ui.zPos->setText(QString("%1").arg((int)z, 3));
+	//update value sent here
+	ui.zPos->setText(QString::number(z_val, 'f', 2));
 }
 
 void  qt_4dof::on_thetaSlider_valueChanged(int val)
@@ -238,15 +243,16 @@ void  qt_4dof::on_thetaSlider_valueChanged(int val)
 	double thetaRange = PI / 6;
 
 	//put value in appropriate range
-	double val_converted = val / 100 * 2 * thetaRange - thetaRange;
+	double theta_val = val / 100.0 * 2.0 * thetaRange - thetaRange;
+
+	if (theta_val < -thetaRange) theta_val = -thetaRange;
+	if (theta_val > thetaRange) theta_val = thetaRange;
 
 	//command new x neutral position
-	Application->setNeutralPosTheta(val_converted);
+	Application->setNeutralPosTheta(theta_val);
 
-	//get new position
-	double x, y, z, theta;
-	Application->getNeutralPos(x, y, z, theta);
-	ui.thetaPos->setText(QString("%1").arg((int)theta, 3));
+	//update value sent here
+	ui.thetaPos->setText(QString::number(theta_val, 'f', 2));
 }
 
 
