@@ -23,7 +23,7 @@ c4DOFDevice::c4DOFDevice():m_th(4), m_thDes(4), m_posDes(4), joints_thDes(4), ce
 	m_posDes << 0, 0, 0, 0;
 	joints_thDes << 0, 0, 0, 0;
 	centerPoint << 0, 0, 0, 0;  //[mm]				// pantograph x positive to left when looking at motor axle, z positive down
-	neutralPos << 0.0, 0.0, -20.0, 0.0; // There is a 20mm offset on the z position
+	neutralPos << 0.0, 0.0, -15.0, 0.0; // There is a 20mm offset on the z position
 
 	//assign the differences between the thumb and finger using
 
@@ -214,7 +214,8 @@ void c4DOFDevice::setPos(const Eigen::Ref<Eigen::Vector4d> a_force) {
 
 	double xRange = 7.0; // simulated max is 7.8  [mm]
 	double yRange = 9.0; // simulated max is 10  [mm]
-	double zRange = 4.5; //simulated is 5 [mm]
+	double zRange_min = -25.0; //simulated is 5 [mm]
+	double zRange_max = -15.0;
 	double thetaRange = PI / 6;
 
 
@@ -223,14 +224,14 @@ void c4DOFDevice::setPos(const Eigen::Ref<Eigen::Vector4d> a_force) {
 	//limit workspace motion 
 	Eigen::Vector4d desiredPos = pos + neutralPos;
 
-	double xPosLimit = neutralPos[0] + xRange;
-	double xNegLimit = neutralPos[0] - xRange;
-	double yPosLimit = neutralPos[1] + yRange;
-	double yNegLimit = neutralPos[1] - yRange;
-	double zPosLimit = neutralPos[2] + zRange;
-	double zNegLimit = neutralPos[2] - zRange;
-	double thetaPosLimit = neutralPos[3] + thetaRange;
-	double thetaNegLimit = neutralPos[3] - thetaRange;
+	double xPosLimit =  xRange;
+	double xNegLimit = - xRange;
+	double yPosLimit =  yRange;
+	double yNegLimit = - yRange;
+	double zPosLimit = zRange_max;
+	double zNegLimit = zRange_min;
+	double thetaPosLimit = thetaRange;
+	double thetaNegLimit = - thetaRange;
 
 	if (desiredPos[0] > xPosLimit) desiredPos[0] = xPosLimit;
 	if (desiredPos[0] < xNegLimit) desiredPos[0] = xNegLimit;

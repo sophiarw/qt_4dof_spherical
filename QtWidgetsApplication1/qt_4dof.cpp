@@ -57,10 +57,10 @@ qt_4dof::qt_4dof(QWidget *parent)
 	//set widget values for x, y, z, theta positions
 	
 	Application->getNeutralPos(neutral_x, neutral_y, neutral_z, neutral_theta);
-	ui.xSlider->setValue(50);
-	ui.ySlider->setValue(50);
-	ui.zSlider->setValue(100);
-	ui.thetaSlider->setValue(50);
+	ui.xSlider->setValue((int) 1 / 2 * ui.xSlider->maximum());
+	ui.ySlider->setValue((int) 1 / 2 * ui.ySlider->maximum());
+	ui.zSlider->setValue((int) (ui.zSlider->maximum()*(neutral_z - zRange_min)/zRange + ui.zSlider->maximum()));
+	ui.thetaSlider->setValue((int) 1 / 2 * ui.thetaSlider->maximum());
 	ui.xPos->setText(QString("%1").arg(neutral_x, 3));
 	ui.yPos->setText(QString("%1").arg(neutral_y, 3));
 	ui.zPos->setText(QString("%1").arg(neutral_z, 3));
@@ -184,10 +184,8 @@ void  qt_4dof::on_sliderZoom_valueChanged(int val)
 
 void  qt_4dof::on_xSlider_valueChanged(int val)
 {
-	double xRange = 7.0; // simulated max is 7.8  [mm]
-
 	//put value in appropriate range
-	double x_val = val / 100.0 * 2.0*xRange - xRange;
+	double x_val = val / 1000.0 * 2.0*xRange - xRange;
 
 	if (x_val < -xRange) x_val = -xRange;
 	if (x_val > xRange) x_val = xRange;
@@ -202,10 +200,10 @@ void  qt_4dof::on_xSlider_valueChanged(int val)
 
 void  qt_4dof::on_ySlider_valueChanged(int val)
 {
-	double yRange = 9.0; // simulated max is 10  [mm]
+	
 
 	//put value in appropriate range
-	double y_val = val / 100.0 * 2.0 * yRange - yRange;
+	double y_val = val / 1000.0 * 2.0 * yRange - yRange;
 
 	if (y_val < -yRange) y_val = -yRange;
 	if (y_val > yRange) y_val = yRange;
@@ -221,12 +219,9 @@ void  qt_4dof::on_ySlider_valueChanged(int val)
 
 void  qt_4dof::on_zSlider_valueChanged(int val)
 {
-	double zRange_min = -35.0; 
-	double zRange_max = -20.0; 
-	double zRange = zRange_max - zRange_min;
 
 	//put value in appropriate range
-	double z_val = val / 100.0 * zRange + zRange_min;
+	double z_val = val / 1000.0 * zRange + zRange_min;
 
 	if (z_val < zRange_min) z_val = zRange_min;
 	if (z_val > zRange_max) z_val = zRange_max;
@@ -237,13 +232,12 @@ void  qt_4dof::on_zSlider_valueChanged(int val)
 	//update value sent here
 	ui.zPos->setText(QString::number(z_val, 'f', 2));
 }
+//------------------------------------------------------------------------------
 
 void  qt_4dof::on_thetaSlider_valueChanged(int val)
 {
-	double thetaRange = PI / 6;
-
 	//put value in appropriate range
-	double theta_val = val / 100.0 * 2.0 * thetaRange - thetaRange;
+	double theta_val = val / 1000.0 * 2.0 * thetaRange - thetaRange;
 
 	if (theta_val < -thetaRange) theta_val = -thetaRange;
 	if (theta_val > thetaRange) theta_val = thetaRange;
@@ -252,9 +246,68 @@ void  qt_4dof::on_thetaSlider_valueChanged(int val)
 	Application->setNeutralPosTheta(theta_val);
 
 	//update value sent here
-	ui.thetaPos->setText(QString::number(theta_val, 'f', 2));
+	ui.thetaPos->setText(QString::number(theta_val, 'f', 3));
 }
+//------------------------------------------------------------------------------
 
+void qt_4dof::on_xMinusButton_pressed() {
+	int new_value = ui.xSlider->value() - 1;
+	if (new_value < ui.xSlider->minimum()) new_value = ui.xSlider->minimum();
+	ui.xSlider->setValue(new_value);
+}
+//------------------------------------------------------------------------------
+
+void qt_4dof::on_xPlusButton_pressed() {
+	int new_value = ui.xSlider->value() + 1;
+	if (new_value > ui.xSlider->maximum()) new_value = ui.xSlider->maximum();
+	ui.xSlider->setValue(new_value);
+
+}
+//------------------------------------------------------------------------------
+
+void qt_4dof::on_yMinusButton_pressed() {
+	int new_value = ui.ySlider->value() - 1;
+	if (new_value < ui.ySlider->minimum()) new_value = ui.ySlider->minimum();
+	ui.ySlider->setValue(new_value);
+}
+//------------------------------------------------------------------------------
+
+void qt_4dof::on_yPlusButton_pressed() {
+	int new_value = ui.ySlider->value() + 1;
+	if (new_value > ui.ySlider->maximum()) new_value = ui.ySlider->maximum();
+	ui.ySlider->setValue(new_value);
+
+}
+//------------------------------------------------------------------------------
+
+void qt_4dof::on_zMinusButton_pressed() {
+	int new_value = ui.zSlider->value() - 1;
+	if (new_value < ui.zSlider->minimum()) new_value = ui.zSlider->minimum();
+	ui.zSlider->setValue(new_value);
+}
+//------------------------------------------------------------------------------
+
+void qt_4dof::on_zPlusButton_pressed() {
+	int new_value = ui.zSlider->value() + 1;
+	if (new_value > ui.zSlider->maximum()) new_value = ui.zSlider->maximum();
+	ui.zSlider->setValue(new_value);
+
+}
+//------------------------------------------------------------------------------
+
+void qt_4dof::on_thetaMinusButton_pressed() {
+	int new_value = ui.thetaSlider->value() - 1;
+	if (new_value < ui.thetaSlider->minimum()) new_value = ui.thetaSlider->minimum();
+	ui.thetaSlider->setValue(new_value);
+}
+//------------------------------------------------------------------------------
+
+void qt_4dof::on_thetaPlusButton_pressed() {
+	int new_value = ui.thetaSlider->value() + 1;
+	if (new_value > ui.thetaSlider->maximum()) new_value = ui.thetaSlider->maximum();
+	ui.thetaSlider->setValue(new_value);
+
+}
 
 //------------------------------------------------------------------------------
 

@@ -146,13 +146,13 @@
                <number>0</number>
               </property>
               <property name="maximum">
-               <number>100</number>
+               <number>1000</number>
               </property>
               <property name="singleStep">
                <number>1</number>
               </property>
               <property name="value">
-               <number>50</number>
+               <number>500</number>
               </property>
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
@@ -206,10 +206,10 @@
                <number>0</number>
               </property>
               <property name="maximum">
-               <number>100</number>
+               <number>1000</number>
               </property>
               <property name="value">
-               <number>50</number>
+               <number>500</number>
               </property>
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
@@ -256,10 +256,10 @@
                <number>0</number>
               </property>
               <property name="maximum">
-               <number>100</number>
+               <number>1000</number>
               </property>
               <property name="value">
-               <number>0</number>
+               <number>1000</number>
               </property>
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
@@ -306,7 +306,10 @@
                <number>0</number>
               </property>
               <property name="maximum">
-               <number>100</number>
+               <number>1000</number>
+              </property>
+              <property name="value">
+               <number>500</number>
               </property>
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
