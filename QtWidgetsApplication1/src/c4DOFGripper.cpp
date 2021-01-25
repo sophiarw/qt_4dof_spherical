@@ -83,12 +83,8 @@ void c4DOFGripper::setForcesAndTorques(cVector3d a_force, cVector3d a_torque) {
 
 	Eigen::Vector4d force = Eigen::Vector4d(m_force.x(), m_force.y(), m_force.z(), m_torque.z());
 
-	//cout << "The torque is: " << m_torque.z() << endl;
-	// calculate desired position for each pantograph in pantograph class and solve for thDes with inverse kinematics
-	//pThumb.setPos(m_thumbForce);
-
 	//convert forces to positions
-	device.setPos(force);
+	device.setForce(force);
 	
 	// calculate motor angle commands 
 	m_thDes[0] = device.m_thDes[0];
@@ -105,9 +101,6 @@ void c4DOFGripper::setForcesAndTorques(cVector3d a_force, cVector3d a_torque) {
 	if (0) {
 
 		cout << "c4DOFDevice:  " << device.m_posDes.x() - device.centerPoint.x() << ",  " << device.m_posDes.z() - device.centerPoint.z() << "," << endl;
-
-
-
 		//cout << "Index Desired Angles: " 
 		cout << cRadToDeg(m_thDes[0]) << ", " << cRadToDeg(m_thDes[1]) << ",     ";
 		//cout << "Index Actual Angles: " 

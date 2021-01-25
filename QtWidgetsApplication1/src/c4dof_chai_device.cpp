@@ -168,7 +168,7 @@ bool c4dofChaiDevice::open()
 	}
 	else
 	{
-		m_deviceReady - false;
+		m_deviceReady = false;
 		return (C_ERROR);
 	}
 

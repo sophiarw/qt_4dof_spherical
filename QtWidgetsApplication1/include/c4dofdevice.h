@@ -84,7 +84,7 @@ public:
 	c4DOFDevice();
 	~c4DOFDevice();
 
-	void setPos(const Eigen::Ref<Eigen::Vector4d>desiredPos);
+	void setPos(const Eigen::Ref<Eigen::Vector4d> pos);
 	void setForce(const Eigen::Ref<Eigen::Vector4d> a_force);
 	void setNeutralPos(const double x, const double y, const double z, const double theta);
 
@@ -135,6 +135,14 @@ protected:
 	void plot_vectors();
 
 	chai3d::cPrecisionClock c4DOFDeviceTimer;
+
+
+	//constants for ranges
+	double xRange = 7.0; // simulated max is 7.8  [mm]
+	double yRange = 9.0; // simulated max is 10  [mm]
+	double zRange_min = -25.0;
+	double zRange_max = -15.0;
+	double thetaRange = PI / 6;
 
 
 

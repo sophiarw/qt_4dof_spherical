@@ -132,15 +132,15 @@ void c4DOFDevice::inverseKinematics(){
 			no_nan = false;
 		}
 		else {
-			if ((~(isnan(Q1))) && (Q1 < PI / 2) && (Q1 > 0)) {
-				if ((~(isnan(Q2))) && (Q2 < PI / 2) && (Q2 > 0)) {
+			if (((!(isnan(Q1))) && (Q1 < PI / 2)) && (Q1 > 0)) {
+				if (((!(isnan(Q2))) && (Q2 < PI / 2)) && (Q2 > 0)) {
 					jointAngles[i] = min(Q1, Q2);
 				}
 				else {
 					jointAngles[i] = Q1;
 				}
 			}
-			else if ((~(isnan(Q2))) && (Q2 < PI / 2) && (Q2 > 0)) {
+			else if (((!(isnan(Q2))) && (Q2 < PI / 2)) && (Q2 > 0)) {
 				jointAngles[i] = Q2;
 				
 			}
@@ -207,20 +207,13 @@ double c4DOFDevice::fourbar(double angle) {
 }
 
 
-void c4DOFDevice::setPos(const Eigen::Ref<Eigen::Vector4d> a_force) {
+void c4DOFDevice::setPos(const Eigen::Ref<Eigen::Vector4d> pos) {
 
-	double xRange = 7.0; // simulated max is 7.8  [mm]
-	double yRange = 9.0; // simulated max is 10  [mm]
-	double zRange_min = -25.0; //simulated is 5 [mm]
-	double zRange_max = -15.0;
-	double thetaRange = PI / 6;
-
-
-	Eigen::Vector4d pos(a_force.x() / k_skin_shear, a_force.y()/k_skin_shear, -a_force.z() / k_skin_normal, a_force[3]/k_skin_rotational);
-
-	//limit workspace motion 
+	//take into account the neutralPos
 	Eigen::Vector4d desiredPos = pos + neutralPos;
 
+
+	//limit workspace motion
 	double xPosLimit =  xRange;
 	double xNegLimit = - xRange;
 	double yPosLimit =  yRange;
@@ -240,8 +233,6 @@ void c4DOFDevice::setPos(const Eigen::Ref<Eigen::Vector4d> a_force) {
 	if (desiredPos[3] < thetaNegLimit) desiredPos[3] = thetaNegLimit;
 	
 	m_posDes = desiredPos;
-
-	//cout << desiredPos.x() << " ," << desiredPos.y() << " ," << desiredPos.z()  << " ," << desiredPos[3] << endl;
 
 	inverseKinematics();
 
@@ -343,25 +334,21 @@ void c4DOFDevice::plot_vectors() {
 
 void c4DOFDevice::setForce(const Eigen::Ref<Eigen::Vector4d> a_force) {
 
-	double xRange = 5.0;
-	double yRange = 5.0;
-	double zRange = 4.5;
-	double thetaRange = PI / 6;
-	//limit workspace motion 
+	Eigen::Vector4d pos(a_force.x() / k_skin_shear, a_force.y() / k_skin_shear, -a_force.z() / k_skin_normal, a_force[3] / k_skin_rotational);
 
-	//calculate displacements based on desired forces
-	Eigen::Vector4d desiredPos(a_force[0] / k_skin_shear, a_force[1] / k_skin_normal, a_force[2] / k_skin_shear, a_force[3] / k_skin_rotational);
+	//take into account the neutralPos
+	Eigen::Vector4d desiredPos = pos + neutralPos;
 
 
-	//check if values are in range if not set them to maximum values
-	double xPosLimit = this->neutralPos[0] + xRange;
-	double xNegLimit = this->neutralPos[0] - xRange;
-	double yPosLimit = this->neutralPos[1] + yRange;
-	double yNegLimit = this->neutralPos[1] - yRange;
-	double zPosLimit = this->neutralPos[2] + zRange;
-	double zNegLimit = this->neutralPos[2] - zRange;
-	double thetaPosLimit = this->neutralPos[3] + thetaRange;
-	double thetaNegLimit = this->neutralPos[3] - thetaRange;
+	//limit workspace motion
+	double xPosLimit = xRange;
+	double xNegLimit = -xRange;
+	double yPosLimit = yRange;
+	double yNegLimit = -yRange;
+	double zPosLimit = zRange_max;
+	double zNegLimit = zRange_min;
+	double thetaPosLimit = thetaRange;
+	double thetaNegLimit = -thetaRange;
 
 	if (desiredPos[0] > xPosLimit) desiredPos[0] = xPosLimit;
 	if (desiredPos[0] < xNegLimit) desiredPos[0] = xNegLimit;
@@ -372,11 +359,8 @@ void c4DOFDevice::setForce(const Eigen::Ref<Eigen::Vector4d> a_force) {
 	if (desiredPos[3] > thetaPosLimit) desiredPos[3] = thetaPosLimit;
 	if (desiredPos[3] < thetaNegLimit) desiredPos[3] = thetaNegLimit;
 
-
-	float deltaT = c4DOFDeviceTimer.getCurrentTimeSeconds();
-	c4DOFDeviceTimer.reset();
-
 	m_posDes = desiredPos;
+
 	inverseKinematics();
 }
 
