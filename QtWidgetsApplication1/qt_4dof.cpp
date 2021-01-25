@@ -57,10 +57,11 @@ qt_4dof::qt_4dof(QWidget *parent)
 	//set widget values for x, y, z, theta positions
 	
 	Application->getNeutralPos(neutral_x, neutral_y, neutral_z, neutral_theta);
-	ui.xSlider->setValue((int) 1 / 2 * ui.xSlider->maximum());
-	ui.ySlider->setValue((int) 1 / 2 * ui.ySlider->maximum());
+	int zmax =  ui.ySlider->maximum();
+	ui.xSlider->setValue((int) (1 / 2.0 * ui.xSlider->maximum()));
+	ui.ySlider->setValue((int) 1 / 2.0 * ui.ySlider->maximum());
 	ui.zSlider->setValue((int) (ui.zSlider->maximum()*(neutral_z - zRange_min)/zRange + ui.zSlider->maximum()));
-	ui.thetaSlider->setValue((int) 1 / 2 * ui.thetaSlider->maximum());
+	ui.thetaSlider->setValue((int) 1 / 2.0 * ui.thetaSlider->maximum());
 	ui.xPos->setText(QString("%1").arg(neutral_x, 3));
 	ui.yPos->setText(QString("%1").arg(neutral_y, 3));
 	ui.zPos->setText(QString("%1").arg(neutral_z, 3));
@@ -191,7 +192,7 @@ void  qt_4dof::on_xSlider_valueChanged(int val)
 	if (x_val > xRange) x_val = xRange;
 
 	//command new x neutral position
-	//Application->setNeutralPosX(x_val);
+	Application->setNeutralPosX(x_val);
 
 	ui.xPos->setText(QString::number(x_val, 'f', 2));
 }
@@ -208,8 +209,8 @@ void  qt_4dof::on_ySlider_valueChanged(int val)
 	if (y_val < -yRange) y_val = -yRange;
 	if (y_val > yRange) y_val = yRange;
 
-	//command new x neutral position
-	//Application->setNeutralPosY(y_val);
+	//command new y neutral position
+	Application->setNeutralPosY(y_val);
 
 	//update value sent here
 	ui.yPos->setText(QString::number(y_val, 'f', 2));
@@ -226,8 +227,8 @@ void  qt_4dof::on_zSlider_valueChanged(int val)
 	if (z_val < zRange_min) z_val = zRange_min;
 	if (z_val > zRange_max) z_val = zRange_max;
 
-	//command new x neutral position
-	//Application->setNeutralPosZ(z_val);
+	//command new z neutral position
+	Application->setNeutralPosZ(z_val);
 
 	//update value sent here
 	ui.zPos->setText(QString::number(z_val, 'f', 2));
@@ -242,8 +243,8 @@ void  qt_4dof::on_thetaSlider_valueChanged(int val)
 	if (theta_val < -thetaRange) theta_val = -thetaRange;
 	if (theta_val > thetaRange) theta_val = thetaRange;
 
-	//command new x neutral position
-	//Application->setNeutralPosTheta(theta_val);
+	//command new theta neutral position
+	Application->setNeutralPosTheta(theta_val);
 
 	//update value sent here
 	ui.thetaPos->setText(QString::number(theta_val, 'f', 3));
