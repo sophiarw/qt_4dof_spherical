@@ -131,7 +131,7 @@ namespace chai3d {
 		double c4dofStartAngle = 0.0;
 		double x = 0.0;
 		double y = 0.0;
-		double z = 0.0;
+		double z = -15.0;
 
 
 		/*instead of connecting the deivce to the chai device, c4dofChaiDevice passes

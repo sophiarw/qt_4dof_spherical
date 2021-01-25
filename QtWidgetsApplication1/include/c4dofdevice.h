@@ -4,7 +4,6 @@
 #include <cmath>
 #include <array>
 #include <algorithm>
-#include "LowPassFilter.hpp"
 #include <Eigen/Dense>
 
 #define V_FILT         0.5      // weight for velocity filtering
@@ -135,10 +134,6 @@ protected:
 
 	void plot_vectors();
 
-	// filter
-	LowPassFilter lpfX;
-	LowPassFilter lpfZ;
-	double cutOffFreqFinger = 500 / (2 * 3.14159);
 	chai3d::cPrecisionClock c4DOFDeviceTimer;
 
 

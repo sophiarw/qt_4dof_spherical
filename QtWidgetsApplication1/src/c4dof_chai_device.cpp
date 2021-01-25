@@ -171,6 +171,8 @@ bool c4dofChaiDevice::open()
 		m_deviceReady - false;
 		return (C_ERROR);
 	}
+
+	newNeutralPos = false;
 }
 	
 

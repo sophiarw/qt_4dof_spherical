@@ -191,7 +191,7 @@ void  qt_4dof::on_xSlider_valueChanged(int val)
 	if (x_val > xRange) x_val = xRange;
 
 	//command new x neutral position
-	Application->setNeutralPosX(x_val);
+	//Application->setNeutralPosX(x_val);
 
 	ui.xPos->setText(QString::number(x_val, 'f', 2));
 }
@@ -209,7 +209,7 @@ void  qt_4dof::on_ySlider_valueChanged(int val)
 	if (y_val > yRange) y_val = yRange;
 
 	//command new x neutral position
-	Application->setNeutralPosY(y_val);
+	//Application->setNeutralPosY(y_val);
 
 	//update value sent here
 	ui.yPos->setText(QString::number(y_val, 'f', 2));
@@ -227,7 +227,7 @@ void  qt_4dof::on_zSlider_valueChanged(int val)
 	if (z_val > zRange_max) z_val = zRange_max;
 
 	//command new x neutral position
-	Application->setNeutralPosZ(z_val);
+	//Application->setNeutralPosZ(z_val);
 
 	//update value sent here
 	ui.zPos->setText(QString::number(z_val, 'f', 2));
@@ -243,7 +243,7 @@ void  qt_4dof::on_thetaSlider_valueChanged(int val)
 	if (theta_val > thetaRange) theta_val = thetaRange;
 
 	//command new x neutral position
-	Application->setNeutralPosTheta(theta_val);
+	//Application->setNeutralPosTheta(theta_val);
 
 	//update value sent here
 	ui.thetaPos->setText(QString::number(theta_val, 'f', 3));

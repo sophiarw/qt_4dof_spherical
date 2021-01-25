@@ -12,9 +12,6 @@ c4DOFDevice::c4DOFDevice():m_th(4), m_thDes(4), m_posDes(4), joints_thDes(4), ce
 	m_error = false;
 	m_errMessage = "";
 
-	lpfX.setCutOffFrequency(cutOffFreqFinger);
-	lpfZ.setCutOffFrequency(cutOffFreqFinger);
-
 	// initialize kinematic variables
 	m_t = 0;
 
@@ -379,9 +376,6 @@ void c4DOFDevice::setForce(const Eigen::Ref<Eigen::Vector4d> a_force) {
 	float deltaT = c4DOFDeviceTimer.getCurrentTimeSeconds();
 	c4DOFDeviceTimer.reset();
 
-	// NOTE: What Julie had, is it necessary?
-	//m_posDes.x(lpfX.update(centerPoint.x() + stretch.x(), deltaT));
-	//m_posDes.z(lpfZ.update(centerPoint.z() + stretch.z(), deltaT));
 	m_posDes = desiredPos;
 	inverseKinematics();
 }

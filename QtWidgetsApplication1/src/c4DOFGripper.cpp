@@ -27,8 +27,6 @@ c4DOFGripper::c4DOFGripper(int location) {
 	//if (pThumb.m_c4DOFGripperReady) { pThumb.m_finger = fingers::thumb; }
 	if (device.m_c4DOFDeviceReady) { device.m_location = location; }
 
-	// set up filter
-	lpfGrip.setCutOffFrequency(cutOffFreqGrip);
 
 	filename = "motor_inputs_outputs.csv";
 	file.open(filename);

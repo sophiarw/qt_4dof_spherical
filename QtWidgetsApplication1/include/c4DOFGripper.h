@@ -1,7 +1,6 @@
 #pragma once
 #include "chai3d.h"
 #include "c4dofdevice.h"
-#include "LowPassFilter.hpp"
 #include <Eigen/Dense>
 #include <fstream>
 
@@ -32,8 +31,7 @@ public:
 	cVector3d m_torque;
 
 	double m_gripForcel;
-	LowPassFilter lpfGrip;
-	double cutOffFreqGrip = 80 / (2 * 3.14159);
+
 
 	bool m_error;                           // TRUE = problem with device while running
 	std::string m_errMessage;               // error message
