@@ -458,46 +458,47 @@ void cGenericDemo::updateHaptics()
     // compute interaction forces
 	for (int i = 0; i < m_numTools; i++)
 	{
-		//m_tools[i]->computeInteractionForces();// This function was setting the forces but also making the torque 0
+		m_tools[i]->computeInteractionForces();// This function was setting the forces but also making the torque 0
 
 		//my own computeInteractionForces()
 		//check out CGenericTool.cpp for original function
 		
-		force.zero();
-		torque.zero();
+		//force.zero();
+		//torque.zero();
 
-		int numContactPoint = (int)(m_tools[i]->getNumHapticPoints());
-		for (int j = 0; j<numContactPoint; j++)
-		{
-			// get next haptic point
-			cHapticPoint* nextContactPoint = m_tools[i]->getHapticPoint(j);
+		//int numContactPoint = (int)(m_tools[i]->getNumHapticPoints());
+		//for (int j = 0; j<numContactPoint; j++)
+		//{
+		//	// get next haptic point
+		//	cHapticPoint* nextContactPoint = m_tools[i]->getHapticPoint(j);
 
-			// compute force at haptic point as well as new proxy position
+		//	// compute force at haptic point as well as new proxy position
 
-			cVector3d m_deviceGlobalPos = m_tools[i]->getDeviceGlobalPos();
-			cMatrix3d m_deviceGlobalRot = m_tools[i]->getDeviceGlobalRot();
-			cVector3d m_deviceGlobalLinVel = m_tools[i]->getDeviceGlobalLinVel();
-			cVector3d m_deviceGlobalAngVel = m_tools[i]->getDeviceGlobalAngVel();
-
-
-			//******************** FORCE CALCULATION ****************************//
-			cVector3d t_force = nextContactPoint->computeInteractionForces(m_deviceGlobalPos,
-				m_deviceGlobalRot,
-				m_deviceGlobalLinVel,
-				m_deviceGlobalAngVel);
+		//	cVector3d m_deviceGlobalPos = m_tools[i]->getDeviceGlobalPos();
+		//	cMatrix3d m_deviceGlobalRot = m_tools[i]->getDeviceGlobalRot();
+		//	cVector3d m_deviceGlobalLinVel = m_tools[i]->getDeviceGlobalLinVel();
+		//	cVector3d m_deviceGlobalAngVel = m_tools[i]->getDeviceGlobalAngVel();
 
 
-			//******************** TORQUE CALCULATION ****************************//
-			// combine force contributions together
-			force.add(t_force);
-			torque.add(cCross(r, t_force));
-		}
+		//	//******************** FORCE CALCULATION ****************************//
+		//	cVector3d t_force = nextContactPoint->computeInteractionForces(m_deviceGlobalPos,
+		//		m_deviceGlobalRot,
+		//		m_deviceGlobalLinVel,
+		//		m_deviceGlobalAngVel);
+
+
+		//	//******************** TORQUE CALCULATION ****************************//
+		//	// combine force contributions together
+		//	force.add(t_force);
+		//	torque.add(cCross(r, t_force));
+		//}
+
 
 		//cout <<"torque: " << torque.x() << ", " << torque.y() << ", " << torque.z() << endl;
 		// update global forces
-		m_tools[i]->setDeviceGlobalForce(force);
-		m_tools[i]->setDeviceGlobalTorque(torque);
-		m_tools[i]->setGripperForce(0.0);
+		//m_tools[i]->setDeviceGlobalForce(force);
+		//m_tools[i]->setDeviceGlobalTorque(torque);
+		//m_tools[i]->setGripperForce(0.0);
 	}
    
     // apply forces to haptic devices
