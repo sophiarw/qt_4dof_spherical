@@ -4,7 +4,6 @@
 #include <QDebug>
 
 // --------------- TO DO ------------- SET ALL THESE VALUES -------------
-#define PCI_BOARD 15           // only 1 826 board (number follows dip-switch code from manual section 2.2)
 #define MODE_ENC  0x00000070  // for quadrature-encoded device using x4 clock multiplier
 #define MODE_SNP  0x00000010  // automatically trigger counter snapshot on index pulse
 #define QUAD_ERR  0x00000100  // counter snapshot triggered because of quadrature error
@@ -24,9 +23,18 @@
 #define DEBUG     0
 
 uint zero[6] = { 0, 0, 0, 0, 0, 0 };				// zero position
+int board_number;
 
-bool connectToS826()
+bool connectToS826(int location)
 {
+	//assigning board number, only takes into account two boards
+	if (location == 1) {
+		board_number = 1;
+	}
+	else {
+		board_number = 15;
+	}
+
     int fail  = S826_SystemOpen();
     if (fail < 0) {
         return (false);
@@ -37,10 +45,10 @@ bool connectToS826()
 
 void disconnectFromS826()
 {
-	S826_DacDataWrite(PCI_BOARD, 0, MAXSETPNT / 2, MTR_RUN);
-	S826_DacDataWrite(PCI_BOARD, 1, MAXSETPNT / 2, MTR_RUN);
-	S826_DacDataWrite(PCI_BOARD, 2, MAXSETPNT / 2, MTR_RUN);
-	S826_DacDataWrite(PCI_BOARD, 3, MAXSETPNT / 2, MTR_RUN);
+	S826_DacDataWrite(board_number, 0, MAXSETPNT / 2, MTR_RUN);
+	S826_DacDataWrite(board_number, 1, MAXSETPNT / 2, MTR_RUN);
+	S826_DacDataWrite(board_number, 2, MAXSETPNT / 2, MTR_RUN);
+	S826_DacDataWrite(board_number, 3, MAXSETPNT / 2, MTR_RUN);
 
     S826_SystemClose();
 }
@@ -51,8 +59,8 @@ bool initMotor(uint channel)
 	// use smaller range for pantograph motors (0-3) than gripper motor(4)
 	int fail;
 
-	fail = S826_DacRangeWrite(PCI_BOARD, channel, VOLTRANGESMALL, MTR_RUN);
-	fail += S826_DacDataWrite(PCI_BOARD, channel, MAXSETPNT / 2, MTR_RUN);
+	fail = S826_DacRangeWrite(board_number, channel, VOLTRANGESMALL, MTR_RUN);
+	fail += S826_DacDataWrite(board_number, channel, MAXSETPNT / 2, MTR_RUN);
 
 
     // check for errors
@@ -67,15 +75,15 @@ bool initEncod(uint channel)
 {
 
     // enable channel and set to quadrature-encoded mode
-    int fail  = S826_CounterModeWrite(PCI_BOARD, channel, MODE_ENC);
-        fail += S826_CounterStateWrite(PCI_BOARD, channel, 1); //start checking counts
+    int fail  = S826_CounterModeWrite(board_number, channel, MODE_ENC);
+        fail += S826_CounterStateWrite(board_number, channel, 1); //start checking counts
 
     // set counts for channel to center of range
         fail += setCounts(channel, (MAXCOUNT-1)/2);
 		zero[channel] = (MAXCOUNT - 1) / 2;
 		qDebug() << "zero " << channel << ": " << zero[channel];
 		// set up automatic snapshots upon index pulse
-        fail += S826_CounterSnapshotConfigWrite(PCI_BOARD, channel, MODE_SNP, 0);
+        fail += S826_CounterSnapshotConfigWrite(board_number, channel, MODE_SNP, 0);
 
     // check for errors
     if (fail < 0) {
@@ -89,7 +97,7 @@ bool checkEncod(uint channel)
 {    // probe snapshot buffer
     static uint snap_counts;
     static uint snap_reason;
-    int fail = S826_CounterSnapshotRead(PCI_BOARD, channel, &snap_counts, NULL, &snap_reason, 0);
+    int fail = S826_CounterSnapshotRead(board_number, channel, &snap_counts, NULL, &snap_reason, 0);
 
     // if snapshot available, check reason
     if (fail < 0) {
@@ -130,7 +138,7 @@ void setCurrent(uint channel, double I)
 	if (V <  VRANGE_LOW) V = VRANGE_LOW;
 	// map voltage range to [0x0000,0xFFFF]
 	uint setpnt = (V - VRANGE_LOW) / (VRANGE_HI - VRANGE_LOW) * MAXSETPNT;
-	S826_DacDataWrite(PCI_BOARD, channel, setpnt, MTR_RUN);
+	S826_DacDataWrite(board_number, channel, setpnt, MTR_RUN);
 
 
 }
@@ -151,8 +159,8 @@ int setCounts(uint channel, uint counts)
 
 
     // write counts to preload register then copy preload to counter core
-    int fail  = S826_CounterPreloadWrite(PCI_BOARD, channel, 0, counts);
-        fail += S826_CounterPreload(PCI_BOARD, channel, 1, 0);
+    int fail  = S826_CounterPreloadWrite(board_number, channel, 0, counts);
+        fail += S826_CounterPreload(board_number, channel, 1, 0);
 
     return(fail);
 }
@@ -162,7 +170,7 @@ uint getCounts(uint channel)
 
 	// manually read encoder
 	static uint counts;
-	S826_CounterRead(PCI_BOARD, channel, &counts);
+	S826_CounterRead(board_number, channel, &counts);
 
 
 	return counts;

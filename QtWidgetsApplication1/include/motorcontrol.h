@@ -22,7 +22,7 @@ const double amplifierResistance[6] = { 10.0, 10.0, 10.0, 10.0, 10.0, 10.0 }; //
 const double k_torq[4] = { 1.56 * 57 /1000, 1.56 * 57 / 1000,  1.56 * 57 / 1000, 1.56 * 57 / 1000 };// [N-m/A]// 0.524 mNm / 0.336A /1000 = 0.00156 Nm. Need to multiply by 57 //include gear ratio in k_torque
 
 
-bool connectToS826();
+bool connectToS826(int location);
 void disconnectFromS826();
 bool initMotor(uint channel);
 bool initEncod(uint channel);
@@ -33,7 +33,8 @@ int setCounts(uint channel, uint counts);
 uint getCounts(uint channel);
 double getAngle(uint channel);
 double angleDiff(double a_thA, double a_thB);
-
 using namespace std;
+
+
 
 #endif // MOTORCONTROL_H

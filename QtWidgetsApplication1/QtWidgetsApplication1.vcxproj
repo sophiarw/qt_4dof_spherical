@@ -104,7 +104,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\external\chai3d-3.2.0\src\devices\CHapticDeviceHandler.cpp" />
     <ClCompile Include="..\..\external\LowPassFilter\LowPassFilter.cpp" />
     <ClCompile Include="src\c4dofdevice.cpp" />
     <ClCompile Include="src\c4DOFGripper.cpp" />

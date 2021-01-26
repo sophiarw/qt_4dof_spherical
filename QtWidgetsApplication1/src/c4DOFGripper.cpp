@@ -2,6 +2,7 @@
 #include "Windows.h"
 
 c4DOFGripper::c4DOFGripper(int location) {
+
 	
 	// devices available for connection
 	m_c4DOFGripperAvailable = true;
@@ -51,7 +52,7 @@ bool c4DOFGripper::connect()
 	if (m_c4DOFGripperReady)      return(C_ERROR);
 
 	// connect to S826
-	bool success = connectToS826();
+	bool success = connectToS826(device.m_location);
 	if (!success) return(C_ERROR);
 
 	// initialize encoders

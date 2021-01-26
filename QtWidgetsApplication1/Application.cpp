@@ -127,7 +127,8 @@ bool ApplicationWidget::getHapticDevice() {
 	m_hapticDevice0 = chai3d::cGenericHapticDevicePtr((chai3d::cGenericHapticDevice *)(new chai3d::c4dofChaiDevice(0)));
 	m_hapticDevice1 = chai3d::cGenericHapticDevicePtr((chai3d::cGenericHapticDevice *)(new chai3d::c4dofChaiDevice(1)));
 
-	return 2;
+	numDevices = 2;
+	return numDevices;
 
 }
 
