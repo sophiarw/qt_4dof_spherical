@@ -223,8 +223,8 @@ bool c4dofChaiDevice::calibrate(bool a_forceCalibration)
 //----------------------------------------------------------------------------
 unsigned int c4dofChaiDevice::getNumDevices()
 {
-
-	int numberOfDevices = 1;
+	//switch to 1 if you only want one finger/device
+	int numberOfDevices = 2;
 
 	return(numberOfDevices);
 }

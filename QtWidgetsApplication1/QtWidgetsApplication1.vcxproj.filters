@@ -74,6 +74,9 @@
     <ClCompile Include="..\..\external\LowPassFilter\LowPassFilter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\external\chai3d-3.2.0\src\devices\CHapticDeviceHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
