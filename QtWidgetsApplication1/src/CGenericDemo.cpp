@@ -340,7 +340,12 @@ cGenericDemo::cGenericDemo(const string a_resourceRoot,
 
 		cHapticPoint* point1 = m_tool1->getHapticPoint(0);
 
-		m_tool1->getHapticPoint(0)->m_sphereProxy->addChild(finger);
+		//Julie has this instead of the next for lines in this if statement
+		/*m_tool1->m_hapticPointThumb->m_sphereProxy->addChild(thumb);
+		cMesh* mesh1 = mesh->copy();
+		m_tool1->m_hapticPointFinger->m_sphereProxy->addChild(finger);*/
+
+		m_tool1->getHapticPoint(0)->m_sphereProxy->addChild(thumb);
 		m_tool1->getHapticPoint(0)->m_sphereProxy->setTransparencyLevel(0.0);
 		m_tool1->getHapticPoint(0)->m_sphereProxy->setShowFrame(false, true);
 		m_tool1->getHapticPoint(0)->m_sphereProxy->setFrameSize(0.05);
@@ -374,13 +379,6 @@ cGenericDemo::cGenericDemo(const string a_resourceRoot,
     m_ODEGPlane3->createStaticPlane(cVector3d(0.0, -w, 0.0), cVector3d(0.0, 1.0, 0.0));
     m_ODEGPlane4->createStaticPlane(cVector3d( d, 0.0, 0.0), cVector3d(-1.0,0.0, 0.0));
     m_ODEGPlane5->createStaticPlane(cVector3d(-d, 0.0, 0.0), cVector3d( 1.0,0.0, 0.0));
-
-	////initialize the rotation of the tool
-
-	//for (int i = 0; i < m_numTools; i++)
-	//{
-	//	prev_tool_rot[i] = m_tools[i]->getDeviceGlobalRot();
-	//}
 
 
 }

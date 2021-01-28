@@ -36,7 +36,7 @@ void magTrackerThread::initMagTracker(int a_trackerNum)
 	trackerNum = a_trackerNum;
 	trackingOn = true;
 	//runTimer.setTimeoutPeriodSeconds(0.001);
-
+	
 
 #ifdef MAGTRACKER
 	// initialize the magnetic tracker

@@ -120,34 +120,12 @@ bool ApplicationWidget::getHapticDevice() {
 	// HAPTIC DEVICES / TOOLS
 	//--------------------------------------------------------------------------
 
-	// default stiffness of scene objects
-	// create a haptic device handler
-	cHapticDeviceHandler* handler = new cHapticDeviceHandler();
+	numDevices = 2;
 
-	numDevices = handler->getNumDevices();
+	m_hapticDevice0 = c4dofChaiDevice::create(0);
+	m_hapticDevice1 = c4dofChaiDevice::create(1);
 
-	// default stiffness of scene objects
-	double maxStiffness = 6000.0;
-	double maxDamping = 4.0;
-
-	// get access to the haptic devices found
-	if (numDevices > 0)
-	{
-		handler->getDevice(m_hapticDevice0, 0);
-		//maxStiffness = cMin(maxStiffness, 0.5 * m_hapticDevice0->getSpecifications().m_maxLinearStiffness);
-	}
-
-
-	else if (numDevices > 1)
-	{
-		handler->getDevice(m_hapticDevice1, 1);
-		//maxStiffness = cMin(maxStiffness, 0.5 * m_hapticDevice1->getSpecifications().m_maxLinearStiffness);
-	}
-
-	m_hapticDevice1 = m_hapticDevice0; // only one device for me, figure out what's going on later
-
-	return handler->getNumDevices();
-
+	return 2;
 }
 
 //------------------------------------------------------------------------------

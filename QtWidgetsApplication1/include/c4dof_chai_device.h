@@ -42,13 +42,13 @@ namespace chai3d {
 	public:
 
 		//! Constructor of c4dofChaiDevice.
-		c4dofChaiDevice(unsigned int a_deviceNumber = 0);
+		c4dofChaiDevice(unsigned int a_deviceNumber);
 
 		//! Destructor of c4dofChaiDevice.
 		virtual ~c4dofChaiDevice();
 
 		//! Shared c4dofChaiDevice allocator
-		static c4dofChaiDevicePtr create(unsigned int a_deviceNumber = 0) { return (std::make_shared<c4dofChaiDevice>(a_deviceNumber)); }
+		static c4dofChaiDevicePtr create(unsigned int a_deviceNumber) { return (std::make_shared<c4dofChaiDevice>(a_deviceNumber)); }
 
 
 		//---------------------------------------------------------------------------------
