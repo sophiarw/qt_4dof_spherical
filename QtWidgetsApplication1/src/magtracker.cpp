@@ -49,16 +49,15 @@ void magTrackerThread::initMagTracker(int a_trackerNum)
 	// get configurations
 	errorCode = GetBIRDSystemConfiguration(&ATC3DG.m_config);
 	pSensor = new CSensor[ATC3DG.m_config.numberSensors];
-// for (i = 0; i<ATC3DG.m_config.numberSensors; i++)
-	for (i = 0; i<1; i++)	// always using first one
+ 
+	for (i = 0; i<ATC3DG.m_config.numberSensors; i++)
 	{
 		errorCode = GetSensorConfiguration(i, &pSensor[i].m_config);
 		if (errorCode != BIRD_ERROR_SUCCESS) errorHandler(errorCode);
 		std::cout << "Got sensors configuration\n" << std::endl;
 	}
 	pXmtr = new CXmtr[ATC3DG.m_config.numberTransmitters];
-	//for (i = 0; i<ATC3DG.m_config.numberTransmitters; i++)
-	for (i = 0; i<1; i++)   // always using first one
+	for (i = 0; i<ATC3DG.m_config.numberTransmitters; i++)
 	{
 		errorCode = GetTransmitterConfiguration(i, &pXmtr[i].m_config);
 		if (errorCode != BIRD_ERROR_SUCCESS) errorHandler(errorCode);
@@ -111,8 +110,8 @@ chai3d::cTransform magTrackerThread::CheckTrackerPose()
 
 #ifdef MAGTRACKER
 	// change to <= 1 if we want to use both trackers
-	for (int tracker = 0; tracker < NUM_TRACKERS; tracker++)
-	{
+	//for (int tracker = 0; tracker < NUM_TRACKERS; tracker++)
+	//{
 		double posScale = 1000.0;	// divide by 1000 to get to meters (?)
 		double depthOffset = 70; // 130;
 		double heightOffset = -30;
@@ -126,7 +125,7 @@ chai3d::cTransform magTrackerThread::CheckTrackerPose()
 		//double x, y, z;
 
 		// test the reading of the magnetic tracker
-		errorCode = GetAsynchronousRecord(tracker, &record, sizeof(record));
+		errorCode = GetAsynchronousRecord(trackerNum, &record, sizeof(record));
 		if (errorCode != BIRD_ERROR_SUCCESS) { errorHandler(errorCode); }
 		// get the status of the last data record
 		// only report the data if everything is okay
@@ -162,7 +161,7 @@ chai3d::cTransform magTrackerThread::CheckTrackerPose()
 
 		return returnTransform;
 
-	}
+	//}
 
 #endif
 	

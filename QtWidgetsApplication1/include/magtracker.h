@@ -7,7 +7,7 @@
 
 
 #define MAGTRACKER
-#define NUM_TRACKERS 1
+#define NUM_TRACKERS 2
 
 using namespace std;
 using namespace chai3d;
