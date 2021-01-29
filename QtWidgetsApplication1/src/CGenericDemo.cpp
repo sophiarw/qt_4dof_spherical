@@ -152,8 +152,8 @@ cGenericDemo::cGenericDemo(const string a_resourceRoot,
     cCreatePlane(m_ground, 0.2, 0.3);
     m_ground->m_material->setGrayLevel(0.5);
     m_ground->m_material->setStiffness(maxStiffness);
-    m_ground->m_material->setDynamicFriction(1.0);//original value 2.0
-    m_ground->m_material->setStaticFriction(4.0);//original value 2.0
+    m_ground->m_material->setDynamicFriction(1.0);//original value 2.0, tried 1.0
+    m_ground->m_material->setStaticFriction(4.0);//original value 2.0, tried 4.0
     m_ground->createAABBCollisionDetector(m_toolRadius);
     m_ground->setShowEnabled(false);
 
@@ -335,7 +335,9 @@ cGenericDemo::cGenericDemo(const string a_resourceRoot,
         m_tool1->setRadius(m_toolRadius);
         m_tool1->enableDynamicObjects(true);
         m_tool1->setWaitForSmallForce(true);
-        m_tool1->start();
+		m_tool1->setShowFrame(false, true);
+		m_tool1->setFrameSize(0.05, true);
+        
         m_tools[1] = m_tool1;
 
 		cHapticPoint* point1 = m_tool1->getHapticPoint(0);
@@ -349,6 +351,8 @@ cGenericDemo::cGenericDemo(const string a_resourceRoot,
 		m_tool1->getHapticPoint(0)->m_sphereProxy->setTransparencyLevel(0.0);
 		m_tool1->getHapticPoint(0)->m_sphereProxy->setShowFrame(false, true);
 		m_tool1->getHapticPoint(0)->m_sphereProxy->setFrameSize(0.05);
+
+		m_tool1->start();
 
     }
 
@@ -563,40 +567,8 @@ void cGenericDemo::updateHaptics()
                 if (ODEobject != NULL)
                 {
 
-					//ODEobject->addExternalForceAtPoint(-0.3* interactionPoint->getLastComputedForce(),
-						//collisionEvent->m_globalPos);
-					
-					if (i == 0) {
-						//******************** FORCE CALCULATION ***************************//
-						////read position of contact
-						cVector3d pos_contact = collisionEvent->m_globalPos;//ODEobject->getLocalPos();
-
-						////read position of device
-						cVector3d pos_device = m_tools[i]->getHapticPoint(0)->getGlobalPosProxy();
-
-						//// calcualte the position and angular error between the object and the haptic device
-						cVector3d deltaPos = (pos_device - pos_contact);
-
-						//calculate force using linear model
-						cVector3d force_object;
-						force_object = linStiffness * deltaPos;
-
-						//apply force to ODE model
-						ODEobject->addExternalForceAtPoint(force_object, collisionEvent->m_globalPos);
-
-
-
-
-						//******************** TORQUE CALCULATION ****************************//
-
-
-						if ((k == 0)) { //only run tosion algorithm for first collision point
-							//************************* GET THE OBJECT POSITION FOR TORQUE CALCULATION *******************************
-							object_pos = object->getGlobalPos();
-							r = object_pos - pos_device;
-
-						}
-					}
+					ODEobject->addExternalForceAtPoint(-0.3* interactionPoint->getLastComputedForce(),
+						collisionEvent->m_globalPos);
                 }
             }
 

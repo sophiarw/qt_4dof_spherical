@@ -76,6 +76,9 @@ public:
 	ofstream file;
 	string filename;
 
+	ofstream file_des;
+	string filename_des;
+
 
 
 

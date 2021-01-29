@@ -29,9 +29,21 @@ c4DOFGripper::c4DOFGripper(int location) {
 	if (device.m_c4DOFDeviceReady) { device.m_location = location; }
 
 
-	filename = "motor_inputs_outputs.csv";
+	if (location == 0) {
+		filename = "motor_inputs_outputs_finger.csv";
+		filename_des = "desired_forces_finger.csv";
+	}
+	else {
+		filename = "motor_inputs_outputs_thumb.csv";
+		filename_des = "desired_forces_thumb.csv";
+	}
+	
 	file.open(filename);
 	file << "m_theErr[0], m_theErr[1], m_theErr[2], m_theErr[3], m_thdotErr[0], m_thdotErr[1], m_thdotErr[2], m_thdotErr[3], m_T[0], m_T[1], m_T[2], m_T[3],  angle[0], angle[1], angle[2], angle[3], m_thDes[0], m_thDes[1], m_thDes[2], m_thDes[3]" << endl;
+
+	
+	file_des.open(filename_des);
+	file_des << "x_force, y_force, z_force, theta_force" << endl;
 }
 
 c4DOFGripper::~c4DOFGripper() {
@@ -79,6 +91,8 @@ void c4DOFGripper::setForcesAndTorques(cVector3d a_force, cVector3d a_torque) {
 	if (0) {
 		cout << "forces from model:" << a_force.x() << ", " << a_force.y() << ", " << a_force.z() << ", " << a_torque.z() << endl;
 	}
+
+
 	m_force = a_force;		// will only use x and z components (tangent to fingerpad)
 	m_torque = a_torque; //only need the torsion around the z axis
 
@@ -86,6 +100,8 @@ void c4DOFGripper::setForcesAndTorques(cVector3d a_force, cVector3d a_torque) {
 
 	//convert forces to positions
 	device.setForce(force);
+
+	file_des << force.x() << ", " << force.y() << ", " << force.z() << ", " << force.w() << endl;
 	
 	// calculate motor angle commands 
 	m_thDes[0] = device.m_thDes[0];
