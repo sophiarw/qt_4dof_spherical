@@ -187,6 +187,8 @@ public:
 	
 	//a vector from the point which the torque is 
 	//being measured to the point where torque is being applied
+	cVector3d r0;
+	cVector3d r1;
 	cVector3d r;
 
 	cVector3d object_pos;
