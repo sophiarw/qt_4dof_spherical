@@ -70,6 +70,11 @@ cGenericDemo::cGenericDemo(const string a_resourceRoot,
 {
 	setStiffness(maxStiffness);
 
+	//initialize r vectors for torque calculations
+	r = { 0.0, 0.0, 0.0 };
+	r0 = { 0.0, 0.0, 0.0 };
+	r1 = { 0.0, 0.0, 0.0 };
+
 
 	// clamp the force output gain to the max device stiffness
 	linGain = cMin(linGain, maxStiffness / linStiffness);
