@@ -122,4 +122,6 @@ public:
 	int  Start();
 	void Stop();
 	void SyncUI();
+	void updatePlot(QVector<double>& x, QVector<double>& y);
+
 };

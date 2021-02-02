@@ -77,6 +77,9 @@
     <ClCompile Include="..\..\external\chai3d-3.2.0\src\devices\CHapticDeviceHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\qcustomplot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -121,5 +124,10 @@
     <ClInclude Include="..\..\external\chai3d-3.2.0\src\devices\CGenericHapticDevice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="include\qcustomplot.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
 </Project>

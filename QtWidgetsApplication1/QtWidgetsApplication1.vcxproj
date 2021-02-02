@@ -66,12 +66,12 @@
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'" Label="QtSettings">
     <QtInstall>msvc2015</QtInstall>
-    <QtModules>core;gui;widgets</QtModules>
+    <QtModules>core;gui;widgets;printsupport</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'" Label="QtSettings">
     <QtInstall>msvc2015</QtInstall>
-    <QtModules>core;gui;widgets</QtModules>
+    <QtModules>core;gui;widgets;printsupport</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.props')">
@@ -113,6 +113,7 @@
     <ClCompile Include="src\CGenericDemo.cpp" />
     <ClCompile Include="src\magtracker.cpp" />
     <ClCompile Include="src\motorcontrol.cpp" />
+    <ClCompile Include="src\qcustomplot.cpp" />
     <ClCompile Include="src\TrakSTAR.cpp" />
     <ClCompile Include="src\vec3LPF.cpp" />
     <QtRcc Include="qt_4dof.qrc" />
@@ -135,6 +136,7 @@
     <ClInclude Include="include\CGenericDemo.h" />
     <ClInclude Include="include\magtracker.h" />
     <ClInclude Include="include\motorcontrol.h" />
+    <QtMoc Include="include\qcustomplot.h" />
     <ClInclude Include="include\TrakSTAR.h" />
     <ClInclude Include="include\vec3LPF.h" />
   </ItemGroup>

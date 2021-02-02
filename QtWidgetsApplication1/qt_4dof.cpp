@@ -72,6 +72,20 @@ qt_4dof::qt_4dof(QWidget *parent)
 	ShowSettings(true);
 
 	Start();
+	//add plot
+
+	// generate some data:
+	
+	// create graph and assign data to it:
+	ui.customPlot->addGraph();
+	
+	// give the axes some labels:
+	ui.customPlot->xAxis->setLabel("x");
+	ui.customPlot->yAxis->setLabel("y");
+	// set axes ranges, so we see all data:
+	ui.customPlot->xAxis->setRange(-1, 1);
+	ui.customPlot->yAxis->setRange(-3, 3);
+	
 }
 
 
@@ -111,6 +125,15 @@ void  qt_4dof::SyncUI()
 {
 	ui.sliderZoom->setValue((int)(10.0*Application->m_demo->m_camera->getSphericalRadius()));
 }
+
+//------------------------------------------------------------------------------
+
+void  qt_4dof::updatePlot(QVector<double>& x, QVector<double>& y)
+{
+	ui.customPlot->graph(0)->setData(x, y);
+	
+}
+
 
 //------------------------------------------------------------------------------
 
@@ -314,6 +337,9 @@ void qt_4dof::on_thetaPlusButton_pressed() {
 
 void  qt_4dof::UpdateStatus()
 {
+	//replot data
+	ui.customPlot->replot();
+
 	if (Application)
 	{
 		GraphicRate.setText(QString("graphic: %1 Hz").arg((int)(Application->getGraphicRate()), 3));

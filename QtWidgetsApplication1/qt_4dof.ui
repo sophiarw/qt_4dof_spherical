@@ -113,6 +113,16 @@
         </widget>
        </item>
        <item>
+        <widget class="QCustomPlot" name="customPlot" native="true">
+         <property name="minimumSize">
+          <size>
+           <width>282</width>
+           <height>200</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -385,6 +395,14 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QCustomPlot</class>
+   <extends>QWidget</extends>
+   <header>qcustomplot.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="Application.qrc"/>
  </resources>
