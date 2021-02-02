@@ -88,6 +88,12 @@ namespace chai3d {
 		//! This method is for Sophia's 4dof device and allows the user to read the Neutral Position of the device
 		virtual bool getNeutralPos(double &x, double &y, double &z, double &theta);
 
+		//! This is a method to grab the positions so that the user may access them for the GUI
+		virtual bool getDevicePos(double &x, double &y, double &z, double &theta);
+
+		//! This is a method to grab the actual and desired motor angle for the GUI
+		virtual bool theta_tracking(double& theta_des, double& theta_actual);
+
 		//! This method is for Sophia's 4dof device and allows the user to set the X Neutral Position
 		virtual bool setNeutralPosX(const double &x);
 

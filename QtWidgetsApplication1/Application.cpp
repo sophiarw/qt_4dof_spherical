@@ -13,7 +13,7 @@
 
 
 
-ApplicationWidget::ApplicationWidget (QWidget *parent)
+ApplicationWidget::ApplicationWidget (QWidget *parent):x(1000), y(1000)
 {
     //--------------------------------------------------------------------------
     // INITIALIZATION
@@ -156,13 +156,20 @@ void ApplicationWidget::paintGL ()
 
 		m_graphicRate.signal(1);
 
-		QVector<double> x(101), y(101); // initialize with entries 0..100
-		for (int i = 0; i<101; ++i)
-		{
-			x[i] = i / 50.0 - 1; // x goes from -1 to 1
-			y[i] = x[i] * x[i]; // let's plot a quadratic function
-		}
-		m_parent->updatePlot(x, y);
+		////working code for getting theta_values and plotting them
+		//double x_val, y_val, z_val, theta_val;
+		//getPos(x_val, y_val, z_val, theta_val);
+		/*y.push_back(theta_val);*/
+		/*test = test + 1;
+		m_parent->updatePlot(x, y);*/
+
+		double theta_des, theta_actual;
+		theta_tracking(theta_des, theta_actual);
+		y0.push_back(theta_des);
+		y1.push_back(theta_actual);
+		x.push_back(test);
+		test = test + 1;
+		m_parent->updatePlot2Entries(x, y0, y1);
 	}
 
    
@@ -291,18 +298,41 @@ void ApplicationWidget::getNeutralPos(double &x, double &y, double &z, double &t
 
 }
 
+//------------------------------------------------------------------------------
+
 void ApplicationWidget::setNeutralPosX(const double &x) {
 	m_hapticDevice0->setNeutralPosX(x);
 }
+
+//------------------------------------------------------------------------------
 
 void ApplicationWidget::setNeutralPosY(const double &y) {
 	m_hapticDevice0->setNeutralPosY(y);
 }
 
+//------------------------------------------------------------------------------
+
 void ApplicationWidget::setNeutralPosZ(const double &z) {
 	m_hapticDevice0->setNeutralPosZ(z);
 }
 
+//------------------------------------------------------------------------------
+
 void ApplicationWidget::setNeutralPosTheta(const double &theta) {
 	m_hapticDevice0->setNeutralPosTheta(theta);
+}
+
+//------------------------------------------------------------------------------
+
+void ApplicationWidget::getPos(double &x, double &y, double &z, double &theta) {
+
+	m_hapticDevice0->getDevicePos(x, y, z, theta);
+
+}
+
+
+void ApplicationWidget::theta_tracking(double &theta_des, double &theta_actual) {
+
+	m_hapticDevice0->theta_tracking(theta_des, theta_actual);
+
 }

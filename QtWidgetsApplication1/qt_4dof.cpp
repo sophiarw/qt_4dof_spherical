@@ -78,13 +78,22 @@ qt_4dof::qt_4dof(QWidget *parent)
 	
 	// create graph and assign data to it:
 	ui.customPlot->addGraph();
+	ui.customPlot->graph(0)->setPen(QPen(Qt::blue)); // line color red for second graph
+	ui.customPlot->graph(0)->setBrush(QBrush(QColor(0, 0, 255, 20)));
+	ui.customPlot->addGraph();
+	ui.customPlot->graph(1)->setPen(QPen(Qt::red)); // line color red for second graph
+	ui.customPlot->graph(0)->setBrush(QBrush(QColor(0, 255, 0, 20)));
 	
-	// give the axes some labels:
+	// set axes ranges, so we see all data:
+	//ui.customPlot->xAxis->setRange(-1, 1);
+	//ui.customPlot->yAxis->setRange(-3, 3);
+
+	//set colors for graph
+	
+
+													// give the axes some labels:
 	ui.customPlot->xAxis->setLabel("x");
 	ui.customPlot->yAxis->setLabel("y");
-	// set axes ranges, so we see all data:
-	ui.customPlot->xAxis->setRange(-1, 1);
-	ui.customPlot->yAxis->setRange(-3, 3);
 	
 }
 
@@ -131,9 +140,38 @@ void  qt_4dof::SyncUI()
 void  qt_4dof::updatePlot(QVector<double>& x, QVector<double>& y)
 {
 	ui.customPlot->graph(0)->setData(x, y);
+
+	
+	double x_min = *std::min_element(x.constBegin(), x.constEnd());
+	double x_max = *std::max_element(x.constBegin(), x.constEnd());
+	double y_min = *std::min_element(y.constBegin(), y.constEnd());
+	double y_max = *std::max_element(y.constBegin(), y.constEnd());
+
+	ui.customPlot->xAxis->setRange(x_min, x_max);
+	ui.customPlot->yAxis->setRange(y_min, y_max);
 	
 }
 
+
+//------------------------------------------------------------------------------
+
+void  qt_4dof::updatePlot2Entries(QVector<double>& x, QVector<double>& y0, QVector<double>& y1)
+{
+	ui.customPlot->graph(0)->setData(x, y0);
+	ui.customPlot->graph(1)->setData(x, y1);
+
+
+	double x_min = *std::min_element(x.constBegin(), x.constEnd());
+	double x_max = *std::max_element(x.constBegin(), x.constEnd());
+	double y_min = *std::min_element(y0.constBegin(), y0.constEnd());
+	double y_max = *std::max_element(y0.constBegin(), y0.constEnd());
+
+	ui.customPlot->xAxis->setRange(x_min, x_max);
+	ui.customPlot->yAxis->setRange(y_min, y_max);
+
+	//ui.customPlot->graph(0)->rescaleAxes();
+
+}
 
 //------------------------------------------------------------------------------
 

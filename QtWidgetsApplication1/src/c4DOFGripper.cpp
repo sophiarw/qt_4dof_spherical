@@ -232,6 +232,13 @@ void c4DOFGripper::getc4DOFGripperPos(Eigen::Ref<Eigen::Vector4d> a_Pos) {
 
 }
 
+void c4DOFGripper::theta_tracking_device(double& theta_des, double& theta_actual) {
+	theta_actual = m_thDes[3];
+	theta_des = m_th[3];
+
+
+}
+
 void c4DOFGripper::getNeutralPos(Eigen::Ref<Eigen::Vector4d> a_neutralPos) {
 	Eigen::Vector4d neutralPos;
 	neutralPos = device.neutralPos;
@@ -240,6 +247,7 @@ void c4DOFGripper::getNeutralPos(Eigen::Ref<Eigen::Vector4d> a_neutralPos) {
 	a_neutralPos.z() = neutralPos.z();
 	a_neutralPos.w() = neutralPos.w();
 }
+
 
 void c4DOFGripper::setNeutralPos(const double x, const double y, const double z, double const theta) {
 	device.setNeutralPos(x, y, z, theta);

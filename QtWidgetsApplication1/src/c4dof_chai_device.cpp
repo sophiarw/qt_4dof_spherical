@@ -447,6 +447,25 @@ bool c4dofChaiDevice::getNeutralPos(double &x, double &y, double &z, double &the
 	
 }
 
+bool c4dofChaiDevice::getDevicePos(double &x, double &y, double &z, double &theta) {
+	Eigen::Vector4d devicePos(0, 0, 0, 0);
+	D.getc4DOFGripperPos(devicePos);
+
+	x = devicePos.x();
+	y = devicePos.y();
+	z = devicePos.z();
+	theta = devicePos.w();
+	return C_SUCCESS;
+}
+
+bool c4dofChaiDevice::theta_tracking(double& theta_des, double& theta_actual) {
+
+	D.theta_tracking_device(theta_des, theta_actual);
+
+	return C_SUCCESS;
+}
+
+
 bool c4dofChaiDevice::setNeutralPosX(const double &x) {
 	double x_val = x;
 	newNeutralPos = true;

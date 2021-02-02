@@ -153,10 +153,16 @@ public:
 	// BUTTONS AND WIDGETS
 	//---------------------------------------------------------------------------
 	void getNeutralPos(double &x, double &y, double &z, double &theta);
+	void getPos(double &x, double &y, double &z, double &theta);
+	void theta_tracking(double &theta_des, double &theta_actual);
+
 	void setNeutralPosX(const double &x);
 	void setNeutralPosY(const double &y);
 	void setNeutralPosZ(const double &z);
 	void setNeutralPosTheta(const double &theta);
+
+	QVector<double> x, y, y0, y1; // initialize with entries 0..100
+	double test = 0;
 
 
 

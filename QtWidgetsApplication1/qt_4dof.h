@@ -123,5 +123,6 @@ public:
 	void Stop();
 	void SyncUI();
 	void updatePlot(QVector<double>& x, QVector<double>& y);
+	void updatePlot2Entries(QVector<double>& x, QVector<double>& y0, QVector<double>& y1);
 
 };
