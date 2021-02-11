@@ -64,7 +64,15 @@ bool c4DOFGripper::connect()
 	if (m_c4DOFGripperReady)      return(C_ERROR);
 
 	// connect to S826
-	bool success = connectToS826(device.m_location);
+	if (device.m_location == 1) {
+		board_number = 1;
+	}
+	else {
+		board_number = 15;
+	}
+
+
+	bool success = connectToS826(board_number);
 	if (!success) return(C_ERROR);
 
 	// initialize encoders

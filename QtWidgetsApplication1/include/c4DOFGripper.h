@@ -56,9 +56,9 @@ public:
 	vector<double> angle;					// angle calculated from encoder counts
 
 											// TO DO: TUNE GAINS
-	const vector<double> m_Kp = { 0.2, 0.2, 0.2, 0.2 }; // {1.0, 1.0, 1.0, 1.0 };		// [N/rad]			
+	const vector<double> m_Kp = { 0.4, 0.4, 0.4, 0.4 }; // {1.0, 1.0, 1.0, 1.0 };		// [N/rad]			
 	const vector<double> m_Kd = { 0.004, 0.004, 0.004, 0.004}; //0.02
-	const vector<double> m_Ki = { 0.000, 0.000, 0.000, 0.000 }; 
+	const vector<double> m_Ki = { 0.0001, 0.0001, 0.0001, 0.0001 }; 
 
 	c4DOFGripper(int location);
 	~c4DOFGripper();
@@ -79,6 +79,8 @@ public:
 
 	ofstream file_des;
 	string filename_des;
+
+	int board_number;
 
 
 

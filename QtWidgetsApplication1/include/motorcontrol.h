@@ -17,7 +17,7 @@
 
 	
 const double gearRatio[4] = { 57, 57, 57, 57 }; // encoder resolution	
-const double encoderLinesPerRev[4] = { 128,  128,  128,  128 }; // 128 * 4 = 512
+const double encoderLinesPerRev[4] = { 128*4,  128*4,  128*4,  128*4 }; // 128 * 4 = 512, because quad motor
 const double amplifierResistance[6] = { 10.0, 10.0, 10.0, 10.0, 10.0, 10.0 }; // the resistance of the current amplifier
 const double k_torq[4] = { 1.56 * 57 /1000, 1.56 * 57 / 1000,  1.56 * 57 / 1000, 1.56 * 57 / 1000 };// [N-m/A]// 0.524 mNm / 0.336A /1000 = 0.00156 Nm. Need to multiply by 57 //include gear ratio in k_torque
 

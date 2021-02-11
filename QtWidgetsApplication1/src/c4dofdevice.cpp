@@ -3,9 +3,8 @@
 using namespace std;
 using namespace chai3d;
 
-//:m_th(0.0, 0.0, 0.0, 0.0), m_thDes(0.0, 0.0, 0.0, 0.0), m_posDes(0.0, 0.0, 0.0, 0.0), joints_thDes(0.0, 0.0, 0.0, 0.0), centerPoint(0.0, 0.0, 0.0, 0.0), neutralPos(0.0, 0.0, 0.0, 0.0)
-c4DOFDevice::c4DOFDevice():m_th(4), m_thDes(4), m_posDes(4), joints_thDes(4), centerPoint(4), neutralPos(4) {
-		// device available for connection
+
+c4DOFDevice::c4DOFDevice():m_th(4), m_thDes(4), m_posDes(4), m_th_init(4), centerPoint(4), neutralPos(4) {
 
 	cout << "created device" << endl;
 	m_c4DOFDeviceAvailable = true;
@@ -15,12 +14,12 @@ c4DOFDevice::c4DOFDevice():m_th(4), m_thDes(4), m_posDes(4), joints_thDes(4), ce
 	// initialize kinematic variables
 	m_t = 0;
 
-	m_th << 0, 0, 0, 0; //need to figure out what this should be
-	m_thDes << 0, 0, 0, 0;
-	m_posDes << 0, 0, 0, 0;
-	joints_thDes << 0, 0, 0, 0;
+	m_th << 0.3354, 0.3354, 0.3354, 0.3354;
+	m_thDes << 0.3354, 0.3354, 0.3354, 0.3354;
+	m_th_init << 0.3354, 0.3354, 0.3354, 0.3354; //initial value for m_th
+	m_posDes << 0, 0, -16, 0;
 	centerPoint << 0, 0, 0, 0;  //[mm]				// pantograph x positive to left when looking at motor axle, z positive down
-	neutralPos << 0.0, 0.0, -15.0, 0.0; // There is a 20mm offset on the z position
+	neutralPos << 0.0, 0.0, -16.0, 0.0; // There is a 20mm offset on the z position
 
 	//assign the differences between the thumb and finger using
 
@@ -170,8 +169,7 @@ void c4DOFDevice::inverseKinematics(){
 	}
 
 	if (no_nan) { //if there were no nans, then set the output variables
-		joints_thDes << desiredAngles;
-		m_thDes << motorAngles;
+		m_thDes << (motorAngles - m_th_init);
 	}
 
 	//DEBUG
@@ -240,98 +238,6 @@ void c4DOFDevice::setPos(const Eigen::Ref<Eigen::Vector4d> pos) {
 }
 
 
-void c4DOFDevice::plot_vectors() {
-	double x1 = xa;
-	double y1 = ya;
-	double z1 = za;
-
-	double q1 = joints_thDes[0];
-	double q2 = joints_thDes[1]; 
-	double q3 = joints_thDes[2];
-	double q4 = joints_thDes[3];
-
-	double x = m_posDes[0];
-	double y = m_posDes[1];
-	double z = m_posDes[2];
-	double theta = m_posDes[3];
-
-	Eigen::Vector3d P1(x1, y1, z1); //Position of 1st actuator
-	Eigen::Vector3d PA1(cos(PI / 4)*cos(q1)*Li, sin(PI / 4)*cos(q1)*Li, -sin(q1)*Li);
-	Eigen::Vector3d A1;
-	A1 << P1 + Eigen::Vector3d(cos(PI / 4)*cos(q1)*Li, sin(PI / 4)*cos(q1)*Li, -sin(q1)*Li);
-	Eigen::Vector3d B1;
-	B1 << (x - .5*hi*sin(theta) + d1 + d / 2),  (y + .5*hi*cos(theta) + h1),  z;
-	
-	Eigen::Vector3d AB1= B1 - A1;
-
-	// Arm2
-	double x2 = -xa;
-	double y2 = ya;
-	double z2 = za;
-
-	Eigen::Vector3d P2(x2, y2, z2); //Position of 2nd actuator
-	Eigen::Vector3d	PA2(cos(3 * PI / 4)*cos(q2)*Li, sin(3 * PI / 4)*cos(q2)*Li, -sin(q2)*Li);
-	Eigen::Vector3d A2;
-	A2 << P2 + Eigen::Vector3d((cos(3 * PI / 4)*cos(q2)*Li), (sin(3 *PI / 4)*cos(q2)*Li), -sin(q2)*Li);
-	Eigen::Vector3d B2;
-	B2 << (x - 0.5*hi*sin(theta) - d1 - d / 2),  (y + 0.5*hi*cos(theta) + h1),  z;
-	Eigen::Vector3d AB2 = B2 - A2;
-
-	// Arm3
-	double x3 = -xa;
-	double y3 = -ya;
-	double z3 = za;
-
-	Eigen::Vector3d P3(x3, y3, z3); //Position of 3rd actuator
-	Eigen::Vector3d PA3(cos(5 * PI / 4)*cos(q3)*Li, sin(5 * PI / 4)*cos(q3)*Li, -sin(q3)*Li);
-	Eigen::Vector3d A3;
-	A3 << P3 + Eigen::Vector3d(cos(5 * PI / 4)*cos(q3)*Li, sin(5 * PI / 4)*cos(q3)*Li, -sin(q3)*Li);
-	Eigen::Vector3d B3((x - d1 - d / 2 + .5*hi*sin(theta)),  (y - h1 - .5*hi*cos(theta)), z);
-	Eigen::Vector3d AB3 = B3 - A3;
-
-	// Arm4
-	double x4 = xa;
-	double y4 = -ya;
-	double z4 = za;
-
-	Eigen::Vector3d P4(x4, y4, z4); //Position of 4th actuator
-	Eigen::Vector3d PA4(cos(7 * PI / 4)*cos(q4)*Li, sin(7 * PI / 4)*cos(q4)*Li, -sin(q4)*Li);
-	Eigen::Vector3d A4;
-	A4 << P4 + Eigen::Vector3d(cos(7 * PI / 4)*cos(q4)*Li, sin(7 * PI / 4)*cos(q4)*Li, -sin(q4)*Li);
-	Eigen::Vector3d B4(x + d1 + d / 2 + .5*hi*sin(theta), y - h1 - .5*hi*cos(theta), z);
-	Eigen::Vector3d AB4 = B4 - A4;
-
-	link1_1 = { 0, 0, za };
-	link1_2 = { P1[1], P1[2], P1[3] };
-	link1_3 = { A1[1], A1[2], A1[3] };
-	link1_4 = { B1[1], B1[2], B1[3] };
-	link1_5 = { B1[1]-d1, B1[2], B1[3] };
-	link1_6 = { B1[1]-d1, B1[2] - h1, B1[3] };
-	
-	link2_1 = { 0, 0, za };
-	link2_2 = { P2[1], P2[2], P2[3] };
-	link2_3 = { A2[1], A2[2], A2[3] };
-	link2_4 = { B2[1], B2[2], B2[3] };
-	link2_5 = { B2[1] + d1, B2[2], B2[3] };
-	link2_6 = { B2[1] + d1, B2[2] - h1, B2[3] };
-
-	link3_1 = { 0, 0, za };
-	link3_2 = { P3[1], P3[2], P3[3] };
-	link3_3 = { A3[1], A3[2], A3[3] };
-	link3_4 = { B3[1], B3[2], B3[3] };
-	link3_5 = { B3[1] + d1, B3[2], B3[3] };
-	link3_6 = { B3[1] + d1, B3[2] + h1, B3[3] };
-
-	link4_1 = { 0, 0, za };
-	link4_2 = { P4[1], P4[2], P4[3] };
-	link4_3 = { A4[1], A4[2], A4[3] };
-	link4_4 = { B4[1], B4[2], B4[3] };
-	link4_5 = { B4[1] - d1, B4[2], B4[3] };
-	link4_6 = { B4[1] - d1, B4[2] + h1, B4[3] };
-
-
-}
-
 void c4DOFDevice::setForce(const Eigen::Ref<Eigen::Vector4d> a_force) {
 
 	Eigen::Vector4d pos(a_force.x() / k_skin_shear, a_force.y() / k_skin_shear, -a_force.z() / k_skin_normal, a_force[3] / k_skin_rotational);
@@ -374,6 +280,9 @@ void c4DOFDevice::setNeutralPos(const double x, const double y, const double z, 
 	neutralPos[1] = y;
 	neutralPos[2] = z;
 	neutralPos[3] = theta;
+
+	Eigen::Vector4d newPos(0, 0, 0, 0);
+	setPos(newPos);
 	//qDebug() << "The new neutral position is" << neutralPos[0] << ", " << neutralPos[1] << ", " << neutralPos[2] << ", " << neutralPos[3] << endl;
 }
 

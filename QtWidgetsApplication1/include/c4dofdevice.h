@@ -7,7 +7,7 @@
 #include <Eigen/Dense>
 
 #define V_FILT         0.5      // weight for velocity filtering
-#define INT_CLMP       0.1      // maximum allowed integrated error
+#define INT_CLMP       0.15      // maximum allowed integrated error
 #define PI  3.14159
 #define MAX_STRETCH 4.0			// maximum radius of stretch from centerpoint
 
@@ -39,21 +39,21 @@ enum fingers {
 
 //DEVICE Parameters (mm)
 #define d 17.5
-#define hi 15
+#define hi 17.5
 #define d1 4.97
 #define h1 8.4
 #define Li 17.5
 #define li 15
-#define xa 15
-#define ya 15
+#define xa 14.85
+#define ya 14.85
 #define za 0
 
 //Fourbar 
-#define af 12.05					//input
-#define bf 8					//floating
-#define cf 7					//output
+#define af 11.95					//input
+#define bf 7.35					//floating
+#define cf 7.475					//output
 #define df 10					//ground
-#define angle_offset1 4.76			//degrees offset because motor doesn't sit on same plan as joint
+#define angle_offset1 4.76			//degrees offset because motor doesn't sit on same plane as joint
 
 
 
@@ -76,9 +76,9 @@ public:
 	Eigen::VectorXd m_th;				// current joint angles [rad]
 	Eigen::VectorXd m_thDes;			// desired motor joint angles [rad]
 	Eigen::VectorXd m_posDes;			// desired end-effector position [mm]
+	Eigen::VectorXd m_th_init;			//initial position of motor
 	Eigen::VectorXd neutralPos;
 	Eigen::VectorXd centerPoint;
-	Eigen::VectorXd joints_thDes;
 	//Changes Sep 20
 	// Constructors of c4DOFDevice
 	c4DOFDevice();
@@ -132,16 +132,14 @@ protected:
 	//converts joint angle to motor angle via fourbar transmission to motor
 	double fourbar(double angle_i);
 
-	void plot_vectors();
-
 	chai3d::cPrecisionClock c4DOFDeviceTimer;
 
 
 	//constants for ranges
-	double xRange = 7.0; // simulated max is 7.8  [mm]
-	double yRange = 9.0; // simulated max is 10  [mm]
-	double zRange_min = -25.0;
-	double zRange_max = -15.0;
+	double xRange = 8.5; 
+	double yRange = 12; 
+	double zRange_min = -29.0;
+	double zRange_max = -16.0;
 	double thetaRange = PI / 6;
 
 
