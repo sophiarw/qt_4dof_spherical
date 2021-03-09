@@ -89,15 +89,15 @@ public:
 
     //! ODE objects
     cODEGenericBody* m_ODEBody0;
-    cODEGenericBody* m_ODEBody1;
-    cODEGenericBody* m_ODEBody2;
+    //cODEGenericBody* m_ODEBody1;
+    //cODEGenericBody* m_ODEBody2;
 
-    cODEGenericBody* m_ODEBase0;
+  /*  cODEGenericBody* m_ODEBase0;
     cODEGenericBody* m_ODEBase1;
     cODEGenericBody* m_ODEBase2;
     cODEGenericBody* m_ODEBase3;
     cODEGenericBody* m_ODEBase4;
-    cODEGenericBody* m_ODEBase5;
+    cODEGenericBody* m_ODEBase5;*/
 };
 
 //---------------------------------------------------------------------------

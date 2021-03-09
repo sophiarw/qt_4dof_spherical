@@ -14,12 +14,26 @@ c4DOFDevice::c4DOFDevice():m_th(4), m_thDes(4), m_posDes(4), m_th_init(4), cente
 	// initialize kinematic variables
 	m_t = 0;
 
-	m_th << 0.3354, 0.3354, 0.3354, 0.3354;
-	m_thDes << 0.3354, 0.3354, 0.3354, 0.3354;
-	m_th_init << 0.3354, 0.3354, 0.3354, 0.3354; //initial value for m_th
-	m_posDes << 0, 0, -16, 0;
+	/*m_th << 0.5648, 0.5648, 0.5648, 0.5648;
+	m_thDes << 0.5648, 0.5648, 0.5648, 0.5648;
+	m_th_init << 0.5648, 0.5648, 0.5648, 0.5648*/
+	m_th << 0, 0, 0, 0;
+	m_thDes << 0, 0, 0, 0;
+	m_th_init << 0, 0, 0, 0;
+	m_posDes << 0, 0, -31, 0;
+
+	inverseKinematics(); //sets m_thDes with m_th_init equal to zeros
+
+						 //set m_th and m_th_init to that initial location
+	m_th << m_thDes.x(), m_thDes.y(), m_thDes.z(), m_thDes.w();
+	m_th_init << m_thDes.x(), m_thDes.y(), m_thDes.z(), m_thDes.w();
+
+	//recalculate m_thDes give the updated m_th_init
+	inverseKinematics();
+
+
 	centerPoint << 0, 0, 0, 0;  //[mm]				// pantograph x positive to left when looking at motor axle, z positive down
-	neutralPos << 0.0, 0.0, -16.0, 0.0; // There is a 20mm offset on the z position
+	neutralPos << m_posDes.x(), m_posDes.y(), m_posDes.z(), m_posDes.w(); // There is a 20mm offset on the z position
 
 	//assign the differences between the thumb and finger using
 
@@ -240,7 +254,7 @@ void c4DOFDevice::setPos(const Eigen::Ref<Eigen::Vector4d> pos) {
 
 void c4DOFDevice::setForce(const Eigen::Ref<Eigen::Vector4d> a_force) {
 
-	Eigen::Vector4d pos(a_force.x() / k_skin_shear, a_force.y() / k_skin_shear, -a_force.z() / k_skin_normal, a_force[3] / k_skin_rotational);
+	Eigen::Vector4d pos(a_force.x() / k_skin_shear, a_force.y() / k_skin_shear, a_force.z() / k_skin_normal, a_force[3] / k_skin_rotational);
 
 	//take into account the neutralPos
 	Eigen::Vector4d desiredPos = pos + neutralPos;

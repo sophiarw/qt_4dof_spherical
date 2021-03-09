@@ -60,7 +60,7 @@ qt_4dof::qt_4dof(QWidget *parent)
 	int zmax =  ui.ySlider->maximum();
 	ui.xSlider->setValue((int) (1 / 2.0 * ui.xSlider->maximum()));
 	ui.ySlider->setValue((int) 1 / 2.0 * ui.ySlider->maximum());
-	ui.zSlider->setValue((int) (ui.zSlider->maximum()*(neutral_z - zRange_min)/zRange + ui.zSlider->maximum()));
+	ui.zSlider->setValue((int) (-1.0 * ui.zSlider->maximum()*(neutral_z - zRange_min)/zRange));
 	ui.thetaSlider->setValue((int) 1 / 2.0 * ui.thetaSlider->maximum());
 	ui.xPos->setText(QString("%1").arg(neutral_x, 3));
 	ui.yPos->setText(QString("%1").arg(neutral_y, 3));

@@ -72,12 +72,12 @@ private:
 private:
 	int AbortRequest;
 	double neutral_x, neutral_y, neutral_z, neutral_theta;
-	double xRange = 7.0; // simulated max is 7.8  [mm]
-	double yRange = 9.0; // simulated max is 10  [mm]
-	double zRange_min = -25.0;
-	double zRange_max = -15.0;
+	double xRange = 4;
+	double yRange = 5;
+	double zRange_min = -31.0;
+	double zRange_max = -18.0;
+	double thetaRange = PI / 12;
 	double zRange = zRange_max - zRange_min;
-	double thetaRange = PI / 6;
 
 
 	//--------------------------------------------------------------------------

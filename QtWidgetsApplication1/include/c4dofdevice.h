@@ -38,10 +38,10 @@ enum fingers {
 //
 
 //DEVICE Parameters (mm)
-#define d 17.5
+#define d 7.5
 #define hi 17.5
-#define d1 4.97
-#define h1 8.4
+#define d1 12.15
+#define h1 4.97
 #define Li 17.5
 #define li 15
 #define xa 14.85
@@ -49,12 +49,11 @@ enum fingers {
 #define za 0
 
 //Fourbar 
-#define af 11.95					//input
-#define bf 7.35					//floating
-#define cf 7.475					//output
-#define df 10					//ground
-#define angle_offset1 4.76			//degrees offset because motor doesn't sit on same plane as joint
-
+#define af 12.05					//input
+#define bf 8.0					//floating
+#define cf 7.0					//output
+#define df 10.0//ground
+#define angle_offset1 4.76			//degrees offset because motor doesn't sit on same plan as joint
 
 
 class c4DOFDevice {
@@ -136,11 +135,11 @@ protected:
 
 
 	//constants for ranges
-	double xRange = 8.5; 
-	double yRange = 12; 
-	double zRange_min = -29.0;
-	double zRange_max = -16.0;
-	double thetaRange = PI / 6;
+	double xRange = 4; 
+	double yRange = 5; 
+	double zRange_min = -31.0;
+	double zRange_max = -18.0;
+	double thetaRange = PI / 12;
 
 
 

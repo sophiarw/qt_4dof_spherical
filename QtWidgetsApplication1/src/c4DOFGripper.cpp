@@ -66,6 +66,7 @@ bool c4DOFGripper::connect()
 	// connect to S826
 	if (device.m_location == 1) {
 		board_number = 1;
+		return(C_SUCCESS);
 	}
 	else {
 		board_number = 15;
@@ -242,7 +243,7 @@ void c4DOFGripper::getc4DOFGripperPos(Eigen::Ref<Eigen::Vector4d> a_Pos) {
 
 void c4DOFGripper::theta_tracking_device(double& theta_des, double& theta_actual) {
 	theta_actual = m_thDes[3];
-	theta_des = m_th[3];
+	theta_des = m_th[3];/// this is not right, m_th is the array of motor angles, not theta. That's why it looked wrong
 
 
 }
@@ -259,6 +260,8 @@ void c4DOFGripper::getNeutralPos(Eigen::Ref<Eigen::Vector4d> a_neutralPos) {
 
 void c4DOFGripper::setNeutralPos(const double x, const double y, const double z, double const theta) {
 	device.setNeutralPos(x, y, z, theta);
-	file << "Desired Neutral Pos: ," << x << ", " << y << ", " << z << ", " << theta << endl;
-	file << "Actual Neutral Pos: ," << device.neutralPos[0] << ", " << device.neutralPos[1] << ", " << device.neutralPos[2]  << ", " << device.neutralPos[3] << endl;
+
+	//debugging lines2
+	//file << "Desired Neutral Pos: ," << x << ", " << y << ", " << z << ", " << theta << endl;
+	//file << "Actual Neutral Pos: ," << device.neutralPos[0] << ", " << device.neutralPos[1] << ", " << device.neutralPos[2]  << ", " << device.neutralPos[3] << endl;
 }

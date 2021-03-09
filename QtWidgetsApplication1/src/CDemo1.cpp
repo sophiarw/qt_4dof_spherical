@@ -62,7 +62,7 @@ cDemo1::cDemo1(const string a_resourceRoot,
 	matBase.setStiffness(maxStiffness);
 	matBase.setDamping(3.0);
 
-	m_ODEBase0 = new cODEGenericBody(m_ODEWorld);
+	/*m_ODEBase0 = new cODEGenericBody(m_ODEWorld);
 	cMesh* base0 = new cMesh();
 	cCreateBox(base0, 0.005, 0.15, 0.01);
 	m_ODEBase0->createDynamicBox(0.005, 0.15, 0.01, true);
@@ -116,27 +116,27 @@ cDemo1::cDemo1(const string a_resourceRoot,
 	base5->setMaterial(matBase);
 	m_ODEBase5->setImageModel(base5);
 	m_ODEBase5->setLocalPos(0.0, 0.0455, 0.0);
-
+*/
 	// create a new ODE object that is automatically added to the ODE world
 	m_ODEBody0 = new cODEGenericBody(m_ODEWorld);
-	m_ODEBody1 = new cODEGenericBody(m_ODEWorld);
-	m_ODEBody2 = new cODEGenericBody(m_ODEWorld);
+	//m_ODEBody1 = new cODEGenericBody(m_ODEWorld);
+	//m_ODEBody2 = new cODEGenericBody(m_ODEWorld);
 
 	// create a virtual mesh  that will be used for the geometry
 	// representation of the dynamic body
 	cMesh* object0 = new cMesh();
-	cMesh* object1 = new cMesh();
-	cMesh* object2 = new cMesh();
+	//cMesh* object1 = new cMesh();
+	//cMesh* object2 = new cMesh();
 
 	// crate a cube mesh
 	double boxSize = 0.04;
 	cCreateBox(object0, boxSize, boxSize, boxSize);
-	cCreateBox(object1, boxSize, boxSize, boxSize);
-	cCreateBox(object2, boxSize, boxSize, boxSize);
+	//cCreateBox(object1, boxSize, boxSize, boxSize);
+	//cCreateBox(object2, boxSize, boxSize, boxSize);
 
 	object0->createAABBCollisionDetector(m_toolRadius);
-	object1->createAABBCollisionDetector(m_toolRadius);
-	object2->createAABBCollisionDetector(m_toolRadius);
+	//object1->createAABBCollisionDetector(m_toolRadius);
+	//object2->createAABBCollisionDetector(m_toolRadius);
 
 	// define some material properties for each cube
 	cMaterial mat;
@@ -147,24 +147,24 @@ cDemo1::cDemo1(const string a_resourceRoot,
 	mat.setDynamicFriction(4.0);
 	mat.setStaticFriction(2.0);
 	object0->setMaterial(mat);
-	object1->setMaterial(mat);
-	object2->setMaterial(mat);
+	//object1->setMaterial(mat);
+	//object2->setMaterial(mat);
 
 	// add mesh to ODE object
 	m_ODEBody0->setImageModel(object0);
-	m_ODEBody1->setImageModel(object1);
-	m_ODEBody2->setImageModel(object2);
+	//m_ODEBody1->setImageModel(object1);
+	//m_ODEBody2->setImageModel(object2);
 
 	// create a dynamic model of the ODE object. Here we decide to use a box just like
 	// the object mesh we just defined
 	m_ODEBody0->createDynamicBox(boxSize, boxSize, boxSize);
-	m_ODEBody1->createDynamicBox(boxSize, boxSize, boxSize);
-	m_ODEBody2->createDynamicBox(boxSize, boxSize, boxSize);
+	//m_ODEBody1->createDynamicBox(boxSize, boxSize, boxSize);
+	//m_ODEBody2->createDynamicBox(boxSize, boxSize, boxSize);
 
 	// define some mass properties for each cube
 	m_ODEBody0->setMass(0.025);
-	m_ODEBody1->setMass(0.1);
-	m_ODEBody2->setMass(0.2);
+	//m_ODEBody1->setMass(0.1);
+	//m_ODEBody2->setMass(0.2);
 
 	// initialize
 	init();
@@ -188,15 +188,15 @@ void cDemo1::setStiffness(double a_stiffness)
 
 	// set objects
 	m_ODEBody0->m_imageModel->setStiffness(a_stiffness);
-	m_ODEBody1->m_imageModel->setStiffness(a_stiffness);
-	m_ODEBody2->m_imageModel->setStiffness(a_stiffness);
+	//m_ODEBody1->m_imageModel->setStiffness(a_stiffness);
+	//m_ODEBody2->m_imageModel->setStiffness(a_stiffness);
 
-	m_ODEBase0->m_imageModel->setStiffness(a_stiffness);
+	/*m_ODEBase0->m_imageModel->setStiffness(a_stiffness);
 	m_ODEBase1->m_imageModel->setStiffness(a_stiffness);
 	m_ODEBase2->m_imageModel->setStiffness(a_stiffness);
 	m_ODEBase3->m_imageModel->setStiffness(a_stiffness);
 	m_ODEBase4->m_imageModel->setStiffness(a_stiffness);
-	m_ODEBase5->m_imageModel->setStiffness(a_stiffness);
+	m_ODEBase5->m_imageModel->setStiffness(a_stiffness);*/
 };
 
 
@@ -209,7 +209,8 @@ void cDemo1::init()
 {
 	// set position of each cube
 	cVector3d tmpvct;
-	m_ODEBody0->setLocalPos(0.04, -0.05, 0.04);
-	m_ODEBody1->setLocalPos(0.04, 0.00, 0.04);
-	m_ODEBody2->setLocalPos(0.04, 0.05, 0.04);
+	m_ODEBody0->setLocalPos(0.04, 0.00, 0.04);
+	//m_ODEBody0->setLocalPos(0.04, -0.05, 0.04);
+	//m_ODEBody1->setLocalPos(0.04, 0.00, 0.04);
+	//m_ODEBody2->setLocalPos(0.04, 0.05, 0.04);
 }
