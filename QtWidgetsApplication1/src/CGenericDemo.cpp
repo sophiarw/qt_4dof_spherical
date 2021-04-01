@@ -428,11 +428,11 @@ void cGenericDemo::updateGraphics(int a_width, int a_height)
 	r_line->m_pointB = forceThumbLine->m_pointA + r*0.1;*/
 
 
-	if (m_numTools > 1)
-	{
-		forceFingerLine->m_pointA = m_tool1->getHapticPoint(0)->getGlobalPosProxy();
-		forceFingerLine->m_pointB = forceFingerLine->m_pointA + m_force*0.001;
-	}
+	//if (m_numTools > 1)
+	//{
+	//	forceFingerLine->m_pointA = m_tool1->getHapticPoint(0)->getGlobalPosProxy();
+	//	forceFingerLine->m_pointB = forceFingerLine->m_pointA + m_force*0.001;
+	//}
 
 	guideWireUpdateMutex.release();
 
@@ -467,7 +467,7 @@ void cGenericDemo::updateHaptics()
     // compute interaction forces
 	for (int i = 0; i < m_numTools; i++)
 	{
-		m_tools[i]->computeInteractionForces();// This function was setting the forces but also making the torque 0
+		//m_tools[i]->computeInteractionForces();// This function was setting the forces but also making the torque 0
 
 		//my own computeInteractionForces()
 		//check out CGenericTool.cpp for original function
