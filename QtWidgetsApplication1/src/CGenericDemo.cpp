@@ -249,7 +249,7 @@ cGenericDemo::cGenericDemo(const string a_resourceRoot,
 	finger->setUseMaterial(true);
 	//finger->setHapticEnabled(false);
 	finger->setShowFrame(false);
-	//finger->setStiffness(1000);
+	finger->setStiffness(1000);
 
 	// set params for thumb
 	thumb->scale(0.8);
@@ -265,7 +265,7 @@ cGenericDemo::cGenericDemo(const string a_resourceRoot,
 	thumb->setUseMaterial(true);
 	//thumb->setHapticEnabled(false);
 	thumb->setShowFrame(false);
-	//thumb->setStiffness(1000);
+	thumb->setStiffness(1000);
 
 
 	// create lines to illustrate the force on the haptic device
@@ -412,7 +412,9 @@ void cGenericDemo::updateGraphics(int a_width, int a_height)
     // render view
     m_camera->renderView(a_width, a_height); 
 
-	forceThumbLine->m_pointA = m_tool0->getHapticPoint(0)->getGlobalPosProxy();
+
+	//visualize lines for debugging
+	/*forceThumbLine->m_pointA = m_tool0->getHapticPoint(0)->getGlobalPosProxy();
 	forceThumbLine->m_pointB = forceThumbLine->m_pointA + m_force*0.001;
 
 
@@ -423,7 +425,7 @@ void cGenericDemo::updateGraphics(int a_width, int a_height)
 	contact_line->m_pointB = forceThumbLine->m_pointA + finger_prime;
 
 	r_line->m_pointA = object_pos;
-	r_line->m_pointB = forceThumbLine->m_pointA + r*0.1;
+	r_line->m_pointB = forceThumbLine->m_pointA + r*0.1;*/
 
 
 	if (m_numTools > 1)
@@ -465,7 +467,7 @@ void cGenericDemo::updateHaptics()
     // compute interaction forces
 	for (int i = 0; i < m_numTools; i++)
 	{
-		//m_tools[i]->computeInteractionForces();// This function was setting the forces but also making the torque 0
+		m_tools[i]->computeInteractionForces();// This function was setting the forces but also making the torque 0
 
 		//my own computeInteractionForces()
 		//check out CGenericTool.cpp for original function
@@ -574,7 +576,7 @@ void cGenericDemo::updateHaptics()
 
 						object_pos = object->getGlobalPos();
 						if (i == 0) r0 = object_pos - pos_device;
-						else r1 = object_pos - pos_device;;
+						else r1 = object_pos - pos_device;
 
 					}
                 }

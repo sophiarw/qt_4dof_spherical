@@ -142,7 +142,7 @@ cDemo1::cDemo1(const string a_resourceRoot,
 	cMaterial mat;
 	mat.setRedIndian();
 	mat.m_specular.set(0.0, 0.0, 0.0);
-	mat.setStiffness(maxStiffness);
+	mat.setStiffness(200); //was maxStiffness
 	matBase.setDamping(3.0);
 	mat.setDynamicFriction(4.0);
 	mat.setStaticFriction(2.0);
@@ -162,13 +162,13 @@ cDemo1::cDemo1(const string a_resourceRoot,
 	//m_ODEBody2->createDynamicBox(boxSize, boxSize, boxSize);
 
 	// define some mass properties for each cube
-	m_ODEBody0->setMass(0.025);
+	m_ODEBody0->setMass(0.025); //was 0.025
 	//m_ODEBody1->setMass(0.1);
 	//m_ODEBody2->setMass(0.2);
 
 	// initialize
 	init();
-	setStiffness(maxStiffness);
+	//setStiffness(maxStiffness);
 
 
 };

@@ -35,14 +35,29 @@ c4DOFDevice::c4DOFDevice():m_th(4), m_thDes(4), m_posDes(4), m_th_init(4), cente
 	centerPoint << 0, 0, 0, 0;  //[mm]				// pantograph x positive to left when looking at motor axle, z positive down
 	neutralPos << m_posDes.x(), m_posDes.y(), m_posDes.z(), m_posDes.w(); // There is a 20mm offset on the z position
 
+	//filter parameters
+	lpfX.setCutOffFrequency(cutOffFreqFinger);
+	lpfY.setCutOffFrequency(cutOffFreqFinger);
+	lpfZ.setCutOffFrequency(cutOffFreqFinger);
+	lpftheta.setCutOffFrequency(cutOffFreqFinger);
+	filterTimer.start();
+
+	
+
+
 	//assign the differences between the thumb and finger using
 
 	if (m_location == 0) {
-		//case for index finger
+		//finger
+		filename = "desired_pos_filtered_finger.csv";
 	}
 	else {
 		//case for thumb
+		filename = "desired_pos_filtered_thumb.csv";
 	}
+
+	file.open(filename);
+	file << "x_pos, y_pos, z_pos, theta_pos" << endl;
 
 	link1_1 = { 0, 0, 0 };
 	link1_2 = { 0, 0, 0 };
@@ -183,7 +198,7 @@ void c4DOFDevice::inverseKinematics(){
 	}
 
 	if (no_nan) { //if there were no nans, then set the output variables
-		m_thDes << (motorAngles - m_th_init);
+		m_thDes << -(motorAngles + m_th_init);
 	}
 
 	//DEBUG
@@ -224,6 +239,8 @@ void c4DOFDevice::setPos(const Eigen::Ref<Eigen::Vector4d> pos) {
 	//take into account the neutralPos
 	Eigen::Vector4d desiredPos = pos + neutralPos;
 
+	
+
 
 	//limit workspace motion
 	double xPosLimit =  xRange;
@@ -243,8 +260,17 @@ void c4DOFDevice::setPos(const Eigen::Ref<Eigen::Vector4d> pos) {
 	if (desiredPos[2] < zNegLimit) desiredPos[2] = zNegLimit;
 	if (desiredPos[3] > thetaPosLimit) desiredPos[3] = thetaPosLimit;
 	if (desiredPos[3] < thetaNegLimit) desiredPos[3] = thetaNegLimit;
+
+	float deltaT = filterTimer.getCurrentTimeSeconds();
+	desiredPos[0] = lpfX.update(desiredPos.x(), deltaT);
+	desiredPos[1] = lpfY.update(desiredPos.y(), deltaT);
+	desiredPos[2] = lpfZ.update(desiredPos.z(), deltaT);
+	desiredPos[3] = lpftheta.update(desiredPos.w(), deltaT);
+	filterTimer.reset();
 	
 	m_posDes = desiredPos;
+
+	file << desiredPos.x() << ", " << desiredPos.y() << ", " << desiredPos.z() << ", " << desiredPos.w() << endl;
 
 	inverseKinematics();
 
@@ -279,7 +305,18 @@ void c4DOFDevice::setForce(const Eigen::Ref<Eigen::Vector4d> a_force) {
 	if (desiredPos[3] > thetaPosLimit) desiredPos[3] = thetaPosLimit;
 	if (desiredPos[3] < thetaNegLimit) desiredPos[3] = thetaNegLimit;
 
+	desiredPos[3] = 0;
 	m_posDes = desiredPos;
+
+	float deltaT = filterTimer.getCurrentTimeSeconds();
+	desiredPos[0] = lpfX.update(desiredPos.x(), deltaT);
+	desiredPos[1] = lpfY.update(desiredPos.y(), deltaT);
+	desiredPos[2] = lpfZ.update(desiredPos.z(), deltaT);
+	desiredPos[3] = lpftheta.update(desiredPos.w(), deltaT);
+	filterTimer.reset();
+	
+
+	file << desiredPos.x() << ", " << desiredPos.y() << ", " << desiredPos.z() << ", " << desiredPos.w() << endl;
 
 	inverseKinematics();
 }

@@ -5,6 +5,8 @@
 #include <array>
 #include <algorithm>
 #include <Eigen/Dense>
+#include "LowPassFilter.hpp"
+#include <fstream>
 
 #define V_FILT         0.5      // weight for velocity filtering
 #define INT_CLMP       0.15      // maximum allowed integrated error
@@ -142,7 +144,17 @@ protected:
 	double thetaRange = PI / 12;
 
 
+	// filter
+	LowPassFilter lpfX;
+	LowPassFilter lpfY;
+	LowPassFilter lpfZ;
+	LowPassFilter lpftheta;
+	double cutOffFreqFinger = 50 / (2 * 3.14159);
+	chai3d::cPrecisionClock filterTimer;
 
+
+	ofstream file;
+	string filename;
 };
 
 

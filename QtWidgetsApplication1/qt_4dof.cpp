@@ -313,14 +313,14 @@ void  qt_4dof::on_thetaSlider_valueChanged(int val)
 //------------------------------------------------------------------------------
 
 void qt_4dof::on_xMinusButton_pressed() {
-	int new_value = ui.xSlider->value() - 1;
+	int new_value = ui.xSlider->value() - 50;
 	if (new_value < ui.xSlider->minimum()) new_value = ui.xSlider->minimum();
 	ui.xSlider->setValue(new_value);
 }
 //------------------------------------------------------------------------------
 
 void qt_4dof::on_xPlusButton_pressed() {
-	int new_value = ui.xSlider->value() + 1;
+	int new_value = ui.xSlider->value() + 50;
 	if (new_value > ui.xSlider->maximum()) new_value = ui.xSlider->maximum();
 	ui.xSlider->setValue(new_value);
 
@@ -328,14 +328,14 @@ void qt_4dof::on_xPlusButton_pressed() {
 //------------------------------------------------------------------------------
 
 void qt_4dof::on_yMinusButton_pressed() {
-	int new_value = ui.ySlider->value() - 1;
+	int new_value = ui.ySlider->value() - 50;
 	if (new_value < ui.ySlider->minimum()) new_value = ui.ySlider->minimum();
 	ui.ySlider->setValue(new_value);
 }
 //------------------------------------------------------------------------------
 
 void qt_4dof::on_yPlusButton_pressed() {
-	int new_value = ui.ySlider->value() + 1;
+	int new_value = ui.ySlider->value() + 50;
 	if (new_value > ui.ySlider->maximum()) new_value = ui.ySlider->maximum();
 	ui.ySlider->setValue(new_value);
 
@@ -343,14 +343,14 @@ void qt_4dof::on_yPlusButton_pressed() {
 //------------------------------------------------------------------------------
 
 void qt_4dof::on_zMinusButton_pressed() {
-	int new_value = ui.zSlider->value() - 1;
+	int new_value = ui.zSlider->value() - 50;
 	if (new_value < ui.zSlider->minimum()) new_value = ui.zSlider->minimum();
 	ui.zSlider->setValue(new_value);
 }
 //------------------------------------------------------------------------------
 
 void qt_4dof::on_zPlusButton_pressed() {
-	int new_value = ui.zSlider->value() + 1;
+	int new_value = ui.zSlider->value() + 50;
 	if (new_value > ui.zSlider->maximum()) new_value = ui.zSlider->maximum();
 	ui.zSlider->setValue(new_value);
 
@@ -358,14 +358,14 @@ void qt_4dof::on_zPlusButton_pressed() {
 //------------------------------------------------------------------------------
 
 void qt_4dof::on_thetaMinusButton_pressed() {
-	int new_value = ui.thetaSlider->value() - 1;
+	int new_value = ui.thetaSlider->value() - 50;
 	if (new_value < ui.thetaSlider->minimum()) new_value = ui.thetaSlider->minimum();
 	ui.thetaSlider->setValue(new_value);
 }
 //------------------------------------------------------------------------------
 
 void qt_4dof::on_thetaPlusButton_pressed() {
-	int new_value = ui.thetaSlider->value() + 1;
+	int new_value = ui.thetaSlider->value() + 50;
 	if (new_value > ui.thetaSlider->maximum()) new_value = ui.thetaSlider->maximum();
 	ui.thetaSlider->setValue(new_value);
 

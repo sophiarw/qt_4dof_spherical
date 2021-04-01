@@ -23,7 +23,7 @@ public:
 	bool trackingOn;
 
 	// filtering
-	float cutOffFreq = 50.0/(2*3.14159);	// (1.5* 2 * PI) Hz
+	float cutOffFreq = 40.0/(2*3.14159);	// (1.5* 2 * PI) Hz
 	Vec3LowPassFilter lpf;
 
 	void initMagTracker(int a_trackerNum);
