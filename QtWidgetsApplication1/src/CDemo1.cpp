@@ -142,7 +142,7 @@ cDemo1::cDemo1(const string a_resourceRoot,
 	cMaterial mat;
 	mat.setRedIndian();
 	mat.m_specular.set(0.0, 0.0, 0.0);
-	mat.setStiffness(200); //was maxStiffness
+	mat.setStiffness(500); //was maxStiffness
 	matBase.setDamping(3.0);
 	mat.setDynamicFriction(4.0);
 	mat.setStaticFriction(2.0);

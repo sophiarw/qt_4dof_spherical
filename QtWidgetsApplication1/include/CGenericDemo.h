@@ -179,7 +179,9 @@ public:
 
 	bool hapticsOn = true;
 
-
+	cLabel* labelTorq;
+	bool prev_contact = false;
+	double angle = 0;
 	//******************** TORQUE Parameters ****************************//
 	
 	//file for debugging

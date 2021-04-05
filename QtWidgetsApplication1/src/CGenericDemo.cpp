@@ -134,15 +134,20 @@ cGenericDemo::cGenericDemo(const string a_resourceRoot,
 
 	// define the direction of the light beam
 	m_light->setDir(-1.0, -1.0, -0.5);
+	
 	//// create a label to display the haptic and graphic rate of the simulation
-	//labelRates = new cLabel(font);
-	//labelRates->m_fontColor.setWhite();
-	//m_camera->m_frontLayer->addChild(labelRates);
+	cFontPtr font = NEW_CFONTCALIBRI32();
+	labelTorq = new cLabel(font);
+	labelTorq->m_fontColor.setBlack();
+	m_camera->m_frontLayer->addChild(labelTorq);
+
 
 
     //// create a background
     cBackground* background = new cBackground();
     m_camera->m_backLayer->addChild(background);
+
+	// label = 
 
     // set background properties
     background->setCornerColors(cColorf(1.00, 1.00, 1.00),
@@ -407,20 +412,25 @@ void cGenericDemo::updateGraphics(int a_width, int a_height)
 
 	guideWireUpdateMutex.acquire();
 
+	// update haptic and graphic rate data
+	labelTorq->setText("Angle: " + cStr(angle,5)+ ", Contact: " + cStr(prev_contact) + "\n Torque : " + cStr(m_torque.x()) + ", " + cStr(m_torque.y()) + ", " + cStr(m_torque.z()));
+
+	// update position of label
+	labelTorq->setLocalPos((int)100, 15);
+
+	// render view
+	m_camera->renderView(a_width, a_height);
+
     // update shadow maps (if any)
     m_world->updateShadowMaps(false, m_mirroredDisplay);
-    // render view
-    m_camera->renderView(a_width, a_height); 
-
-
+    
 	//visualize lines for debugging
-	/*forceThumbLine->m_pointA = m_tool0->getHapticPoint(0)->getGlobalPosProxy();
-	forceThumbLine->m_pointB = forceThumbLine->m_pointA + m_force*0.001;
-
-
-	torque_line->m_pointA = m_tool0->getHapticPoint(0)->getGlobalPosProxy();
-	torque_line->m_pointB = forceThumbLine->m_pointA + torque*0.01;
-
+	//forceThumbLine->m_pointA = m_tool0->getHapticPoint(0)->getGlobalPosProxy();
+	//forceThumbLine->m_pointB = forceThumbLine->m_pointA + m_force*0.005;
+	
+	torque_line->m_pointA = m_tools[0]->getHapticPoint(0)->getGlobalPosProxy();
+	torque_line->m_pointB = torque_line->m_pointA + m_torque*0.01;
+	/*
 	contact_line->m_pointA = m_tool0->getHapticPoint(0)->getGlobalPosProxy();
 	contact_line->m_pointB = forceThumbLine->m_pointA + finger_prime;
 
@@ -434,6 +444,7 @@ void cGenericDemo::updateGraphics(int a_width, int a_height)
 	//	forceFingerLine->m_pointB = forceFingerLine->m_pointA + m_force*0.001;
 	//}
 
+
 	guideWireUpdateMutex.release();
 
 }
@@ -444,6 +455,8 @@ void cGenericDemo::updateGraphics(int a_width, int a_height)
     Update haptics.
 */
 //===========================================================================
+bool contact = false;
+cVector3d angle_ref = cVector3d(0.0, 0.0, 0.0);
 void cGenericDemo::updateHaptics() 
 { 
 	/////////////////////////////////////////////////////////////////////
@@ -466,67 +479,125 @@ void cGenericDemo::updateHaptics()
 
     // compute interaction forces
 	for (int i = 0; i < m_numTools; i++)
-	{
-		//m_tools[i]->computeInteractionForces();// This function was setting the forces but also making the torque 0
+	{	
+		m_tools[i]->computeInteractionForces();// This function was setting the forces but also making the torque 0
 
 		//my own computeInteractionForces()
 		//check out CGenericTool.cpp for original function
 		
-		force.zero();
-		torque.zero();
+		//force.zero();
+		//torque.zero();
 
-		int numContactPoint = (int)(m_tools[i]->getNumHapticPoints());
-		for (int j = 0; j<numContactPoint; j++)
-		{
-			// get next haptic point
-			cHapticPoint* nextContactPoint = m_tools[i]->getHapticPoint(j);
+		//int numContactPoint = (int)(m_tools[i]->getNumHapticPoints());
+		//for (int j = 0; j<numContactPoint; j++)
+		//{
+		//	// get next haptic point
+		//	cHapticPoint* nextContactPoint = m_tools[i]->getHapticPoint(j);
 
-			// compute force at haptic point as well as new proxy position
+		//	// compute force at haptic point as well as new proxy position
 
-			cVector3d m_deviceGlobalPos = m_tools[i]->getDeviceGlobalPos();
-			cMatrix3d m_deviceGlobalRot = m_tools[i]->getDeviceGlobalRot();
-			cVector3d m_deviceGlobalLinVel = m_tools[i]->getDeviceGlobalLinVel();
-			cVector3d m_deviceGlobalAngVel = m_tools[i]->getDeviceGlobalAngVel();
-
-
-			//******************** FORCE CALCULATION ****************************//
-			cVector3d t_force = nextContactPoint->computeInteractionForces(m_deviceGlobalPos,
-				m_deviceGlobalRot,
-				m_deviceGlobalLinVel,
-				m_deviceGlobalAngVel);
+		//	cVector3d m_deviceGlobalPos = m_tools[i]->getDeviceGlobalPos();
+		//	cMatrix3d m_deviceGlobalRot = m_tools[i]->getDeviceGlobalRot();
+		//	cVector3d m_deviceGlobalLinVel = m_tools[i]->getDeviceGlobalLinVel();
+		//	cVector3d m_deviceGlobalAngVel = m_tools[i]->getDeviceGlobalAngVel();
 
 
-			//******************** TORQUE CALCULATION ****************************//
-			// combine force contributions together
-			if (i == 0) r = r0;
-			else r = r1;
-
-			force.add(t_force);
-			torque.add(cCross(r, t_force));
-		}
+		//	//******************** FORCE CALCULATION ****************************//
+		//	cVector3d t_force = nextContactPoint->computeInteractionForces(m_deviceGlobalPos,
+		//		m_deviceGlobalRot,
+		//		m_deviceGlobalLinVel,
+		//		m_deviceGlobalAngVel);
 
 
-		//update global forces
-		m_tools[i]->setDeviceGlobalForce(force);
-		m_tools[i]->setDeviceGlobalTorque(torque);
-		m_tools[i]->setGripperForce(0.0);
+		//	//******************** TORQUE CALCULATION ****************************//
+		//	// combine force contributions together
+		//	if (i == 0) r = r0;
+		//	else r = r1;
+
+		//	force.add(t_force);
+		//	torque.add(cCross(r, t_force));
+		//}
+
+
+		////update global forces
+		//m_tools[i]->setDeviceGlobalForce(force);
+		//m_tools[i]->setDeviceGlobalTorque(torque);
+		//m_tools[i]->setGripperForce(0.0);
 	}
-   
+
+	// Soft Finger Proxy For Torque Rendering - Zong
+	// check is we are making first contact - test how we can do this easily
+	// try checking if the last global force was zero. If it was then we can assume contact was broken?
+	contact = (bool) m_force.length();//m_tools[0]->m_hapticPoint->isInContact(m_ode);
+
+	
+	if (contact)
+	{
+		if (!prev_contact) // if we are transition from no contact to contact
+		{
+			// grab the normal vector
+			cVector3d normal_vector = cNormalize(m_tools[0]->m_hapticPoint->m_algorithmFingerProxy->getNormalForce());
+			// dot the x-axis of the device frame with the normal
+			cMatrix3d m_deviceGlobalRot = m_tools[0]->getDeviceGlobalRot();
+			cVector3d proj_normal = cMul(cDot(m_deviceGlobalRot.getCol0(), normal_vector), normal_vector);
+			// project into the plane
+			cVector3d proj_plane = m_deviceGlobalRot.getCol0() - proj_normal;
+			angle_ref = proj_plane; //save the vector as reference
+		}
+		prev_contact = true;
+	}
+	else // we are in contact
+	{
+		prev_contact = false; 
+	}
+
+	angle = 0;
+	if (contact)
+	{
+		// grab the normal vector
+		cVector3d normal_vector = cNormalize(m_tools[0]->m_hapticPoint->m_algorithmFingerProxy->getNormalForce());
+		// dot the x-axis of the device frame with the normal
+		cMatrix3d m_deviceGlobalRot = m_tools[0]->getDeviceGlobalRot();
+		cVector3d proj_normal = cMul(cDot(m_deviceGlobalRot.getCol0(), normal_vector), normal_vector);
+		// project into the plane
+		cVector3d proj_plane = m_deviceGlobalRot.getCol0() - proj_normal;
+		// compute the other perpendicular vector
+		cVector3d perp_vector = cCross(cNormalize(angle_ref), normal_vector);
+		// get the sign by projecting into the perp vector
+		double sign = cSign(cDot(proj_plane, perp_vector));
+
+		//compute the angle between the reference and the current
+		angle = sign*cAngle(proj_plane, angle_ref);
+
+		
+	}
+
+	double angle_gain = 1.0;
+	m_torque = cVector3d(0,0,angle_gain*angle);
+	m_force = m_tools[0]->getHapticPoint(0)->getLastComputedForce();
+	m_tools[0]->setDeviceLocalForce(m_force);
+	m_tools[0]->setDeviceLocalTorque(m_torque);
+	m_tools[0]->applyToDevice();
+
+	/*
     // apply forces to haptic devices
     for (int i=0; i<m_numTools; i++)
     {
-		// get matrix to transform force vector in world frame to gripper frame
-		cMatrix3d deviceRot = m_tools[i]->getDeviceGlobalRot();
-		deviceRot.trans();
 
-		m_force = m_tools[i]->getDeviceGlobalForce();
-		m_torque = m_tools[i]->getDeviceGlobalTorque();
+		// get global coordinate forces and convert to gripper frame
+		m_force = m_tools[i]->getHapticPoint(0)->getLastComputedForce();
 
+		if (i == 0) r = r0;
+		else r = r1;
+		m_torque.add(cCross(r, m_force));
+
+
+		// apply force and torque to tools
 		m_tools[i]->setDeviceLocalForce(m_force);
 		m_tools[i]->setDeviceLocalTorque(m_torque);
 		m_tools[i]->applyToDevice();
 	}
-
+	*/
     // apply forces to ODE objects
     for (int i=0; i<m_numTools; i++)
     {
@@ -534,9 +605,6 @@ void cGenericDemo::updateHaptics()
         // with the environment and apply forces accordingly
         int numInteractionPoints = m_tools[i]->getNumHapticPoints();
 
-
-
-		
         for (int j=0; j<numInteractionPoints; j++)
         {
             // get pointer to next interaction point of tool
