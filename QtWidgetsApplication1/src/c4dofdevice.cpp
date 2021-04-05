@@ -305,7 +305,7 @@ void c4DOFDevice::setForce(const Eigen::Ref<Eigen::Vector4d> a_force) {
 	if (desiredPos[3] > thetaPosLimit) desiredPos[3] = thetaPosLimit;
 	if (desiredPos[3] < thetaNegLimit) desiredPos[3] = thetaNegLimit;
 
-	desiredPos[3] = 0;
+	//desiredPos[3] = 0;
 	m_posDes = desiredPos;
 
 	float deltaT = filterTimer.getCurrentTimeSeconds();

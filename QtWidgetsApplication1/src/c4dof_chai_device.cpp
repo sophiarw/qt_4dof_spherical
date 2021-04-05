@@ -196,7 +196,7 @@ bool c4dofChaiDevice::close()
 								// update status
 	m_deviceReady = false;
 
-	D.setForcesAndTorques(cVector3d(0), cVector3d(0));
+	D.setForcesAndTorques(cVector3d(0, 0, 0), cVector3d(0, 0, 0));
 	D.motorLoop();
 
 	D.disconnect();
@@ -309,18 +309,17 @@ bool c4dofChaiDevice::getRotation(cMatrix3d& a_rotation)
 	a_rotation.rotateAboutLocalAxisDeg(0, 1, 0, 90 - tilt);
 
 	//rotate to addjust for offset between end effector and magnetic traker location
-	a_rotation.rotateAboutLocalAxisDeg(0, 1, 0, 9);
 
 
-	//if (trackerNo == 0)
-	//{
-	//	frame.rotateAboutLocalAxisDeg(0, 1, 0, 9); //edit hereif change angle of finger        
+	if (location == 0)
+	{
+		a_rotation.rotateAboutLocalAxisDeg(0, 1, 0, 9); //edit hereif change angle of finger        
 
-	//}
-	//if (trackerNo == 1)
-	//{
-	//	frame.rotateAboutLocalAxisDeg(0, 1, 0, 9 - thumbTrackerTilt);
-	//}
+	}
+	if (location == 1)
+	{
+		a_rotation.rotateAboutLocalAxisDeg(0, 1, 0, 9 - tilt);
+	}
 
 	// store new rotation matrix
 	/*a_rotation = frame;*/

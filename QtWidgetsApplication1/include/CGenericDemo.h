@@ -180,6 +180,7 @@ public:
 	bool hapticsOn = true;
 
 	cLabel* labelTorq;
+	cLabel* labelForce;
 	bool prev_contact = false;
 	double angle = 0;
 	//******************** TORQUE Parameters ****************************//
