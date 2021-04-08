@@ -136,6 +136,19 @@
         </spacer>
        </item>
        <item>
+        <widget class="QCheckBox" name="torsionSwitch">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="text">
+          <string>Torsion Switch</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QGroupBox" name="xBox">
          <property name="title">
           <string>X Neutral Position</string>

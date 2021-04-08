@@ -161,6 +161,8 @@ public:
 	void setNeutralPosZ(const double &z);
 	void setNeutralPosTheta(const double &theta);
 
+	void setTorsionState(const bool &state);
+
 	QVector<double> x, y, y0, y1; // initialize with entries 0..100
 	double test = 0;
 

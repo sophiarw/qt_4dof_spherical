@@ -372,6 +372,13 @@ void qt_4dof::on_thetaPlusButton_pressed() {
 }
 
 //------------------------------------------------------------------------------
+void qt_4dof::on_torsionSwitch_stateChanged() {
+
+	Application->setTorsionState(ui.torsionSwitch->isChecked());
+
+}
+
+//------------------------------------------------------------------------------
 
 void  qt_4dof::UpdateStatus()
 {

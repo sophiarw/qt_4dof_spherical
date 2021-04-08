@@ -72,6 +72,7 @@ public:
 	void getNeutralPos(Eigen::Ref<Eigen::Vector4d> a_neutralPos);
 	double gripperLength;
 	void setNeutralPos(const double x, const double y, const double z, double const theta);
+	void setTorsionState(const bool state);
 	void theta_tracking_device(double& theta_des, double& theta_actual);
 
 	ofstream file;

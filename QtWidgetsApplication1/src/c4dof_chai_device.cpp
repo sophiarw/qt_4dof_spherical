@@ -125,6 +125,10 @@ c4dofChaiDevice::c4dofChaiDevice(unsigned int a_deviceNumber):D(a_deviceNumber)
 	neutralPos = { 0.0, 0.0, -20.0, 0.0 };
 	newNeutralPos = false;
 
+	//assign torsion state
+	newTorsionState = false;
+	torsionState = true;
+
 }
 
 
@@ -379,6 +383,11 @@ bool c4dofChaiDevice::setForceAndTorqueAndGripperForce(const cVector3d& a_force,
 		D.setNeutralPos(neutralPos[0], neutralPos[1], neutralPos[2], neutralPos[3]);
 		newNeutralPos = false;
 	}
+
+	if (newTorsionState) {
+		D.setTorsionState(torsionState);
+		newTorsionState = false;
+	}
 	// calculate pad positions and gripper force
 	D.setForcesAndTorques(a_force, a_torque);
 	// Output to motors
@@ -493,6 +502,13 @@ bool c4dofChaiDevice::setNeutralPosTheta(const double &theta) {
 	double theta_val = theta;
 	newNeutralPos = true;
 	neutralPos[3] = theta_val;
+
+	return C_SUCCESS;
+}
+
+bool c4dofChaiDevice::setTorsionState(const bool &state) {
+	newTorsionState = true;
+	torsionState = state;
 
 	return C_SUCCESS;
 }

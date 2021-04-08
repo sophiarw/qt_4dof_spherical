@@ -112,6 +112,9 @@ private slots:
 	void on_thetaMinusButton_pressed();
 	void on_thetaPlusButton_pressed();
 
+	//functionality for torsion switch
+	void on_torsionSwitch_stateChanged();
+
 	
 
 //--------------------------------------------------------------------------

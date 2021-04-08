@@ -265,3 +265,7 @@ void c4DOFGripper::setNeutralPos(const double x, const double y, const double z,
 	//file << "Desired Neutral Pos: ," << x << ", " << y << ", " << z << ", " << theta << endl;
 	//file << "Actual Neutral Pos: ," << device.neutralPos[0] << ", " << device.neutralPos[1] << ", " << device.neutralPos[2]  << ", " << device.neutralPos[3] << endl;
 }
+
+void c4DOFGripper::setTorsionState(const bool state) {
+	device.setTorsionState(state);
+}

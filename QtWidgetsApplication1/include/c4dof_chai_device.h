@@ -106,6 +106,8 @@ namespace chai3d {
 		//! This method is for Sophia's 4dof device and allows the user to set the Theta Neutral Position
 		virtual bool setNeutralPosTheta(const double &theta);
 
+		virtual bool setTorsionState(const bool &state);
+
 
 		//--------------------------------------------------------------------------
 		// PUBLIC STATIC METHODS:
@@ -146,6 +148,9 @@ namespace chai3d {
 
 		bool newNeutralPos;
 		vector<double> neutralPos;
+
+		bool newTorsionState;
+		bool torsionState;
 
 
 

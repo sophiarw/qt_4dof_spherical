@@ -10,6 +10,7 @@ c4DOFDevice::c4DOFDevice():m_th(4), m_thDes(4), m_posDes(4), m_th_init(4), cente
 	m_c4DOFDeviceAvailable = true;
 	m_error = false;
 	m_errMessage = "";
+	torsionState = true;
 
 	// initialize kinematic variables
 	m_t = 0;
@@ -305,7 +306,10 @@ void c4DOFDevice::setForce(const Eigen::Ref<Eigen::Vector4d> a_force) {
 	if (desiredPos[3] > thetaPosLimit) desiredPos[3] = thetaPosLimit;
 	if (desiredPos[3] < thetaNegLimit) desiredPos[3] = thetaNegLimit;
 
-	//desiredPos[3] = 0;
+	if (torsionState == false) {
+		desiredPos[3] = 0;
+	}
+
 	m_posDes = desiredPos;
 
 	float deltaT = filterTimer.getCurrentTimeSeconds();
@@ -326,7 +330,6 @@ void c4DOFDevice::setForce(const Eigen::Ref<Eigen::Vector4d> a_force) {
 
 
 void c4DOFDevice::setNeutralPos(const double x, const double y, const double z, const double theta) {
-	//qDebug() << "setting Neutral Pos" << endl;
 	neutralPos[0] = x;
 	neutralPos[1] = y;
 	neutralPos[2] = z;
@@ -334,7 +337,11 @@ void c4DOFDevice::setNeutralPos(const double x, const double y, const double z, 
 
 	Eigen::Vector4d newPos(0, 0, 0, 0);
 	setPos(newPos);
-	//qDebug() << "The new neutral position is" << neutralPos[0] << ", " << neutralPos[1] << ", " << neutralPos[2] << ", " << neutralPos[3] << endl;
+}
+
+void c4DOFDevice::setTorsionState(const bool state) {
+	torsionState = state;
+	//file << "torsion state: " << torsionState << endl;
 }
 
 
