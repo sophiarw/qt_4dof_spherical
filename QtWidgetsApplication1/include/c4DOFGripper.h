@@ -73,6 +73,7 @@ public:
 	double gripperLength;
 	void setNeutralPos(const double x, const double y, const double z, double const theta);
 	void setTorsionState(const bool state);
+	void setShearState(const bool state);
 	void theta_tracking_device(double& theta_des, double& theta_actual);
 
 	ofstream file;

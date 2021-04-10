@@ -106,7 +106,11 @@ namespace chai3d {
 		//! This method is for Sophia's 4dof device and allows the user to set the Theta Neutral Position
 		virtual bool setNeutralPosTheta(const double &theta);
 
+		//! This method was created for Sophia's 4DOF device. Allows user to set torsion state
 		virtual bool setTorsionState(const bool &state);
+
+		//! This method was created for Sophia's 4DOF device. Allows user to set shear state
+		virtual bool setShearState(const bool &state);
 
 
 		//--------------------------------------------------------------------------
@@ -151,6 +155,10 @@ namespace chai3d {
 
 		bool newTorsionState;
 		bool torsionState;
+
+		bool newShearState;
+		bool shearState;
+
 
 
 

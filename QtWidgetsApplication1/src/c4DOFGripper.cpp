@@ -269,3 +269,7 @@ void c4DOFGripper::setNeutralPos(const double x, const double y, const double z,
 void c4DOFGripper::setTorsionState(const bool state) {
 	device.setTorsionState(state);
 }
+
+void c4DOFGripper::setShearState(const bool state) {
+	device.setShearState(state);
+}

@@ -257,7 +257,7 @@ cGenericDemo::cGenericDemo(const string a_resourceRoot,
 	finger->m_material->m_specular.set(1.0, 1.0, 1.0);
 	finger->setUseMaterial(true);
 	//finger->setHapticEnabled(false);
-	finger->setShowFrame(true);
+	finger->setShowFrame(false);
 	finger->setStiffness(1000);
 
 	// set params for thumb
@@ -298,6 +298,10 @@ cGenericDemo::cGenericDemo(const string a_resourceRoot,
 	m_world->addChild(torque_line);
 	m_world->addChild(contact_line);
 
+
+	forceThumbLine->setLineWidth(4.0);
+	forceThumbLine->m_colorPointA.setGreenLawn();
+	forceThumbLine->m_colorPointB.setGreenLawn();
 	torque_line->setLineWidth(4.0);
 	torque_line->m_colorPointA.setPurpleDarkViolet();
 	torque_line->m_colorPointB.setPurpleDarkViolet();
@@ -322,7 +326,7 @@ cGenericDemo::cGenericDemo(const string a_resourceRoot,
         m_tool0->setRadius(m_toolRadius);
         m_tool0->enableDynamicObjects(true);
         m_tool0->setWaitForSmallForce(true);
-		m_tool0->setShowFrame(false,true);
+		m_tool0->setShowFrame(false,false);
 		m_tool0->setFrameSize(0.05, true);
         m_tool0->start();
 
@@ -334,7 +338,7 @@ cGenericDemo::cGenericDemo(const string a_resourceRoot,
        // cMesh* mesh1 = mesh->copy();
 		m_tool0->getHapticPoint(0)->m_sphereProxy->addChild(finger);
 		m_tool0->getHapticPoint(0)->m_sphereProxy->setTransparencyLevel(0.0);
-		m_tool0->getHapticPoint(0)->m_sphereProxy->setShowFrame(true, true);
+		m_tool0->getHapticPoint(0)->m_sphereProxy->setShowFrame(true, false);
 		m_tool0->getHapticPoint(0)->m_sphereProxy->setFrameSize(0.05);
 
 		m_tools[0] = m_tool0;
@@ -349,10 +353,10 @@ cGenericDemo::cGenericDemo(const string a_resourceRoot,
         m_tool1->setRadius(m_toolRadius);
         m_tool1->enableDynamicObjects(true);
         m_tool1->setWaitForSmallForce(true);
-		m_tool1->setShowFrame(true, true);
+		m_tool1->setShowFrame(false, true);
 		m_tool1->setFrameSize(0.05, true);
         
-        m_tools[1] = m_tool1;
+        
 
 		cHapticPoint* point1 = m_tool1->getHapticPoint(0);
 
@@ -365,6 +369,9 @@ cGenericDemo::cGenericDemo(const string a_resourceRoot,
 		m_tool1->getHapticPoint(0)->m_sphereProxy->setTransparencyLevel(0.0);
 		m_tool1->getHapticPoint(0)->m_sphereProxy->setShowFrame(false, true);
 		m_tool1->getHapticPoint(0)->m_sphereProxy->setFrameSize(0.05);
+
+		m_tools[1] = m_tool1;
+
 
 		m_tool1->start();
 
@@ -410,6 +417,9 @@ cGenericDemo::cGenericDemo(const string a_resourceRoot,
     \param  a_height  Height of viewport.
 */
 //===========================================================================
+
+cVector3d rotated_force;
+
 void cGenericDemo::updateGraphics(int a_width, int a_height) 
 { 
 
@@ -434,12 +444,35 @@ void cGenericDemo::updateGraphics(int a_width, int a_height)
     
 	//visualize lines for debugging
 	forceThumbLine->m_pointA = m_tool0->getHapticPoint(0)->getGlobalPosProxy();
-	cVector3d rotated_force;
-	(m_tools[0]->getDeviceGlobalRot()).mulr(m_force*0.005, rotated_force);
+	forceFingerLine->m_pointA = m_tool0->getHapticPoint(0)->getGlobalPosProxy();
+	//cVector3d rotated_force;
+
+	/*use this code block to render the finger resultant force in the world frame*/
+	cMatrix3d device_to_world;
+	device_to_world.identity();
+	device_to_world = cMul(cMatrix3d(1, 0, 0, -84 * 3.14159 / 180), device_to_world); //m_force is rotated by R^T.Rx(84) --> inverse is Rx(84)^T * R
+	device_to_world = cMul(device_to_world, m_tool0->getDeviceGlobalRot());
+	rotated_force = cMul(device_to_world, 0.01*m_force);
 	forceThumbLine->m_pointB = forceThumbLine->m_pointA + rotated_force;
+
+	/* use this code block to render the finger force projected into the z axis */
+	cVector3d localforce_z;
+	localforce_z = cMul(cDot(rotated_force, m_tool0->getDeviceGlobalRot().getCol2()), m_tool0->getDeviceGlobalRot().getCol2());
+	forceThumbLine->m_pointB = forceThumbLine->m_pointA + localforce_z;
+
+	/* use this code block to render the finger force projected into the z axis */
+	cVector3d localforce_x;
+	localforce_x = cMul(cDot(rotated_force, m_tool0->getDeviceGlobalRot().getCol1()), m_tool0->getDeviceGlobalRot().getCol1());
+	forceFingerLine->m_pointB = forceFingerLine->m_pointA + localforce_x;
+
 	
-	torque_line->m_pointA = m_tools[0]->getHapticPoint(0)->getGlobalPosProxy();
+	//forceFingerLine->m_pointB = forceFingerLine->m_pointA + m_force*0.01;
+	
+	torque_line->m_pointA = m_tool0->getHapticPoint(0)->getGlobalPosProxy();
 	torque_line->m_pointB = torque_line->m_pointA + m_torque*0.01;
+
+
+
 	/*
 	contact_line->m_pointA = m_tool0->getHapticPoint(0)->getGlobalPosProxy();
 	contact_line->m_pointB = forceThumbLine->m_pointA + finger_prime;
@@ -550,32 +583,14 @@ void cGenericDemo::updateHaptics()
 	//m_force = m_tools[0]->getHapticPoint(0)->getLastComputedForce();
 
 	cMatrix3d m_gripperRot = m_tools[0]->getDeviceGlobalRot();
+	cMatrix3d preRotation(1, 0, 0, 84*3.14159/180); //axis [1,0,0] by angle of 84 degrees
 	m_gripperRot.trans();
-	m_gripperRot.rotateAboutLocalAxisDeg(1, 0, 0, 84);
+	m_gripperRot = cMul(preRotation, m_gripperRot);
 	m_gripperRot.mulr(m_tools[0]->getHapticPoint(0)->getLastComputedForce(), m_force);
 	m_tools[0]->setDeviceLocalForce(m_force);
 	m_tools[0]->setDeviceLocalTorque(m_torque);
 	m_tools[0]->applyToDevice();
 
-	/*
-    // apply forces to haptic devices
-    for (int i=0; i<m_numTools; i++)
-    {
-
-		// get global coordinate forces and convert to gripper frame
-		m_force = m_tools[i]->getHapticPoint(0)->getLastComputedForce();
-
-		if (i == 0) r = r0;
-		else r = r1;
-		m_torque.add(cCross(r, m_force));
-
-
-		// apply force and torque to tools
-		m_tools[i]->setDeviceLocalForce(m_force);
-		m_tools[i]->setDeviceLocalTorque(m_torque);
-		m_tools[i]->applyToDevice();
-	}
-	*/
     // apply forces to ODE objects
     for (int i=0; i<m_numTools; i++)
     {

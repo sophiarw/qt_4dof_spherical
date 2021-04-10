@@ -76,7 +76,7 @@ private:
 	double yRange = 5;
 	double zRange_min = -31.0;
 	double zRange_max = -18.0;
-	double thetaRange = PI / 12;
+	double thetaRange = PI / 8;
 	double zRange = zRange_max - zRange_min;
 
 
@@ -112,8 +112,9 @@ private slots:
 	void on_thetaMinusButton_pressed();
 	void on_thetaPlusButton_pressed();
 
-	//functionality for torsion switch
+	//functionality for switches
 	void on_torsionSwitch_stateChanged();
+	void on_shearSwitch_stateChanged();
 
 	
 

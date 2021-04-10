@@ -89,6 +89,7 @@ public:
 	void setForce(const Eigen::Ref<Eigen::Vector4d> a_force);
 	void setNeutralPos(const double x, const double y, const double z, const double theta);
 	void setTorsionState(const bool state);
+	void setShearState(const bool state);
 
 	bool m_c4DOFDeviceAvailable;		// TRUE = device instance has been createed
 	bool m_c4DOFDeviceReady;			//TRUE =  connection to device successful
@@ -126,7 +127,7 @@ public:
 protected:
 	double k_skin_shear = 1.58; // [N/mm] scale force to skin displacement
 	double k_skin_normal = 1.58;
-	double k_skin_rotational = 15.0; 
+	double k_skin_rotational = 0.5; 
 
 	//determine the inverse kinematics based on the stored desired position. Gives JOINT angles
 	void inverseKinematics();
@@ -142,9 +143,10 @@ protected:
 	double yRange = 5; 
 	double zRange_min = -31.0;
 	double zRange_max = -18.0;
-	double thetaRange = PI / 12;
+	double thetaRange = PI / 8;
 
 	bool torsionState;
+	bool shearState;
 
 
 	// filter
@@ -158,6 +160,12 @@ protected:
 
 	ofstream file;
 	string filename;
+
+	ofstream file2;
+	string filename2;
+
+	ofstream file3;
+	string filename3;
 };
 
 

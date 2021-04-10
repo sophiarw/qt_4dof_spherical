@@ -343,14 +343,14 @@ void qt_4dof::on_yPlusButton_pressed() {
 //------------------------------------------------------------------------------
 
 void qt_4dof::on_zMinusButton_pressed() {
-	int new_value = ui.zSlider->value() - 50;
+	int new_value = ui.zSlider->value() - 15;
 	if (new_value < ui.zSlider->minimum()) new_value = ui.zSlider->minimum();
 	ui.zSlider->setValue(new_value);
 }
 //------------------------------------------------------------------------------
 
 void qt_4dof::on_zPlusButton_pressed() {
-	int new_value = ui.zSlider->value() + 50;
+	int new_value = ui.zSlider->value() + 15;
 	if (new_value > ui.zSlider->maximum()) new_value = ui.zSlider->maximum();
 	ui.zSlider->setValue(new_value);
 
@@ -375,6 +375,13 @@ void qt_4dof::on_thetaPlusButton_pressed() {
 void qt_4dof::on_torsionSwitch_stateChanged() {
 
 	Application->setTorsionState(ui.torsionSwitch->isChecked());
+
+}
+
+//------------------------------------------------------------------------------
+void qt_4dof::on_shearSwitch_stateChanged() {
+
+	Application->setShearState(ui.shearSwitch->isChecked());
 
 }
 

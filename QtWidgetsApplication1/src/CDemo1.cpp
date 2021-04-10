@@ -129,7 +129,7 @@ cDemo1::cDemo1(const string a_resourceRoot,
 	//cMesh* object2 = new cMesh();
 
 	// crate a cube mesh
-	double boxSize = 0.04;
+	double boxSize = 0.06;
 	cCreateBox(object0, boxSize, boxSize, boxSize);
 	//cCreateBox(object1, boxSize, boxSize, boxSize);
 	//cCreateBox(object2, boxSize, boxSize, boxSize);

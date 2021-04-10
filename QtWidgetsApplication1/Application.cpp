@@ -326,8 +326,15 @@ void ApplicationWidget::setNeutralPosTheta(const double &theta) {
 void ApplicationWidget::setTorsionState(const bool &state) {
 	m_hapticDevice0->setTorsionState(state);
 }
+
 //------------------------------------------------------------------------------
 
+
+void ApplicationWidget::setShearState(const bool &state) {
+	m_hapticDevice0->setShearState(state);
+}
+
+//------------------------------------------------------------------------------
 void ApplicationWidget::getPos(double &x, double &y, double &z, double &theta) {
 
 	m_hapticDevice0->getDevicePos(x, y, z, theta);

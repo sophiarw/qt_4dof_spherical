@@ -11,6 +11,7 @@ c4DOFDevice::c4DOFDevice():m_th(4), m_thDes(4), m_posDes(4), m_th_init(4), cente
 	m_error = false;
 	m_errMessage = "";
 	torsionState = true;
+	shearState = true;
 
 	// initialize kinematic variables
 	m_t = 0;
@@ -57,8 +58,25 @@ c4DOFDevice::c4DOFDevice():m_th(4), m_thDes(4), m_posDes(4), m_th_init(4), cente
 		filename = "desired_pos_filtered_thumb.csv";
 	}
 
+	if (m_location == 0) {
+		//finger
+		filename2 = "desired_pos_filtered_finger_forceFunction.csv";
+		filename3 = "desired_pos_filtered_finger_posFunction.csv";
+	}
+	else {
+		//case for thumb
+		filename2 = "desired_pos_filtered_thumb_forceFunction.csv";
+		filename3 = "desired_pos_filtered_thumb_posFunction.csv";
+	}
+
 	file.open(filename);
 	file << "x_pos, y_pos, z_pos, theta_pos" << endl;
+
+	file2.open(filename2);
+	file2 << "x_pos, y_pos, z_pos, theta_pos" << endl;
+
+	file3.open(filename3);
+	file3 << "x_pos, y_pos, z_pos, theta_pos" << endl;
 
 	link1_1 = { 0, 0, 0 };
 	link1_2 = { 0, 0, 0 };
@@ -211,6 +229,7 @@ void c4DOFDevice::inverseKinematics(){
 
 	}
 
+	file << x_d << ", " << y_d << ", " << z_d << ", " << theta_d  << ", " << no_nan << endl;
 
 }
 
@@ -271,7 +290,7 @@ void c4DOFDevice::setPos(const Eigen::Ref<Eigen::Vector4d> pos) {
 	
 	m_posDes = desiredPos;
 
-	file << desiredPos.x() << ", " << desiredPos.y() << ", " << desiredPos.z() << ", " << desiredPos.w() << endl;
+	file3 << desiredPos.x() << ", " << desiredPos.y() << ", " << desiredPos.z() << ", " << desiredPos.w() << endl;
 
 	inverseKinematics();
 
@@ -310,7 +329,10 @@ void c4DOFDevice::setForce(const Eigen::Ref<Eigen::Vector4d> a_force) {
 		desiredPos[3] = 0;
 	}
 
-	m_posDes = desiredPos;
+	if (shearState == false) {
+		desiredPos[0] = 0;
+		desiredPos[1] = 0;
+	}
 
 	float deltaT = filterTimer.getCurrentTimeSeconds();
 	desiredPos[0] = lpfX.update(desiredPos.x(), deltaT);
@@ -319,8 +341,9 @@ void c4DOFDevice::setForce(const Eigen::Ref<Eigen::Vector4d> a_force) {
 	desiredPos[3] = lpftheta.update(desiredPos.w(), deltaT);
 	filterTimer.reset();
 	
+	m_posDes = desiredPos;
 
-	file << desiredPos.x() << ", " << desiredPos.y() << ", " << desiredPos.z() << ", " << desiredPos.w() << endl;
+	file2 << desiredPos.x() << ", " << desiredPos.y() << ", " << desiredPos.z() << ", " << desiredPos.w() << endl;
 
 	inverseKinematics();
 }
@@ -341,6 +364,11 @@ void c4DOFDevice::setNeutralPos(const double x, const double y, const double z, 
 
 void c4DOFDevice::setTorsionState(const bool state) {
 	torsionState = state;
+	//file << "torsion state: " << torsionState << endl;
+}
+
+void c4DOFDevice::setShearState(const bool state) {
+	shearState = state;
 	//file << "torsion state: " << torsionState << endl;
 }
 
