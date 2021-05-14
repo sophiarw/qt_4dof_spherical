@@ -165,9 +165,9 @@ cGenericDemo::cGenericDemo(const string a_resourceRoot,
     
     cCreatePlane(m_ground, 0.2, 0.3);
     m_ground->m_material->setGrayLevel(0.5);
-    m_ground->m_material->setStiffness(maxStiffness);
-    m_ground->m_material->setDynamicFriction(1.0);//original value 2.0, tried 1.0
-    m_ground->m_material->setStaticFriction(4.0);//original value 2.0, tried 4.0
+    m_ground->m_material->setStiffness(500); //was maxstiffness
+    m_ground->m_material->setDynamicFriction(2.0);//original value 2.0, tried 1.0
+    m_ground->m_material->setStaticFriction(2.0);//original value 2.0, tried 4.0
     m_ground->createAABBCollisionDetector(m_toolRadius);
     m_ground->setShowEnabled(false);
 
@@ -338,7 +338,7 @@ cGenericDemo::cGenericDemo(const string a_resourceRoot,
        // cMesh* mesh1 = mesh->copy();
 		m_tool0->getHapticPoint(0)->m_sphereProxy->addChild(finger);
 		m_tool0->getHapticPoint(0)->m_sphereProxy->setTransparencyLevel(0.0);
-		m_tool0->getHapticPoint(0)->m_sphereProxy->setShowFrame(true, false);
+		m_tool0->getHapticPoint(0)->m_sphereProxy->setShowFrame(false, false);
 		m_tool0->getHapticPoint(0)->m_sphereProxy->setFrameSize(0.05);
 
 		m_tools[0] = m_tool0;
@@ -426,66 +426,45 @@ void cGenericDemo::updateGraphics(int a_width, int a_height)
 
 	guideWireUpdateMutex.acquire();
 
-	// update haptic and graphic rate data
-	labelTorq->setText("Angle: " + cStr(angle,5)+ ", Contact: " + cStr(prev_contact) + "\n Torque : " + cStr(m_torque.x()) + ", " + cStr(m_torque.y()) + ", " + cStr(m_torque.z()));
+	//// update haptic and graphic rate data
+ //   labelTorq->setText("Angle: " + cStr(angle,5)+ ", Contact: " + cStr(prev_contact) + "\n Torque : " + cStr(m_torque.x()) + ", " + cStr(m_torque.y()) + ", " + cStr(m_torque.z()));
 
-	// update position of label
-	labelTorq->setLocalPos((int)100, 15);
+	//// update position of label
+	//labelTorq->setLocalPos((int)100, 15);
 
-	labelForce->setText("Force: " + cStr(m_force.x()) + ", " + cStr(m_force.y()) + ", " + cStr(m_force.z()));
+	//labelForce->setText("Force: " + cStr(m_force.x()) + ", " + cStr(m_force.y()) + ", " + cStr(m_force.z()));
 
-	labelForce->setLocalPos((int)100, 30);
+	//labelForce->setLocalPos((int)100, 30);
 
 	// render view
 	m_camera->renderView(a_width, a_height);
 
     // update shadow maps (if any)
     m_world->updateShadowMaps(false, m_mirroredDisplay);
-    
-	//visualize lines for debugging
-	forceThumbLine->m_pointA = m_tool0->getHapticPoint(0)->getGlobalPosProxy();
-	forceFingerLine->m_pointA = m_tool0->getHapticPoint(0)->getGlobalPosProxy();
-	//cVector3d rotated_force;
+ //   
+	////visualize lines for debugging
+	//forceThumbLine->m_pointA = m_tool0->getHapticPoint(0)->getGlobalPosProxy();
+	//forceFingerLine->m_pointA = m_tool0->getHapticPoint(0)->getGlobalPosProxy();
+	////cVector3d rotated_force;
 
-	/*use this code block to render the finger resultant force in the world frame*/
-	cMatrix3d device_to_world;
-	device_to_world.identity();
-	device_to_world = cMul(cMatrix3d(1, 0, 0, -84 * 3.14159 / 180), device_to_world); //m_force is rotated by R^T.Rx(84) --> inverse is Rx(84)^T * R
-	device_to_world = cMul(device_to_world, m_tool0->getDeviceGlobalRot());
-	rotated_force = cMul(device_to_world, 0.01*m_force);
-	forceThumbLine->m_pointB = forceThumbLine->m_pointA + rotated_force;
+	///*use this code block to render the finger resultant force in the world frame*/
+	//cMatrix3d device_to_world;
+	//device_to_world.identity();
+	//device_to_world = cMul(cMatrix3d(1, 0, 0, -84 * 3.14159 / 180), device_to_world); //m_force is rotated by R^T.Rx(84) --> inverse is Rx(84)^T * R
+	//device_to_world = cMul(device_to_world, m_tool0->getDeviceGlobalRot());
+	//rotated_force = cMul(device_to_world, 0.01*m_force);
+	//forceThumbLine->m_pointB = forceThumbLine->m_pointA + rotated_force;
 
-	/* use this code block to render the finger force projected into the z axis */
-	cVector3d localforce_z;
-	localforce_z = cMul(cDot(rotated_force, m_tool0->getDeviceGlobalRot().getCol2()), m_tool0->getDeviceGlobalRot().getCol2());
-	forceThumbLine->m_pointB = forceThumbLine->m_pointA + localforce_z;
+	///* use this code block to render the finger force projected into the z axis */
+	//cVector3d localforce_z;
+	//localforce_z = cMul(cDot(rotated_force, m_tool0->getDeviceGlobalRot().getCol2()), m_tool0->getDeviceGlobalRot().getCol2());
+	//forceThumbLine->m_pointB = forceThumbLine->m_pointA + localforce_z;
 
-	/* use this code block to render the finger force projected into the z axis */
-	cVector3d localforce_x;
-	localforce_x = cMul(cDot(rotated_force, m_tool0->getDeviceGlobalRot().getCol1()), m_tool0->getDeviceGlobalRot().getCol1());
-	forceFingerLine->m_pointB = forceFingerLine->m_pointA + localforce_x;
+	///* use this code block to render the finger force projected into the z axis */
+	//cVector3d localforce_x;
+	//localforce_x = cMul(cDot(rotated_force, m_tool0->getDeviceGlobalRot().getCol1()), m_tool0->getDeviceGlobalRot().getCol1());
+	//forceFingerLine->m_pointB = forceFingerLine->m_pointA + localforce_x;
 
-	
-	//forceFingerLine->m_pointB = forceFingerLine->m_pointA + m_force*0.01;
-	
-	torque_line->m_pointA = m_tool0->getHapticPoint(0)->getGlobalPosProxy();
-	torque_line->m_pointB = torque_line->m_pointA + m_torque*0.01;
-
-
-
-	/*
-	contact_line->m_pointA = m_tool0->getHapticPoint(0)->getGlobalPosProxy();
-	contact_line->m_pointB = forceThumbLine->m_pointA + finger_prime;
-
-	r_line->m_pointA = object_pos;
-	r_line->m_pointB = forceThumbLine->m_pointA + r*0.1;*/
-
-
-	//if (m_numTools > 1)
-	//{
-	//	forceFingerLine->m_pointA = m_tool1->getHapticPoint(0)->getGlobalPosProxy();
-	//	forceFingerLine->m_pointB = forceFingerLine->m_pointA + m_force*0.001;
-	//}
 
 
 	guideWireUpdateMutex.release();

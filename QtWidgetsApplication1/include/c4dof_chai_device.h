@@ -143,7 +143,7 @@ namespace chai3d {
 		double c4dofStartAngle = 0.0;
 		double x = 0.0;
 		double y = 0.0;
-		double z = -15.0;
+		double z = -23.0; //set initial z angle to match c4dofdevice.cpp
 
 
 		/*instead of connecting the deivce to the chai device, c4dofChaiDevice passes

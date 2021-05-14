@@ -19,26 +19,6 @@ enum fingers {
 };
 
 
-////DEVICE Parameters (m)
-//#define d 0.0175
-//#define hi 0.015
-//#define d1 0.00497
-//#define h1 0.00840
-//#define Li 0.0175
-//#define li 0.015
-//#define xa 0.015
-//#define ya 0.015
-//#define za 0
-//
-////Fourbar 
-//#define af 0.01205					//input
-//#define bf 0.008					//floating
-//#define cf 0.007					//output
-//#define df 0.010					//ground
-//#define angle_offset1  4.76			//offset because motor doesn't sit on same plan as joint
-//
-//
-
 //DEVICE Parameters (mm)
 #define d 7.5
 #define hi 17.5
@@ -80,8 +60,7 @@ public:
 	Eigen::VectorXd m_th_init;			//initial position of motor
 	Eigen::VectorXd neutralPos;
 	Eigen::VectorXd centerPoint;
-	//Changes Sep 20
-	// Constructors of c4DOFDevice
+
 	c4DOFDevice();
 	~c4DOFDevice();
 
@@ -131,6 +110,7 @@ protected:
 
 	//determine the inverse kinematics based on the stored desired position. Gives JOINT angles
 	void inverseKinematics();
+	void rotateDB(); //function to rotate the DB links for spherical device
 
 	//converts joint angle to motor angle via fourbar transmission to motor
 	double fourbar(double angle_i);
@@ -139,10 +119,16 @@ protected:
 
 
 	//constants for ranges
+
+	//double xRange = 20;//4;
+	//double yRange = 20;//5
+	//double zRange_min = -50.0;// -27.0;
+	//double zRange_max = -19.0;
+	//double thetaRange = PI / 4;// PI / 8
 	double xRange = 4; 
 	double yRange = 5; 
-	double zRange_min = -31.0;
-	double zRange_max = -18.0;
+	double zRange_min = -27.0;
+	double zRange_max = -19.0;
 	double thetaRange = PI / 8;
 
 	bool torsionState;

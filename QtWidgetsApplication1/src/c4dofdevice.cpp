@@ -127,19 +127,67 @@ void c4DOFDevice::inverseKinematics(){
 
 	//cout << "Desired position:" << x_d << ", " << y_d << ", " << z_d << ", " << theta_d << endl;
 
-	double Z = z_d - za;
 	Eigen::Vector4d X;
 	Eigen::Vector4d Y;
+	Eigen::Vector4d Z;
 
-	X << d / 2 + d1 + x_d - xa - 0.5 * hi * sin(theta_d),
-		d / 2 + d1 - x_d - xa + 0.5 * hi * sin(theta_d),
-		x_d - d1 - d / 2 + xa + 0.5 * hi * sin(theta_d),
-		d / 2 + d1 + x_d - xa + 0.5 * hi * sin(theta_d);
+	//original DB vectors
+	Eigen::Vector3d DBc1;
+	Eigen::Vector3d DBc2;
+	Eigen::Vector3d DBc3;
+	Eigen::Vector3d DBc4;
 
-	Y << h1 + y_d - ya + 0.5 * hi * cos(theta_d),
-		h1 + y_d - ya + 0.5 * hi * cos(theta_d),
-		y_d - h1 + ya - 0.5 * hi * cos(theta_d),
-		y_d - h1 + ya - 0.5 * hi * cos(theta_d);
+	//rotated DB vectors
+	Eigen::Vector3d DBs1;
+	Eigen::Vector3d DBs2;
+	Eigen::Vector3d DBs3;
+	Eigen::Vector3d DBs4;
+
+	DBc1 << d / 2 + d1 - 0.5 * hi * sin(theta_d),
+		h1 + 0.5 * hi * cos(theta_d),
+		0;
+
+	DBc2 << - d / 2 - d1 - 0.5 * hi * sin(theta_d),
+		h1 + 0.5 * hi * cos(theta_d),
+		0;
+
+	DBc3 << - d / 2 - d1 + 0.5 * hi * sin(theta_d),
+		- h1 - 0.5 * hi * cos(theta_d),
+		0;
+
+	DBc4 << d / 2 + d1 + 0.5 * hi * sin(theta_d),
+		- h1 - 0.5 * hi * cos(theta_d),
+		0;
+
+	Eigen::Vector3d n1(0, 0, -1);
+	Eigen::Vector3d n2(2*x_d, 2*y_d, 2*z_d);
+
+	Eigen::Vector3d axis;
+	axis = n2.cross(n1);
+	axis = axis * 1 / axis.norm();
+
+	double angle = acos(n1.dot(n2) / n1.norm() / n2.norm());
+
+	//rotate DB vectors
+	DBs1 = cos(angle)*DBc1 + sin(angle) * DBc1.cross(axis) + (1 - cos(angle)) * axis.dot(DBc1) * axis;
+	DBs2 = cos(angle)*DBc2 + sin(angle) * DBc2.cross(axis) + (1 - cos(angle)) * axis.dot(DBc2) * axis;
+	DBs3 = cos(angle)*DBc3 + sin(angle) * DBc3.cross(axis) + (1 - cos(angle)) * axis.dot(DBc3) * axis;
+	DBs4 = cos(angle)*DBc4 + sin(angle) * DBc4.cross(axis) + (1 - cos(angle)) * axis.dot(DBc4) * axis;
+
+	X <<  x_d - xa + DBs1[0],
+		  x_d + xa + DBs2[0],
+		  x_d + xa + DBs3[0],
+		  x_d - xa + DBs4[0];
+
+	Y << y_d - ya + DBs1[1],
+		 y_d - ya + DBs2[1],
+		 y_d + ya + DBs3[1],
+		 y_d + ya + DBs4[1];
+
+	Z << z_d - za + DBs1[3],
+		z_d - za + DBs2[3],
+		z_d - za + DBs3[3],
+		z_d - za + DBs4[3];
 
 	Eigen::Vector4d I;
 	Eigen::Vector4d J;
@@ -147,27 +195,27 @@ void c4DOFDevice::inverseKinematics(){
 	Eigen::Vector4d Delta;
 
 	// Joint 1
-	I[0] = 2 * Z * Li;
+	I[0] = 2 * Z[0] * Li;
 	J[0] = -sqrt(2) * X[0] * Li - sqrt(2) * Y[0] * Li;
-	K[0] = pow(Li, 2) - pow(li, 2) + pow(X[0], 2) + pow(Y[0], 2) + pow(Z, 2);
+	K[0] = pow(Li, 2) - pow(li, 2) + pow(X[0], 2) + pow(Y[0], 2) + pow(Z[0], 2);
 	Delta[0] = pow(I[0], 2) - pow(K[0], 2) + pow(J[0], 2);
 
 	// Joint 2
-	I[1] = 2 * Z * Li;
-	J[1] = -sqrt(2) * X[1] * Li - sqrt(2) * Y[1] * Li;
-	K[1] = pow(Li, 2) - pow(li, 2) + pow(X[1], 2) + pow(Y[1], 2) + pow(Z, 2);
+	I[1] = 2 * Z[1] * Li;
+	J[1] = sqrt(2) * X[1] * Li - sqrt(2) * Y[1] * Li;
+	K[1] = pow(Li, 2) - pow(li, 2) + pow(X[1], 2) + pow(Y[1], 2) + pow(Z[1], 2);
 	Delta[1] = pow(I[1], 2) - pow(K[1], 2) + pow(J[1], 2);
 
 	// Joint 3
-	I[2] = 2 * Z * Li;
+	I[2] = 2 * Z[2] * Li;
 	J[2] = sqrt(2) * X[2] * Li + sqrt(2) * Y[2] * Li;
-	K[2] = pow(Li, 2) - pow(li, 2) + pow(X[2], 2) + pow(Y[2], 2) + pow(Z, 2);
+	K[2] = pow(Li, 2) - pow(li, 2) + pow(X[2], 2) + pow(Y[2], 2) + pow(Z[2], 2);
 	Delta[2] = pow(I[2], 2) - pow(K[2], 2) + pow(J[2], 2);
 
 	//Joint 4
-	I[3] = 2 * Z * Li;
+	I[3] = 2 * Z[3] * Li;
 	J[3] = -sqrt(2) * X[3] * Li + sqrt(2) * Y[3] * Li;
-	K[3] = pow(Li, 2) - pow(li, 2) + pow(X[3], 2) + pow(Y[3], 2) + pow(Z, 2);
+	K[3] = pow(Li, 2) - pow(li, 2) + pow(X[3], 2) + pow(Y[3], 2) + pow(Z[3], 2);
 	Delta[3] = pow(I[3], 2) - pow(K[3], 2) + pow(J[3], 2);
 
 	bool no_nan = true; //boolean to keep track whether a specific joint angle was not reachable
@@ -232,6 +280,7 @@ void c4DOFDevice::inverseKinematics(){
 	file << x_d << ", " << y_d << ", " << z_d << ", " << theta_d  << ", " << no_nan << endl;
 
 }
+
 
 double c4DOFDevice::fourbar(double angle) {
 	double theta = angle + ((-21.1 + angle_offset1) * PI / 180);
@@ -301,7 +350,7 @@ void c4DOFDevice::setPos(const Eigen::Ref<Eigen::Vector4d> pos) {
 void c4DOFDevice::setForce(const Eigen::Ref<Eigen::Vector4d> a_force) {
 
 	Eigen::Vector4d pos(a_force.x() / k_skin_shear, a_force.y() / k_skin_shear, a_force.z() / k_skin_normal, a_force[3] / k_skin_rotational);
-
+	//Eigen::Vector4d pos(0, 0, 0, 0);
 	//take into account the neutralPos
 	Eigen::Vector4d desiredPos = pos + neutralPos;
 

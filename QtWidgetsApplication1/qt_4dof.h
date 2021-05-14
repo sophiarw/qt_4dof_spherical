@@ -74,9 +74,9 @@ private:
 	double neutral_x, neutral_y, neutral_z, neutral_theta;
 	double xRange = 4;
 	double yRange = 5;
-	double zRange_min = -31.0;
-	double zRange_max = -18.0;
-	double thetaRange = PI / 8;
+	double zRange_min = -27.0;
+	double zRange_max = -19.0;
+	double thetaRange = PI / 6;
 	double zRange = zRange_max - zRange_min;
 
 

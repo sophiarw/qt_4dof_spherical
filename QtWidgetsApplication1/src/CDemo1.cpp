@@ -59,8 +59,10 @@ cDemo1::cDemo1(const string a_resourceRoot,
 
 	cMaterial matBase;
 	matBase.setGrayLevel(0.3);
-	matBase.setStiffness(maxStiffness);
+	matBase.setStiffness(800);// was maxstiffness
 	matBase.setDamping(3.0);
+	matBase.setDynamicFriction(4.0);
+	matBase.setStaticFriction(2.0);
 
 	/*m_ODEBase0 = new cODEGenericBody(m_ODEWorld);
 	cMesh* base0 = new cMesh();
