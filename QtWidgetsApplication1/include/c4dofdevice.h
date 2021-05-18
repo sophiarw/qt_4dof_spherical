@@ -110,7 +110,6 @@ protected:
 
 	//determine the inverse kinematics based on the stored desired position. Gives JOINT angles
 	void inverseKinematics();
-	void rotateDB(); //function to rotate the DB links for spherical device
 
 	//converts joint angle to motor angle via fourbar transmission to motor
 	double fourbar(double angle_i);

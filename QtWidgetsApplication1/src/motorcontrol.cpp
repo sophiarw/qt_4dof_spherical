@@ -15,7 +15,7 @@
 #define VOLTRANGEBIG	3
 #define MAXSETPNT 0xFFFF      // maximum analog output level (0x0000 to 0xFFFF covers output voltage range)
 #define CNTPERREV 500         // Maxon HEDL5540 resolution [cnts/rev]
-#define I_MAX    0.22			 // maximum current rating of motors [A]
+#define I_MAX    0.1			 // maximum current rating of motors [A]
 #define V_TO_I	 .1			  // amplifier gain (10 ohm resistor)
 #define VRANGE_LOW -5		  //these values have to match the voltage range that you choose
 #define VRANGE_HI 5

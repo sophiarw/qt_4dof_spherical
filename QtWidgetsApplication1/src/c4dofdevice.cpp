@@ -22,7 +22,7 @@ c4DOFDevice::c4DOFDevice():m_th(4), m_thDes(4), m_posDes(4), m_th_init(4), cente
 	m_th << 0, 0, 0, 0;
 	m_thDes << 0, 0, 0, 0;
 	m_th_init << 0, 0, 0, 0;
-	m_posDes << 0, 0, -31, 0;
+	m_posDes << 0, 0, -31.0, 0;
 
 	inverseKinematics(); //sets m_thDes with m_th_init equal to zeros
 
@@ -70,7 +70,7 @@ c4DOFDevice::c4DOFDevice():m_th(4), m_thDes(4), m_posDes(4), m_th_init(4), cente
 	}
 
 	file.open(filename);
-	file << "x_pos, y_pos, z_pos, theta_pos" << endl;
+	file << "x_pos, y_pos, z_pos, theta_pos, joint1, joint2, joint3, joint4, motor1, motor2, motor3, motor4" << endl;
 
 	file2.open(filename2);
 	file2 << "x_pos, y_pos, z_pos, theta_pos" << endl;
@@ -169,10 +169,20 @@ void c4DOFDevice::inverseKinematics(){
 	double angle = acos(n1.dot(n2) / n1.norm() / n2.norm());
 
 	//rotate DB vectors
-	DBs1 = cos(angle)*DBc1 + sin(angle) * DBc1.cross(axis) + (1 - cos(angle)) * axis.dot(DBc1) * axis;
-	DBs2 = cos(angle)*DBc2 + sin(angle) * DBc2.cross(axis) + (1 - cos(angle)) * axis.dot(DBc2) * axis;
-	DBs3 = cos(angle)*DBc3 + sin(angle) * DBc3.cross(axis) + (1 - cos(angle)) * axis.dot(DBc3) * axis;
-	DBs4 = cos(angle)*DBc4 + sin(angle) * DBc4.cross(axis) + (1 - cos(angle)) * axis.dot(DBc4) * axis;
+	if ((x_d == 0) && (y_d == 0)) {
+		DBs1 = Eigen::Vector3d::Zero() + DBc1;
+		DBs2 = Eigen::Vector3d::Zero() + DBc2;
+		DBs3 = Eigen::Vector3d::Zero() + DBc3;
+		DBs4 = Eigen::Vector3d::Zero() + DBc4;
+
+	}
+	else {
+		DBs1 = cos(angle)*DBc1 + sin(angle) * DBc1.cross(axis) + (1 - cos(angle)) * axis.dot(DBc1) * axis;
+		DBs2 = cos(angle)*DBc2 + sin(angle) * DBc2.cross(axis) + (1 - cos(angle)) * axis.dot(DBc2) * axis;
+		DBs3 = cos(angle)*DBc3 + sin(angle) * DBc3.cross(axis) + (1 - cos(angle)) * axis.dot(DBc3) * axis;
+		DBs4 = cos(angle)*DBc4 + sin(angle) * DBc4.cross(axis) + (1 - cos(angle)) * axis.dot(DBc4) * axis;
+	}
+	
 
 	X <<  x_d - xa + DBs1[0],
 		  x_d + xa + DBs2[0],
@@ -184,10 +194,10 @@ void c4DOFDevice::inverseKinematics(){
 		 y_d + ya + DBs3[1],
 		 y_d + ya + DBs4[1];
 
-	Z << z_d - za + DBs1[3],
-		z_d - za + DBs2[3],
-		z_d - za + DBs3[3],
-		z_d - za + DBs4[3];
+	Z << z_d - za + DBs1[2],
+		z_d - za + DBs2[2],
+		z_d - za + DBs3[2],
+		z_d - za + DBs4[2];
 
 	Eigen::Vector4d I;
 	Eigen::Vector4d J;
@@ -277,7 +287,9 @@ void c4DOFDevice::inverseKinematics(){
 
 	}
 
-	file << x_d << ", " << y_d << ", " << z_d << ", " << theta_d  << ", " << no_nan << endl;
+	file << x_d << ", " << y_d << ", " << z_d << ", " << theta_d  << ", ";
+	file << jointAngles.x() << ", " << jointAngles.y() << ", " << jointAngles.z() << ", " << jointAngles.w() << ", ";
+	file << motorAngles.x() << ", " << motorAngles.y() << ", " << motorAngles.z() << ", " << motorAngles.w() << endl;
 
 }
 
